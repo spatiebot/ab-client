@@ -1,0 +1,5 @@
+export enum Events {
+    CONNECTION_ERROR,
+    CONNECTION_CLOSE,
+    SERVER_MESSAGE,
+}
