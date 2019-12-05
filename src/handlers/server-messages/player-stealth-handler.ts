@@ -1,8 +1,8 @@
 import { EventBoost, EventStealth } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
+import { IGenericPlayerArgs } from "../../events/event-args/igeneric-player-args";
 import { EventMessage } from "../../events/event-message";
-import { Pos } from "../../models/pos";
 import { IMessageHandler } from "../imessage-handler";
 
 export class PlayerStealthHandler implements IMessageHandler {
@@ -25,5 +25,8 @@ export class PlayerStealthHandler implements IMessageHandler {
         player.stealthed = msg.state;
         player.energy = msg.energy;
         player.energyRegen = msg.energyRegen;
+
+        this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);
+
     }
 }

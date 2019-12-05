@@ -16,6 +16,7 @@ export enum Events {
     MOUNTAIN_HIT,
     PLAYER_BOUNCE,
     PLAYER_BOOST,
+    PLAYER_CHANGE,
     PLAYER_CHANGE_FLAG,
     PLAYER_FIRE,
     PLAYER_HIT,
@@ -39,4 +40,5 @@ export enum Events {
     SCORE_UPDATE,
     SPAM_WARING_RECEIVED,
     TEAMS,
+    TICK,
 }

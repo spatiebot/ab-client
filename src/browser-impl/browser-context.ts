@@ -8,8 +8,11 @@ import { State } from "../app-context/state";
 import { TimerManager } from "../app-context/timer-manager";
 import { EventQueue } from "../events/event-queue";
 import { IMessageHandler } from "../handlers/imessage-handler";
+import { ChatRenderHandler } from "../handlers/render/chat-render-handler";
+import { MobsRenderHandler } from "../handlers/render/mobs-render-handler";
 import { BrowserLogger } from "./browser-logger";
 import { BrowserWebSocketFactory } from "./browser-websocket-factory";
+import { Renderer } from "./renderer";
 
 export class BrowserContext implements IContext {
     public settings: Settings;
@@ -21,6 +24,9 @@ export class BrowserContext implements IContext {
     public handlers: IMessageHandler[];
     public webSocketFactory: IWebSocketFactory;
 
+    // browser-only:
+    public renderer = new Renderer(this);
+
     constructor() {
         this.settings = new Settings();
         this.logger = new BrowserLogger();
@@ -31,6 +37,8 @@ export class BrowserContext implements IContext {
         this.webSocketFactory = new BrowserWebSocketFactory();
         this.handlers = [
             ...HandlerCollections.getDefaultHandlers(this),
+            new MobsRenderHandler(this),
+            new ChatRenderHandler(this),
         ];
     }
 

@@ -3,5 +3,5 @@ import { EventMessage } from "../events/event-message";
 
 export interface IMessageHandler {
     handles: Events[];
-    exec(ev: EventMessage);
+    exec(ev: EventMessage): void;
 }

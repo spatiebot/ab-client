@@ -1,6 +1,7 @@
 import { EventRepel } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
+import { IGenericPlayerArgs } from "../../events/event-args/igeneric-player-args";
 import { EventMessage } from "../../events/event-message";
 import { Decoder } from "../../helpers/decoder";
 import { Pos } from "../../models/pos";
@@ -25,6 +26,7 @@ export class PlayerRepelHandler implements IMessageHandler {
             player.speed = new Pos(msg.speedX, msg.speedY);
             player.energyRegen = msg.energyRegen;
             player.energy = msg.energy;
+            this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);
         }
 
         for (const repelledPlayer of msg.players) {
@@ -50,6 +52,8 @@ export class PlayerRepelHandler implements IMessageHandler {
             p.energy = repelledPlayer.energy;
             p.health = repelledPlayer.playerHealth;
             p.healthRegen = repelledPlayer.playerHealthRegen;
+
+            this.context.eventQueue.pub(Events.PLAYER_CHANGE, {player: p} as IGenericPlayerArgs);
         }
 
         for (const missile of msg.mobs) {

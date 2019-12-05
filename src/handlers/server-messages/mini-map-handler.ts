@@ -1,7 +1,8 @@
 import { decodeMinimapCoords, PLAYER_STATUS } from "../../ab-protocol/src/lib";
-import { ScoreBoardData, ScoreBoardRanking } from "../../ab-protocol/src/types/packets-server";
+import { ScoreBoardRanking } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
+import { IGenericPlayerArgs } from "../../events/event-args/igeneric-player-args";
 import { EventMessage } from "../../events/event-message";
 import { Pos } from "../../models/pos";
 import { IMessageHandler } from "../imessage-handler";
@@ -29,6 +30,8 @@ export class MiniMapHandler implements IMessageHandler {
                 const coords = decodeMinimapCoords(playerMinimapPos.x, playerMinimapPos.y);
                 player.lowResPos = new Pos(coords);
             }
+
+            this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);
         }
     }
 }

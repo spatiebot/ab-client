@@ -1,6 +1,7 @@
 import { PlayerNew } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
+import { IGenericPlayerArgs } from "../../events/event-args/igeneric-player-args";
 import { EventMessage } from "../../events/event-message";
 import { Decoder } from "../../helpers/decoder";
 import { Player } from "../../models/player";
@@ -31,5 +32,6 @@ export class PlayerNewHandler implements IMessageHandler {
         p.powerUps = Decoder.upgradesToPowerUps(msg.upgrades);
 
         this.context.state.addPlayer(p);
+        this.context.eventQueue.pub(Events.PLAYER_CHANGE, {player: p} as IGenericPlayerArgs);
     }
 }

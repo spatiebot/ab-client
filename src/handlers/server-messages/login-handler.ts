@@ -1,7 +1,7 @@
-import { decodeUpgrades } from "../../ab-protocol/src/lib";
 import { Login } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
+import { IGenericPlayerArgs } from "../../events/event-args/igeneric-player-args";
 import { EventMessage } from "../../events/event-message";
 import { Decoder } from "../../helpers/decoder";
 import { Player } from "../../models/player";
@@ -36,6 +36,8 @@ export class LoginHandler implements IMessageHandler {
             p.powerUps = Decoder.upgradesToPowerUps(loginPlayer.upgrades);
 
             s.addPlayer(p);
+
+            this.context.eventQueue.pub(Events.PLAYER_CHANGE, {player: p} as IGenericPlayerArgs);
         }
     }
 }

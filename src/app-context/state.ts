@@ -34,6 +34,10 @@ export class State {
         return this.players[Number(id)];
     }
 
+    public getPlayers(): Player[] {
+        return Object.values(this.players);
+    }
+
     public getPlayerName(id: number): string {
         if (!id) {
             return "(empty)";

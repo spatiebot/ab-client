@@ -2,6 +2,7 @@ import { PlayerHit } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
 import { IExplosionArgs } from "../../events/event-args/explosion-args";
+import { IGenericPlayerArgs } from "../../events/event-args/igeneric-player-args";
 import { EventMessage } from "../../events/event-message";
 import { Pos } from "../../models/pos";
 import { IMessageHandler } from "../imessage-handler";
@@ -29,6 +30,9 @@ export class PlayerHitHandler implements IMessageHandler {
             }
             player.health = who.health;
             player.healthRegen = who.healthRegen;
+
+            this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);
+
         }
 
         this.context.state.removeMob(msg.id);

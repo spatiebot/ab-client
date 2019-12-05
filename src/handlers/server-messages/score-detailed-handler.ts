@@ -1,5 +1,6 @@
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
+import { IGenericPlayerArgs } from "../../events/event-args/igeneric-player-args";
 import { ScoreDetailedArgs } from "../../events/event-args/score-detailed-args";
 import { EventMessage } from "../../events/event-message";
 import { IMessageHandler } from "../imessage-handler";
@@ -27,6 +28,9 @@ export class ScoreDetailedHandler implements IMessageHandler {
                 player.deaths = playerScore.deaths;
                 player.damage = playerScore.damage;
                 player.ping = playerScore.ping;
+
+                this.context.eventQueue.pub(Events.PLAYER_CHANGE, {player} as IGenericPlayerArgs);
+
             }
         } else if (msg.ctfScores) {
             for (const playerScore of msg.ctfScores) {
@@ -41,6 +45,8 @@ export class ScoreDetailedHandler implements IMessageHandler {
                 player.damage = playerScore.damage;
                 player.ping = playerScore.ping;
                 player.captures = playerScore.captures;
+
+                this.context.eventQueue.pub(Events.PLAYER_CHANGE, {player} as IGenericPlayerArgs);
             }
         }
     }

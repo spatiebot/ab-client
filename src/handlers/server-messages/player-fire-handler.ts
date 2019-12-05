@@ -1,6 +1,7 @@
 import { PlayerFire } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
+import { IGenericPlayerArgs } from "../../events/event-args/igeneric-player-args";
 import { EventMessage } from "../../events/event-message";
 import { Mob } from "../../models/mob";
 import { Pos } from "../../models/pos";
@@ -25,6 +26,7 @@ export class PlayerFireHandler implements IMessageHandler {
 
         player.energy = msg.energy;
         player.energyRegen = msg.energyRegen;
+        this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);
 
         for (const missile of msg.projectiles) {
             const mob = new Mob();

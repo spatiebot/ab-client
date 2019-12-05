@@ -1,6 +1,7 @@
 import { EventBoost } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
+import { IGenericPlayerArgs } from "../../events/event-args/igeneric-player-args";
 import { EventMessage } from "../../events/event-message";
 import { Pos } from "../../models/pos";
 import { IMessageHandler } from "../imessage-handler";
@@ -29,5 +30,7 @@ export class PlayerBoostHandler implements IMessageHandler {
         player.pos.y = msg.posY;
         player.rot = msg.rot;
         player.speed = new Pos(msg.speedX, msg.speedY);
+
+        this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);
     }
 }

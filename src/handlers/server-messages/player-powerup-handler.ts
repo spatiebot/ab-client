@@ -2,8 +2,8 @@ import { PLAYER_POWERUP_TYPES } from "../../ab-protocol/src/lib";
 import { PlayerPowerup, PlayerUpgrade, ScoreUpdate } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
+import { IGenericPlayerArgs } from "../../events/event-args/igeneric-player-args";
 import { EventMessage } from "../../events/event-message";
-import { Upgrades } from "../../models/upgrades";
 import { IMessageHandler } from "../imessage-handler";
 
 export class PlayerPowerupHandler implements IMessageHandler {
@@ -22,6 +22,9 @@ export class PlayerPowerupHandler implements IMessageHandler {
             player.hasShield = msg.type === PLAYER_POWERUP_TYPES.SHIELD;
             player.hasInferno = msg.type === PLAYER_POWERUP_TYPES.INFERNO;
             player.shieldOrInfernoDuration = msg.duration;
+
+            this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);
+
         }
     }
 }
