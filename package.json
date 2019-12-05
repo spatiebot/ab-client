@@ -1,4 +1,7 @@
 {
+    "scripts": {
+        "build": "gulp tsPipeline:build:dev"
+    },
     "dependencies": {
         "pino": "^5.14.0",
         "pino-pretty": "^3.4.0",
@@ -6,7 +9,11 @@
     },
     "devDependencies": {
         "gulp": "4.0.0",
+        "gulp-tslint": "8.1.4",
+        "gulp-typescript": "6.0.0-alpha.1",
+        "gulp-webpack": "1.5.0",
         "typescript": "3.7.3",
-        "gulp-webpack-typescript-pipeline": "15.0.0"
+        "tslint": "5.20.1",
+        "webpack": "4.41.2"
     }
 }

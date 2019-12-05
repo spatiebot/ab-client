@@ -1,9 +1,9 @@
-import { Pos } from "./pos";
 import { CTF_FLAG_STATE } from "../ab-protocol/src/lib";
+import { Pos } from "./pos";
 
 export class CtfTeam {
-    flagState: CTF_FLAG_STATE;
-    flagTakenById: number;
-    flagPos: Pos;
-    score: number;
+    public flagState: CTF_FLAG_STATE;
+    public flagTakenById: number;
+    public flagPos: Pos;
+    public score: number;
 }

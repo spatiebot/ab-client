@@ -1,5 +1,5 @@
 export class PowerUps {
-    speed: number;
-    shield: number;
-    inferno: number; 
+    public speed: number;
+    public shield: number;
+    public inferno: number;
 }

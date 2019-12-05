@@ -1,20 +1,20 @@
-import { IMessageHandler } from "./imessage-handler";
-import { Events } from "../events/constants";
-import { EventMessage } from "../events/event-message";
-import { ProtocolPacket, SERVER_PACKETS, decodeUpgrades, SERVER_MESSAGE_TYPES, SERVER_ERRORS } from "../ab-protocol/src/lib";
-import { IContext } from "../app-context/icontext";
-import { ChatArgs } from "../events/event-args/chat-args";
+import { decodeUpgrades, ProtocolPacket, SERVER_ERRORS, SERVER_MESSAGE_TYPES, SERVER_PACKETS } from "../ab-protocol/src/lib";
 import { ScoreBoard, ScoreDetailed, ScoreDetailedCtf } from "../ab-protocol/src/types/packets-server";
+import { IContext } from "../app-context/icontext";
+import { Events } from "../events/constants";
+import { ChatArgs } from "../events/event-args/chat-args";
+import { EventMessage } from "../events/event-message";
+import { IMessageHandler } from "./imessage-handler";
 
 export class ServerMessageHandler implements IMessageHandler {
 
-    handles = [Events.SERVER_MESSAGE];
+    public handles = [Events.SERVER_MESSAGE];
 
     constructor(private context: IContext) {
 
     }
 
-    exec(ev: EventMessage): void {
+    public exec(ev: EventMessage): void {
         const serverMessage = ev.args as ProtocolPacket;
         switch (serverMessage.c) {
             case SERVER_PACKETS.CHAT_PUBLIC:
@@ -22,9 +22,9 @@ export class ServerMessageHandler implements IMessageHandler {
             case SERVER_PACKETS.CHAT_TEAM:
             case SERVER_PACKETS.CHAT_WHISPER:
                 this.context.eventQueue.pub(Events.CHAT, {
-                    playerId: serverMessage.id || serverMessage.from,
                     chatMessage: serverMessage.text,
-                    chatType: serverMessage.c
+                    chatType: serverMessage.c,
+                    playerId: serverMessage.id || serverMessage.from,
                 } as ChatArgs);
                 break;
 

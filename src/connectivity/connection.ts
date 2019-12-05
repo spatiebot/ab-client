@@ -1,12 +1,11 @@
-import * as marshaling from '../ab-protocol/src/marshaling';
-import * as unmarshaling from '../ab-protocol/src/unmarshaling';
-import { ProtocolPacket } from '../ab-protocol/src/packets';
-import CLIENT_PACKETS from '../ab-protocol/src/packets/client';
-import SERVER_PACKETS from '../ab-protocol/src/packets/server';
-import { Events } from '../events/constants';
-import WebSocket from 'ws';
-import { Ping, Login, PingResult } from '../ab-protocol/src/types/packets-server';
-import { IContext } from '../app-context/icontext';
+import * as marshaling from "../ab-protocol/src/marshaling";
+import { ProtocolPacket } from "../ab-protocol/src/packets";
+import CLIENT_PACKETS from "../ab-protocol/src/packets/client";
+import SERVER_PACKETS from "../ab-protocol/src/packets/server";
+import { Login, Ping, PingResult } from "../ab-protocol/src/types/packets-server";
+import * as unmarshaling from "../ab-protocol/src/unmarshaling";
+import { IContext } from "../app-context/icontext";
+import { Events } from "../events/constants";
 
 export class Connection {
 
@@ -20,7 +19,7 @@ export class Connection {
     constructor(private context: IContext) {
     }
 
-    async init(): Promise<any> {
+    public async init(): Promise<any> {
         this.client = await this.initWebSocket(true);
         await this.onInitPrimary();
     }
@@ -31,12 +30,12 @@ export class Connection {
             this.context.logger.debug("Primary socket connecting");
             this.send({
                 c: CLIENT_PACKETS.LOGIN,
-                protocol: 5,
-                name: this.context.settings.playerName,
-                session: "none",
+                flag: this.context.settings.flag,
                 horizonX: Math.ceil(this.context.settings.horizonX),
                 horizonY: Math.ceil(this.context.settings.horizonY),
-                flag: this.context.settings.flag
+                name: this.context.settings.playerName,
+                protocol: 5,
+                session: "none",
             });
         });
     }
@@ -51,7 +50,7 @@ export class Connection {
             this.ackToBackup = !this.ackToBackup;
         }, 1000); // original airmash has 50ms, but wights server has a 10 second ack timeout. So.
 
-        var token = msg.token as string;
+        const token = msg.token as string;
 
         if (this.backupClientIsConnected) {
             this.backupClient.close();
@@ -72,13 +71,13 @@ export class Connection {
         this.backupClientIsConnected = true;
         this.send({
             c: CLIENT_PACKETS.BACKUP,
-            token
+            token,
         }, true);
     }
 
     private initWebSocket(isPrimary: boolean): Promise<WebSocket> {
         return new Promise((resolve, reject) => {
-            const ws = new WebSocket(this.context.settings.websocketUrl);
+            const ws = this.context.webSocketFactory.create(this.context.settings.websocketUrl);
             ws.binaryType = "arraybuffer";
 
             ws.onopen = () => resolve(ws);
@@ -86,7 +85,7 @@ export class Connection {
                 try {
                     const result = unmarshaling.unmarshalServerMessage(msg.data);
                     if (!result) {
-                        this.context.logger.warn('no result', msg);
+                        this.context.logger.warn("no result", msg);
                     }
 
                     // handle a few meta messages directly
@@ -101,18 +100,18 @@ export class Connection {
 
                     } else if (result.c === SERVER_PACKETS.LOGIN) {
                         this.afterLogin(result);
-                    }else if (result.c === SERVER_PACKETS.PING_RESULT) {
+                    } else if (result.c === SERVER_PACKETS.PING_RESULT) {
                         const pingResultResult = result as PingResult;
                         this.context.state.ping = pingResultResult.ping;
                         this.context.state.numPlayers = pingResultResult.playersgame;
                         this.context.state.numPlayersTotal = pingResultResult.playerstotal;
-                    
+
                     } else {
                         // let most messages be handled by a subscriber
                         this.context.eventQueue.pub(Events.SERVER_MESSAGE, result);
                     }
                 } catch (error) {
-                    this.context.logger.error('Error receiving message', error);
+                    this.context.logger.error("Error receiving message", error);
                 }
             };
             ws.onerror = (ev) => {

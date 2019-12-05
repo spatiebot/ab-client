@@ -1,6 +1,6 @@
-import { PowerUps } from "../models/power-ups";
-import { decodeUpgrades, decodeKeystate } from "../ab-protocol/src/lib";
+import { decodeKeystate, decodeUpgrades } from "../ab-protocol/src/lib";
 import { PlayerMovements } from "../models/player-movements";
+import { PowerUps } from "../models/power-ups";
 
 export class Decoder {
 

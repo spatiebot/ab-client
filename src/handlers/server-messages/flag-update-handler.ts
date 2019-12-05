@@ -1,21 +1,21 @@
-import { IMessageHandler } from "../imessage-handler";
-import { Events } from "../../events/constants";
-import { IContext } from "../../app-context/icontext";
-import { EventMessage } from "../../events/event-message";
-import { GameFlag } from "../../ab-protocol/src/types/packets-server";
-import { Pos } from "../../models/pos";
-import { Mob } from "../../models/mob";
 import { CTF_TEAMS } from "../../ab-protocol/src/lib";
+import { GameFlag } from "../../ab-protocol/src/types/packets-server";
+import { IContext } from "../../app-context/icontext";
+import { Events } from "../../events/constants";
+import { EventMessage } from "../../events/event-message";
+import { Mob } from "../../models/mob";
+import { Pos } from "../../models/pos";
+import { IMessageHandler } from "../imessage-handler";
 
 export class FlagUpdateHandler implements IMessageHandler {
 
-    handles = [Events.FLAG_UPDATE];
+    public handles = [Events.FLAG_UPDATE];
 
     constructor(private context: IContext) {
 
     }
 
-    exec(ev: EventMessage) {
+    public exec(ev: EventMessage) {
         const msg = ev.args as GameFlag;
 
         const team = this.context.state.getCtfTeam(msg.flag);

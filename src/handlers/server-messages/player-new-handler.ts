@@ -1,21 +1,21 @@
-import { IMessageHandler } from "../imessage-handler";
-import { Events } from "../../events/constants";
-import { IContext } from "../../app-context/icontext";
-import { EventMessage } from "../../events/event-message";
 import { PlayerNew } from "../../ab-protocol/src/types/packets-server";
+import { IContext } from "../../app-context/icontext";
+import { Events } from "../../events/constants";
+import { EventMessage } from "../../events/event-message";
+import { Decoder } from "../../helpers/decoder";
 import { Player } from "../../models/player";
 import { Pos } from "../../models/pos";
-import { Decoder } from "../../helpers/decoder";
+import { IMessageHandler } from "../imessage-handler";
 
 export class PlayerNewHandler implements IMessageHandler {
-    
-    handles = [Events.PLAYER_NEW];
+
+    public handles = [Events.PLAYER_NEW];
 
     constructor(private context: IContext) {
 
     }
 
-    exec(ev: EventMessage) {
+    public exec(ev: EventMessage) {
         const msg = ev.args as PlayerNew;
 
         const p = new Player();
@@ -27,7 +27,7 @@ export class PlayerNewHandler implements IMessageHandler {
         p.rot = msg.rot;
         p.status = msg.status;
         p.team = msg.team;
-        
+
         p.powerUps = Decoder.upgradesToPowerUps(msg.upgrades);
 
         this.context.state.addPlayer(p);

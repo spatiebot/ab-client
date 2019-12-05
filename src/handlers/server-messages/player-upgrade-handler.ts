@@ -1,19 +1,19 @@
-import { IMessageHandler } from "../imessage-handler";
-import { Events } from "../../events/constants";
+import { PlayerUpgrade, ScoreUpdate } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
+import { Events } from "../../events/constants";
 import { EventMessage } from "../../events/event-message";
-import { ScoreUpdate, PlayerUpgrade } from "../../ab-protocol/src/types/packets-server";
 import { Upgrades } from "../../models/upgrades";
+import { IMessageHandler } from "../imessage-handler";
 
 export class PlayerUpgradeHandler implements IMessageHandler {
 
-    handles = [Events.PLAYER_UPGRADE];
+    public handles = [Events.PLAYER_UPGRADE];
 
     constructor(private context: IContext) {
 
     }
 
-    exec(ev: EventMessage) {
+    public exec(ev: EventMessage) {
         const msg = ev.args as PlayerUpgrade;
 
         const player = this.context.state.getMe();

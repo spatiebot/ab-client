@@ -1,16 +1,16 @@
-import { IMessageHandler } from "./imessage-handler";
-import { Events } from "../events/constants";
-import { EventMessage } from "../events/event-message";
-import { ChatArgs } from "../events/event-args/chat-args";
 import { IContext } from "../app-context/icontext";
+import { Events } from "../events/constants";
+import { ChatArgs } from "../events/event-args/chat-args";
+import { EventMessage } from "../events/event-message";
+import { IMessageHandler } from "./imessage-handler";
 
 export class ChatLogger implements IMessageHandler {
-    handles = [Events.CHAT];
+    public handles = [Events.CHAT];
 
     constructor(private context: IContext) {
     }
 
-    exec(ev: EventMessage) {
+    public exec(ev: EventMessage) {
         const chat = ev.args as ChatArgs;
         const player = this.context.state.getPlayerName(chat.playerId);
 

@@ -1,9 +1,9 @@
-import { Connection } from "./connectivity/connection";
 import { BrowserContext } from "./browser-impl/browser-context";
+import { Connection } from "./connectivity/connection";
 
 class App {
 
-    async run() {
+    public async run() {
         const context = new BrowserContext();
         context.logger.info("Initializing app");
 

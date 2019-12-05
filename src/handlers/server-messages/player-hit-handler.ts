@@ -1,23 +1,26 @@
-import { IMessageHandler } from "../imessage-handler";
-import { Events } from "../../events/constants";
-import { IContext } from "../../app-context/icontext";
-import { EventMessage } from "../../events/event-message";
 import { PlayerHit } from "../../ab-protocol/src/types/packets-server";
+import { IContext } from "../../app-context/icontext";
+import { Events } from "../../events/constants";
+import { IExplosionArgs } from "../../events/event-args/explosion-args";
+import { EventMessage } from "../../events/event-message";
 import { Pos } from "../../models/pos";
-import { ExplosionArgs } from "../../events/event-args/explosion-args";
+import { IMessageHandler } from "../imessage-handler";
 
 export class PlayerHitHandler implements IMessageHandler {
 
-    handles = [Events.PLAYER_HIT];
+    public handles = [Events.PLAYER_HIT];
 
     constructor(private context: IContext) {
 
     }
 
-    exec(ev: EventMessage) {
+    public exec(ev: EventMessage) {
         const msg = ev.args as PlayerHit;
 
-        this.context.eventQueue.pub(Events.EXPLOSION, { pos: new Pos(msg.posX, msg.posY), type: msg.type } as ExplosionArgs );
+        this.context.eventQueue.pub(Events.EXPLOSION, {
+            pos: new Pos(msg.posX, msg.posY),
+            type: msg.type,
+        } as IExplosionArgs);
 
         for (const who of msg.players) {
             const player = this.context.state.getPlayerById(who.id);

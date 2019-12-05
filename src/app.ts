@@ -1,9 +1,9 @@
-import { NodeContext } from "./node-impl/node-context";
 import { Connection } from "./connectivity/connection";
+import { NodeContext } from "./node-impl/node-context";
 
 class App {
 
-    async run() {
+    public async run() {
         const context = new NodeContext();
         context.logger.info("Initializing app");
 

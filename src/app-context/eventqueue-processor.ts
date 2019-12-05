@@ -8,7 +8,7 @@ export class EventQueueProcessor {
     constructor(private context: IContext) {
     }
 
-    startProcessingEventQueue(): void {
+    public startProcessingEventQueue(): void {
         this.context.tm.setInterval(() => this.tick(), 7);
     }
 
@@ -32,8 +32,7 @@ export class EventQueueProcessor {
                 }
                 this.process(nextMessage);
             }
-        }
-        finally {
+        } finally {
             this.isProcessing = false;
         }
     }
@@ -45,8 +44,7 @@ export class EventQueueProcessor {
                 // execute handler
                 try {
                     handler.exec(message);
-                }
-                catch (error) {
+                } catch (error) {
                     // make error loggable
                     const err = JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error)));
                     this.context.logger.error(`Error handling message ${message.type} with handler ${handler.constructor.name}`, err);

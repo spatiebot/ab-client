@@ -1,7 +1,7 @@
-import { Pos } from "../../models/pos";
 import { MOB_TYPES } from "../../ab-protocol/src/lib";
+import { Pos } from "../../models/pos";
 
-export interface ExplosionArgs {
-    type: MOB_TYPES,
+export interface IExplosionArgs {
+    type: MOB_TYPES;
     pos: Pos;
 }

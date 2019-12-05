@@ -1,5 +1,5 @@
 export class ChatArgs {
-    playerId: number;
-    chatType: number;
-    chatMessage: string;
+    public playerId: number;
+    public chatType: number;
+    public chatMessage: string;
 }

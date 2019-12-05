@@ -1,20 +1,20 @@
-import { IMessageHandler } from "../imessage-handler";
-import { Events } from "../../events/constants";
-import { IContext } from "../../app-context/icontext";
-import { EventMessage } from "../../events/event-message";
 import { PlayerFire } from "../../ab-protocol/src/types/packets-server";
-import { Pos } from "../../models/pos";
+import { IContext } from "../../app-context/icontext";
+import { Events } from "../../events/constants";
+import { EventMessage } from "../../events/event-message";
 import { Mob } from "../../models/mob";
+import { Pos } from "../../models/pos";
+import { IMessageHandler } from "../imessage-handler";
 
 export class PlayerFireHandler implements IMessageHandler {
 
-    handles = [Events.PLAYER_FIRE];
+    public handles = [Events.PLAYER_FIRE];
 
     constructor(private context: IContext) {
 
     }
 
-    exec(ev: EventMessage) {
+    public exec(ev: EventMessage) {
         const msg = ev.args as PlayerFire;
 
         const player = this.context.state.getPlayerById(msg.id);
@@ -22,12 +22,12 @@ export class PlayerFireHandler implements IMessageHandler {
         if (!player) {
             return;
         }
-        
+
         player.energy = msg.energy;
         player.energyRegen = msg.energyRegen;
 
         for (const missile of msg.projectiles) {
-            var mob = new Mob();
+            const mob = new Mob();
             mob.id = missile.id;
             mob.pos = new Pos(missile.posX, missile.posY);
             mob.accel = new Pos(missile.accelX, missile.accelY);

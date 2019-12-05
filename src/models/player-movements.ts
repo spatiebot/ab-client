@@ -1,9 +1,9 @@
 import { Keystate } from "../ab-protocol/src/types/client";
 
 export class PlayerMovements {
-    keystate: Keystate;
-    boost: boolean;
-    strafe: boolean;
-    stealthed: boolean;
-    flagspeed: boolean;
-  };
+    public keystate: Keystate;
+    public boost: boolean;
+    public strafe: boolean;
+    public stealthed: boolean;
+    public flagspeed: boolean;
+  }

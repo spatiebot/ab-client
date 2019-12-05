@@ -1,24 +1,24 @@
-import { IMessageHandler } from "../imessage-handler";
-import { Events } from "../../events/constants";
-import { IContext } from "../../app-context/icontext";
-import { EventMessage } from "../../events/event-message";
 import { MobUpdate } from "../../ab-protocol/src/types/packets-server";
-import { Pos } from "../../models/pos";
+import { IContext } from "../../app-context/icontext";
+import { Events } from "../../events/constants";
+import { EventMessage } from "../../events/event-message";
 import { Mob } from "../../models/mob";
+import { Pos } from "../../models/pos";
+import { IMessageHandler } from "../imessage-handler";
 
 export class MissileUpdateHandler implements IMessageHandler {
 
-    handles = [Events.MISSILE_UPDATE];
+    public handles = [Events.MISSILE_UPDATE];
 
     constructor(private context: IContext) {
 
     }
 
-    exec(ev: EventMessage) {
+    public exec(ev: EventMessage) {
         const msg = ev.args as MobUpdate;
 
         let mob = this.context.state.getMobById(msg.id);
-        
+
         if (!mob) {
             mob = new Mob();
             this.context.state.addMob(mob);

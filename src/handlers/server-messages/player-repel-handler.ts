@@ -1,20 +1,20 @@
-import { IMessageHandler } from "../imessage-handler";
-import { Events } from "../../events/constants";
-import { IContext } from "../../app-context/icontext";
-import { EventMessage } from "../../events/event-message";
 import { EventRepel } from "../../ab-protocol/src/types/packets-server";
-import { Pos } from "../../models/pos";
+import { IContext } from "../../app-context/icontext";
+import { Events } from "../../events/constants";
+import { EventMessage } from "../../events/event-message";
 import { Decoder } from "../../helpers/decoder";
+import { Pos } from "../../models/pos";
+import { IMessageHandler } from "../imessage-handler";
 
 export class PlayerRepelHandler implements IMessageHandler {
 
-    handles = [Events.PLAYER_REPEL];
+    public handles = [Events.PLAYER_REPEL];
 
     constructor(private context: IContext) {
 
     }
 
-    exec(ev: EventMessage) {
+    public exec(ev: EventMessage) {
         const msg = ev.args as EventRepel;
 
         const player = this.context.state.getPlayerById(msg.id);
@@ -58,7 +58,7 @@ export class PlayerRepelHandler implements IMessageHandler {
             if (!mob) {
                 continue;
             }
-            
+
             mob.pos = new Pos(missile.posX, missile.posY);
             mob.accel = new Pos(missile.accelX, missile.accelY);
             mob.maxSpeed = missile.maxSpeed;

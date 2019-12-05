@@ -1,23 +1,23 @@
-import { IMessageHandler } from "../imessage-handler";
-import { Events } from "../../events/constants";
-import { IContext } from "../../app-context/icontext";
-import { EventMessage } from "../../events/event-message";
+import { decodeMinimapCoords, PLAYER_STATUS } from "../../ab-protocol/src/lib";
 import { ScoreBoardData, ScoreBoardRanking } from "../../ab-protocol/src/types/packets-server";
-import { PLAYER_STATUS, decodeMinimapCoords } from "../../ab-protocol/src/lib";
+import { IContext } from "../../app-context/icontext";
+import { Events } from "../../events/constants";
+import { EventMessage } from "../../events/event-message";
 import { Pos } from "../../models/pos";
+import { IMessageHandler } from "../imessage-handler";
 
 export class MiniMapHandler implements IMessageHandler {
 
-    handles = [Events.MINI_MAP];
+    public handles = [Events.MINI_MAP];
 
     constructor(private context: IContext) {
 
     }
 
-    exec(ev: EventMessage) {
+    public exec(ev: EventMessage) {
         const data = ev.args as ScoreBoardRanking[];
 
-        for (let playerMinimapPos of data) {
+        for (const playerMinimapPos of data) {
             const player = this.context.state.getPlayerById(playerMinimapPos.id);
             if (!player) {
                 continue;

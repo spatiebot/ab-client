@@ -1,15 +1,15 @@
-import { Pos } from "./pos";
 import { MOB_TYPES } from "../ab-protocol/src/lib";
+import { Pos } from "./pos";
 
 export class Mob {
-    id: number;
+    public id: number;
 
-    pos: Pos;
-    mobType: MOB_TYPES;
-    rot: number;
-    speed: Pos;
-    maxSpeed: number;
-    accel: Pos;
-    ownerId: number;
-    isVisibleOnScreen: boolean;
+    public pos: Pos;
+    public mobType: MOB_TYPES;
+    public rot: number;
+    public speed: Pos;
+    public maxSpeed: number;
+    public accel: Pos;
+    public ownerId: number;
+    public isVisibleOnScreen: boolean;
 }

@@ -1,22 +1,23 @@
 import { ILogger } from "../app-context/ilogger";
 
 export class BrowserLogger implements ILogger {
-    debug(msg: string, ...args: any[]): void {
+    public debug(msg: string, ...args: any[]): void {
         this.log(msg, args);
     }
-    info(msg: string, ...args: any[]): void {
+    public info(msg: string, ...args: any[]): void {
         this.log(msg, args);
     }
-    warn(msg: string, ...args: any[]): void {
+    public warn(msg: string, ...args: any[]): void {
         this.log(msg, args);
     }
-    error(msg: string, ...args: any[]): void {
+    public error(msg: string, ...args: any[]): void {
         this.log(msg, args);
     }
-    fatal(msg: string, ...args: any[]): void {
+    public fatal(msg: string, ...args: any[]): void {
         this.log(msg, args);
     }
-    log(msg: string, args: any[]) {
+    public log(msg: string, args: any[]) {
+        // tslint:disable-next-line: no-console
         console.log(msg, args);
     }
 

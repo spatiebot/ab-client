@@ -1,6 +1,6 @@
-import { ScoreDetailedScore, ScoreDetailedCtfScore } from "../../ab-protocol/src/types/packets-server";
+import { ScoreDetailedCtfScore, ScoreDetailedScore } from "../../ab-protocol/src/types/packets-server";
 
 export class ScoreDetailedArgs {
-    ffaScores: ScoreDetailedScore[];
-    ctfScores: ScoreDetailedCtfScore[];
+    public ffaScores: ScoreDetailedScore[];
+    public ctfScores: ScoreDetailedCtfScore[];
 }

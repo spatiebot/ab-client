@@ -1,7 +1,7 @@
 export class Pos {
 
-    x: number;
-    y: number;
+    public x: number;
+    public y: number;
 
     constructor(x?: number | { x: number, y: number }, y?: number) {
         if ((x || x === 0) && (y || y === 0)) {
