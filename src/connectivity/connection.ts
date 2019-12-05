@@ -1,10 +1,12 @@
 import * as marshaling from '../ab-protocol/src/marshaling';
 import * as unmarshaling from '../ab-protocol/src/unmarshaling';
-import { Context } from "../context";
+import { Context } from "../app-context/context";
 import { ProtocolPacket } from '../ab-protocol/src/packets';
 import CLIENT_PACKETS from '../ab-protocol/src/packets/client';
 import SERVER_PACKETS from '../ab-protocol/src/packets/server';
 import { Events } from '../events/constants';
+import WebSocket from 'ws';
+import { Ping, Login, PingResult } from '../ab-protocol/src/types/packets-server';
 
 export class Connection {
 
@@ -24,7 +26,7 @@ export class Connection {
     }
 
     private onInitPrimary(): Promise<any> {
-       return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             this.loginPromiseResolver = resolve;
             this.context.logger.debug("Primary socket connecting");
             this.send({
@@ -39,10 +41,12 @@ export class Connection {
         });
     }
 
-    private async afterLogin(msg: ProtocolPacket) {
+    private async afterLogin(msg: Login) {
         // send regular ack messages to keep the connection alive
-        clearInterval(this.ackInterval);
-        this.ackInterval = setInterval(() => {
+        if (this.ackInterval) {
+            this.context.tm.clearInterval(this.ackInterval);
+        }
+        this.ackInterval = this.context.tm.setInterval(() => {
             this.send({ c: CLIENT_PACKETS.ACK }, this.ackToBackup);
             this.ackToBackup = !this.ackToBackup;
         }, 1000); // original airmash has 50ms, but wights server has a 10 second ack timeout. So.
@@ -57,7 +61,7 @@ export class Connection {
         this.onInitBackup(token);
 
         // send start info to game
-        this.context.bus.pub(Events.SERVER_MESSAGE, msg);
+        this.context.eventQueue.pub(Events.SERVER_MESSAGE, msg);
 
         // return from the await in init()
         this.loginPromiseResolver();
@@ -87,29 +91,35 @@ export class Connection {
 
                     // handle a few meta messages directly
                     if (result.c === SERVER_PACKETS.PING) {
-
-                        this.send({ c: CLIENT_PACKETS.PONG, num: result.num }, !isPrimary);
+                        const pingResult = result as Ping;
+                        this.send({ c: CLIENT_PACKETS.PONG, num: pingResult.num }, !isPrimary);
 
                     } else if (result.c === SERVER_PACKETS.BACKUP) {
 
-                        this.context.logger.info("backup client connected");
+                        this.context.logger.debug("backup client connected");
                         this.backupClientIsConnected = true;
 
                     } else if (result.c === SERVER_PACKETS.LOGIN) {
                         this.afterLogin(result);
+                    }else if (result.c === SERVER_PACKETS.PING_RESULT) {
+                        const pingResultResult = result as PingResult;
+                        this.context.state.ping = pingResultResult.ping;
+                        this.context.state.numPlayers = pingResultResult.playersgame;
+                        this.context.state.numPlayersTotal = pingResultResult.playerstotal;
+                    
                     } else {
                         // let most messages be handled by a subscriber
-                        this.context.bus.pub(Events.SERVER_MESSAGE, result);
+                        this.context.eventQueue.pub(Events.SERVER_MESSAGE, result);
                     }
                 } catch (error) {
                     this.context.logger.error('Error receiving message', error);
                 }
             };
             ws.onerror = (ev) => {
-                this.context.bus.pub(Events.CONNECTION_ERROR, ev);
+                this.context.eventQueue.pub(Events.CONNECTION_ERROR, ev);
             };
             ws.onclose = () => {
-                this.context.bus.pub(Events.CONNECTION_CLOSE, { isPrimary });
+                this.context.eventQueue.pub(Events.CONNECTION_CLOSE, { isPrimary });
             };
             return ws;
         });

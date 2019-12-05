@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "pino": "^5.14.0",
+    "pino-pretty": "^3.4.0",
     "ws": "^7.2.0"
   }
 }
