@@ -1,10 +1,10 @@
-import { NodeContext } from "./node-impl/node-context";
 import { Connection } from "./connectivity/connection";
+import { BrowserContext } from "./browser-impl/browser-context";
 
 class App {
 
     async run() {
-        const context = new NodeContext();
+        const context = new BrowserContext();
         context.logger.info("Initializing app");
 
         context.processor.startProcessingEventQueue();

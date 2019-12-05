@@ -2,7 +2,7 @@ import { IMessageHandler } from "./imessage-handler";
 import { Events } from "../events/constants";
 import { EventMessage } from "../events/event-message";
 import { ProtocolPacket, SERVER_PACKETS, decodeUpgrades, SERVER_MESSAGE_TYPES, SERVER_ERRORS } from "../ab-protocol/src/lib";
-import { Context } from "../app-context/context";
+import { IContext } from "../app-context/icontext";
 import { ChatArgs } from "../events/event-args/chat-args";
 import { ScoreBoard, ScoreDetailed, ScoreDetailedCtf } from "../ab-protocol/src/types/packets-server";
 
@@ -10,7 +10,7 @@ export class ServerMessageHandler implements IMessageHandler {
 
     handles = [Events.SERVER_MESSAGE];
 
-    constructor(private context: Context) {
+    constructor(private context: IContext) {
 
     }
 

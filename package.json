@@ -1,7 +1,12 @@
 {
-  "dependencies": {
-    "pino": "^5.14.0",
-    "pino-pretty": "^3.4.0",
-    "ws": "^7.2.0"
-  }
+    "dependencies": {
+        "pino": "^5.14.0",
+        "pino-pretty": "^3.4.0",
+        "ws": "^7.2.0"
+    },
+    "devDependencies": {
+        "gulp": "4.0.0",
+        "typescript": "3.7.3",
+        "gulp-webpack-typescript-pipeline": "15.0.0"
+    }
 }

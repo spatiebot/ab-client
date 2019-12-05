@@ -1,6 +1,6 @@
 import { IMessageHandler } from "../imessage-handler";
 import { Events } from "../../events/constants";
-import { Context } from "../../app-context/context";
+import { IContext } from "../../app-context/icontext";
 import { EventMessage } from "../../events/event-message";
 import { PlayerHit } from "../../ab-protocol/src/types/packets-server";
 import { Pos } from "../../models/pos";
@@ -10,7 +10,7 @@ export class PlayerHitHandler implements IMessageHandler {
 
     handles = [Events.PLAYER_HIT];
 
-    constructor(private context: Context) {
+    constructor(private context: IContext) {
 
     }
 

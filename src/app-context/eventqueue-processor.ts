@@ -1,11 +1,11 @@
-import { Context } from "./context";
 import { EventMessage } from "../events/event-message";
+import { IContext } from "./icontext";
 
 export class EventQueueProcessor {
     private isProcessing: boolean;
     private skippedFrames: number = 0;
 
-    constructor(private context: Context) {
+    constructor(private context: IContext) {
     }
 
     startProcessingEventQueue(): void {

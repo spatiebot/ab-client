@@ -1,6 +1,6 @@
 import { IMessageHandler } from "../imessage-handler";
 import { Events } from "../../events/constants";
-import { Context } from "../../app-context/context";
+import { IContext } from "../../app-context/icontext";
 import { EventMessage } from "../../events/event-message";
 import { EventLeavehorizon } from "../../ab-protocol/src/types/packets-server";
 import { LEAVE_HORIZON_TYPES } from "../../ab-protocol/src/types/server";
@@ -10,7 +10,7 @@ export class LeaveHorizonHandler implements IMessageHandler {
 
     handles = [Events.LEAVE_HORIZON];
 
-    constructor(private context: Context) {
+    constructor(private context: IContext) {
 
     }
 

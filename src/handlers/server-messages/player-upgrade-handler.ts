@@ -1,6 +1,6 @@
 import { IMessageHandler } from "../imessage-handler";
 import { Events } from "../../events/constants";
-import { Context } from "../../app-context/context";
+import { IContext } from "../../app-context/icontext";
 import { EventMessage } from "../../events/event-message";
 import { ScoreUpdate, PlayerUpgrade } from "../../ab-protocol/src/types/packets-server";
 import { Upgrades } from "../../models/upgrades";
@@ -9,7 +9,7 @@ export class PlayerUpgradeHandler implements IMessageHandler {
 
     handles = [Events.PLAYER_UPGRADE];
 
-    constructor(private context: Context) {
+    constructor(private context: IContext) {
 
     }
 

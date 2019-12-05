@@ -1,6 +1,6 @@
 import { IMessageHandler } from "../imessage-handler";
 import { Events } from "../../events/constants";
-import { Context } from "../../app-context/context";
+import { IContext } from "../../app-context/icontext";
 import { EventMessage } from "../../events/event-message";
 import { ServerCustom, ServerCustomCTFData } from "../../ab-protocol/src/types/packets-server";
 import { SERVER_CUSTOM_TYPES } from "../../ab-protocol/src/lib";
@@ -10,7 +10,7 @@ export class ServerCustomHandler implements IMessageHandler {
 
     handles = [Events.SERVER_CUSTOM];
 
-    constructor(private context: Context) {
+    constructor(private context: IContext) {
 
     }
 

@@ -1,6 +1,6 @@
 import { IMessageHandler } from "../imessage-handler";
 import { Events } from "../../events/constants";
-import { Context } from "../../app-context/context";
+import { IContext } from "../../app-context/icontext";
 import { EventMessage } from "../../events/event-message";
 import { ScoreBoardData, ScoreBoardRanking } from "../../ab-protocol/src/types/packets-server";
 import { PLAYER_STATUS, decodeMinimapCoords } from "../../ab-protocol/src/lib";
@@ -10,7 +10,7 @@ export class MiniMapHandler implements IMessageHandler {
 
     handles = [Events.MINI_MAP];
 
-    constructor(private context: Context) {
+    constructor(private context: IContext) {
 
     }
 

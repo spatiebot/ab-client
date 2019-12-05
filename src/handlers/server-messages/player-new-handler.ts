@@ -1,6 +1,6 @@
 import { IMessageHandler } from "../imessage-handler";
 import { Events } from "../../events/constants";
-import { Context } from "../../app-context/context";
+import { IContext } from "../../app-context/icontext";
 import { EventMessage } from "../../events/event-message";
 import { PlayerNew } from "../../ab-protocol/src/types/packets-server";
 import { Player } from "../../models/player";
@@ -11,7 +11,7 @@ export class PlayerNewHandler implements IMessageHandler {
     
     handles = [Events.PLAYER_NEW];
 
-    constructor(private context: Context) {
+    constructor(private context: IContext) {
 
     }
 

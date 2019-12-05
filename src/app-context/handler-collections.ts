@@ -1,13 +1,4 @@
-import { Settings } from "./settings";
-import { ILogger } from "./ilogger";
-import { EventQueue } from "../events/event-queue";
-import { Logger } from "../node-impl/logger";
-import { ServerMessageHandler } from "../handlers/server-message-handler";
-import { ChatLogger } from "../handlers/chat-logger";
-import { TimerManager } from "./timer-manager";
 import { IMessageHandler } from "../handlers/imessage-handler";
-import { EventQueueProcessor } from "./eventqueue-processor";
-import { State } from "./state";
 import { LoginHandler } from "../handlers/server-messages/login-handler";
 import { ScoreUpdateHandler } from "../handlers/server-messages/score-update-handler";
 import { PlayerNewHandler } from "../handlers/server-messages/player-new-handler";
@@ -39,54 +30,45 @@ import { ServerCommandReplyHandler } from "../handlers/server-messages/server-co
 import { ServerErrorHandler } from "../handlers/server-messages/server-error-handler";
 import { PlayerChangeFlagHandler } from "../handlers/server-messages/player-change-flag-handler";
 import { ScoreDetailedHandler } from "../handlers/server-messages/score-detailed-handler";
+import { ServerMessageHandler } from "../handlers/server-message-handler";
+import { IContext } from "./icontext";
 
-export class Context {
-
-    settings = new Settings();
-    logger: ILogger = new Logger(this.settings); // use nodejs specific for now
-    eventQueue = new EventQueue();
-    tm = new TimerManager();
-    processor = new EventQueueProcessor(this);
-    state = new State();
-        
-    handlers: IMessageHandler[] = [
-        // default handlers (always needed)
-        new CrateNewHandler(this),
-        new FlagUpdateHandler(this),
-        new LeaveHorizonHandler(this),
-        new LoginHandler(this),
-        new MiniMapHandler(this),
-        new MissileUpdateHandler(this),
-        new MobDespawnHandler(this),
-        new MountainHitHandler(this),
-        new PlayerBoostHandler(this),
-        new PlayerBounceHandler(this),
-        new PlayerChangeFlagHandler(this),
-        new PlayerFireHandler(this),
-        new PlayerHitHandler(this),
-        new PlayerKilledHandler(this),
-        new PlayerLeaveHandler(this),
-        new PlayerNewHandler(this),
-        new PlayerPowerupHandler(this),
-        new PlayerRepelHandler(this),
-        new PlayerRespawnHandler(this),
-        new PlayerStealthHandler(this),
-        new PlayerSwitchTypeHandler(this),
-        new PlayerUpdateHandler(this),
-        new PlayerUpgradeHandler(this),
-        new ServerCommandReplyHandler(this),
-        new ServerCustomHandler(this),
-        new ServerErrorHandler(this),
-        new ServerMessageHandler(this),
-        new ServerAnnouncementHandler(this),
-        new ScoreBoardHandler(this),
-        new ScoreDetailedHandler(this),
-        new ScoreUpdateHandler(this),
-        new TeamsHandler(this),
-
-        // application handlers
-        new ChatLogger(this),
-    ];
-
+export class HandlerCollections {
+    static getDefaultHandlers(context: IContext): IMessageHandler[] {
+        return [
+            new CrateNewHandler(context),
+            new FlagUpdateHandler(context),
+            new LeaveHorizonHandler(context),
+            new LoginHandler(context),
+            new MiniMapHandler(context),
+            new MissileUpdateHandler(context),
+            new MobDespawnHandler(context),
+            new MountainHitHandler(context),
+            new PlayerBoostHandler(context),
+            new PlayerBounceHandler(context),
+            new PlayerChangeFlagHandler(context),
+            new PlayerFireHandler(context),
+            new PlayerHitHandler(context),
+            new PlayerKilledHandler(context),
+            new PlayerLeaveHandler(context),
+            new PlayerNewHandler(context),
+            new PlayerPowerupHandler(context),
+            new PlayerRepelHandler(context),
+            new PlayerRespawnHandler(context),
+            new PlayerStealthHandler(context),
+            new PlayerSwitchTypeHandler(context),
+            new PlayerUpdateHandler(context),
+            new PlayerUpgradeHandler(context),
+            new ServerCommandReplyHandler(context),
+            new ServerCustomHandler(context),
+            new ServerErrorHandler(context),
+            new ServerMessageHandler(context),
+            new ServerAnnouncementHandler(context),
+            new ScoreBoardHandler(context),
+            new ScoreDetailedHandler(context),
+            new ScoreUpdateHandler(context),
+            new TeamsHandler(context),
+        ];
+    }
 
 }

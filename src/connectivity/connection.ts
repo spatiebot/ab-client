@@ -1,12 +1,12 @@
 import * as marshaling from '../ab-protocol/src/marshaling';
 import * as unmarshaling from '../ab-protocol/src/unmarshaling';
-import { Context } from "../app-context/context";
 import { ProtocolPacket } from '../ab-protocol/src/packets';
 import CLIENT_PACKETS from '../ab-protocol/src/packets/client';
 import SERVER_PACKETS from '../ab-protocol/src/packets/server';
 import { Events } from '../events/constants';
 import WebSocket from 'ws';
 import { Ping, Login, PingResult } from '../ab-protocol/src/types/packets-server';
+import { IContext } from '../app-context/icontext';
 
 export class Connection {
 
@@ -17,7 +17,7 @@ export class Connection {
     private ackInterval: any;
     private loginPromiseResolver: (value?: any) => void;
 
-    constructor(private context: Context) {
+    constructor(private context: IContext) {
     }
 
     async init(): Promise<any> {
