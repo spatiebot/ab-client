@@ -1,8 +1,8 @@
-import { abWalls } from "../ab-assets/walls";
-import { PLAYER_STATUS } from "../ab-protocol/src/lib";
 import { IContext } from "../app-context/icontext";
 import { PeriodicLogger } from "../helpers/periodic-logger";
-import { Pos } from "../models/pos";
+import { ClippedView } from "./clipped-view";
+import { PlayersRenderer } from "./players-renderer";
+import { WallsRenderer } from "./walls-renderer";
 
 export class Renderer {
     private canvases: HTMLCanvasElement[] = [];
@@ -12,11 +12,12 @@ export class Renderer {
 
     private chatBox: HTMLDivElement;
 
-    private readonly fullWidth = 33000;
-    private readonly fullHeight = 16600;
-    private readonly scale = 1;
+    // private readonly fullWidth = 33000;
+    // private readonly fullHeight = 16600;
 
-    private clip: Pos[];
+    private clip: ClippedView;
+    private playersRenderer: PlayersRenderer;
+    private wallsRenderer: WallsRenderer;
 
     private periodicLogger: PeriodicLogger;
 
@@ -27,6 +28,9 @@ export class Renderer {
         this.chatBox = document.getElementById("chat") as HTMLDivElement;
 
         this.periodicLogger = new PeriodicLogger(context);
+        this.clip = new ClippedView(context);
+        this.playersRenderer = new PlayersRenderer(context, this.clip);
+        this.wallsRenderer = new WallsRenderer(this.clip);
     }
 
     public addChat(playerName: string, msg: string) {
@@ -45,50 +49,16 @@ export class Renderer {
         const canvas = this.canvases[this.otherCanvasIndex];
         const context = this.contexts[this.otherCanvasIndex];
 
-        this.setClip(canvas);
+        this.clip.setClip(canvas);
 
         // make empty
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         // draw walls
-        context.fillStyle = "gray";
-        for (const point of abWalls) {
-            const pos = new Pos(point[0], point[1]);
-            const widthMargin = point[2] * this.scale;
-            const halfWall = widthMargin / 2;
-
-            const topLeft = new Pos(pos.x - halfWall, pos.y - halfWall);
-            const bottRight = new Pos(pos.x + halfWall, pos.y + halfWall);
-
-            if (this.isVisibleInClip(topLeft) || this.isVisibleInClip(bottRight)) {
-                context.beginPath();
-
-                const clipPos = this.clipPos(pos);
-                context.arc(clipPos.x, clipPos.y, widthMargin, 0, 2 * Math.PI);
-                context.fill();
-            }
-        }
+        this.wallsRenderer.renderWalls(context);
 
         // draw players
-        context.font = "8pt serif";
-
-        for (const player of this.context.state.getPlayers()) {
-            const name = "[" + player.name.replace(/[^\x00-\x7F]/g, "") + "," + player.id + "]";
-
-            if (player.status === PLAYER_STATUS.ALIVE) {
-                let pos = player.pos;
-                if (!player.isVisibleOnScreen || player.stealthed || !pos) {
-                    pos = player.lowResPos;
-                }
-                if (pos) {
-                    if (this.isVisibleInClip(pos)) {
-                        const clipPos = this.clipPos(pos);
-                        context.fillStyle = "navy";
-                        context.fillText(name, clipPos.x, clipPos.y);
-                    }
-                }
-            }
-        }
+        this.playersRenderer.renderPlayers(context);
 
         // switch the canvases
         canvas.style.display = "inherit";
@@ -104,25 +74,4 @@ export class Renderer {
         this.contexts[index] = context;
     }
 
-    private setClip(canvas: HTMLCanvasElement): void {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const myPos = this.context.state.getMe().pos;
-        const halfWidth = canvas.width / 2;
-        const halfHeight = canvas.height / 2;
-        this.clip = [
-            new Pos(myPos.x - halfWidth, myPos.y - halfHeight),
-            new Pos(myPos.x + halfWidth, halfHeight),
-        ];
-    }
-
-    private isVisibleInClip(pos: Pos): boolean {
-        return this.clip[0].x < pos.x && this.clip[1].x > pos.x &&
-            this.clip[0].y < pos.y && this.clip[1].y > pos.y;
-    }
-
-    private clipPos(pos: Pos): Pos {
-        return new Pos(pos.x - this.clip[0].x, pos.y - this.clip[0].y);
-    }
 }
