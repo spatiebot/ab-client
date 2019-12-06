@@ -11,7 +11,7 @@ export class PlayersRenderer {
     public renderPlayers(context: CanvasRenderingContext2D): void {
         context.font = "8pt serif";
         for (const player of this.context.state.getPlayers()) {
-            const name = "[" + player.name.replace(/[^\x00-\x7F]/g, "") + "," + player.id + "]";
+            const name = "[" + player.name + "," + player.id + "]";
 
             if (player.status === PLAYER_STATUS.ALIVE) {
                 let pos = player.pos;

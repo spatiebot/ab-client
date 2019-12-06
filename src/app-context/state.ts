@@ -1,7 +1,16 @@
-import { CTF_TEAMS } from "../ab-protocol/src/lib";
+import { CTF_TEAMS, MOB_TYPES } from "../ab-protocol/src/lib";
 import { CtfTeam } from "../models/ctf-team";
 import { Mob } from "../models/mob";
 import { Player } from "../models/player";
+
+const MISSILES: MOB_TYPES[] = [
+    MOB_TYPES.PREDATOR_MISSILE,
+    MOB_TYPES.GOLIATH_MISSILE,
+    MOB_TYPES.COPTER_MISSILE,
+    MOB_TYPES.TORNADO_MISSILE,
+    MOB_TYPES.TORNADO_SMALL_MISSILE,
+    MOB_TYPES.PROWLER_MISSILE,
+];
 
 export class State {
     public id: number;
@@ -61,6 +70,11 @@ export class State {
 
     public getMobById(id: number): Mob {
         return this.mobs[Number(id)];
+    }
+
+    public getMissiles(): Mob[] {
+        const allMobs = Object.values(this.mobs) as Mob[];
+        return allMobs.filter((m) => MISSILES.indexOf(m.mobType) !== -1);
     }
 
     public getCtfTeam(team: CTF_TEAMS): CtfTeam {
