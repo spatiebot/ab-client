@@ -4,8 +4,11 @@ It's in a very premature state.
 
 # building
 
-- make sure you have the gulp-cli installed (npm i -g gulp-cli)
-- npm i
+You'll need Node v12 or more, and the gulp-cli.
+
+1. clone repository and submodule (`git clone --recurse-submodules git://github.com/spatiebot/airmash-client.git`)
+2. `npm i`
+3. `gulp`
 
 to create a browser client:
 
