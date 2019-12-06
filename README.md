@@ -8,15 +8,14 @@ You'll need Node v12 or more, and the gulp-cli.
 
 1. clone repository and submodule (`git clone --recurse-submodules git://github.com/spatiebot/airmash-client.git`)
 2. `npm i`
-3. `gulp`
 
 to create a browser client:
 
-- gulp browser
+- `gulp browser`
 
 will result in dist/index.html with a *very* premature browser client
 
-- gulp
+- `gulp`
 
 will result in dist/app.js with a nodejs client that only logs chat messages.
 
