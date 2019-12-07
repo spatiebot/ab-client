@@ -1,6 +1,7 @@
 # airmash-client
 A hybrid nodejs and browser client for airmash.
-It's in a very premature state. 
+
+It's in a very premature state. For example: aircrafts are not moving properly because clientside updates are not there yet. Todolist on [Trello](https://trello.com/b/PFLmPiJ2/ab-client)
 
 # building
 

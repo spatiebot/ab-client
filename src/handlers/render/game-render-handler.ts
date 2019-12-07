@@ -3,7 +3,7 @@ import { Events } from "../../events/constants";
 import { EventMessage } from "../../events/event-message";
 import { IMessageHandler } from "../imessage-handler";
 
-export class MobsRenderHandler implements IMessageHandler {
+export class GameRenderHandler implements IMessageHandler {
 
     public handles = [Events.TICK];
 
@@ -11,6 +11,6 @@ export class MobsRenderHandler implements IMessageHandler {
     }
 
     public exec(ev: EventMessage): void {
-        this.context.renderer.renderMobs();
+        this.context.renderer.renderGame();
     }
 }

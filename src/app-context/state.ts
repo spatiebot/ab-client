@@ -1,5 +1,6 @@
 import { CTF_TEAMS, MOB_TYPES } from "../ab-protocol/src/lib";
 import { CtfTeam } from "../models/ctf-team";
+import { Explosion } from "../models/explosion";
 import { Mob } from "../models/mob";
 import { Player } from "../models/player";
 
@@ -21,6 +22,7 @@ export class State {
     private players = {};
     private mobs = {};
     private teams = {};
+    private explosions: Explosion[] = [];
 
     constructor() {
         this.teams[CTF_TEAMS.BLUE] = new CtfTeam();
@@ -85,4 +87,16 @@ export class State {
         const otherTeam = team === CTF_TEAMS.BLUE ? CTF_TEAMS.RED : CTF_TEAMS.BLUE;
         return this.teams[otherTeam];
     }
+
+    public addExplosion(expl: Explosion) {
+        this.explosions.push(expl);
+    }
+
+    // get only active explosions, also purges the collection of inactive explosions
+    public getActiveExplosions(): Explosion[] {
+        const activeExplosions = this.explosions.filter((e) => !e.isFinished);
+        this.explosions = activeExplosions;
+        return activeExplosions;
+    }
+
 }

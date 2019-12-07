@@ -1,6 +1,7 @@
 import { IContext } from "../app-context/icontext";
 import { PeriodicLogger } from "../helpers/periodic-logger";
 import { ClippedView } from "./clipped-view";
+import { ExplosionsRenderer } from "./explosions-renderer";
 import { MissilesRenderer } from "./missiles-renderer";
 import { PlayersRenderer } from "./players-renderer";
 import { WallsRenderer } from "./walls-renderer";
@@ -20,6 +21,7 @@ export class Renderer {
     private playersRenderer: PlayersRenderer;
     private wallsRenderer: WallsRenderer;
     private missilesRenderer: MissilesRenderer;
+    private explosionsRenderer: ExplosionsRenderer;
 
     private periodicLogger: PeriodicLogger;
 
@@ -34,6 +36,7 @@ export class Renderer {
         this.playersRenderer = new PlayersRenderer(context, this.clip);
         this.wallsRenderer = new WallsRenderer(this.clip);
         this.missilesRenderer = new MissilesRenderer(context, this.clip);
+        this.explosionsRenderer = new ExplosionsRenderer(context, this.clip);
     }
 
     public addChat(playerName: string, msg: string) {
@@ -43,7 +46,7 @@ export class Renderer {
         this.chatBox.scrollTop = this.chatBox.scrollHeight;
     }
 
-    public renderMobs(): void {
+    public renderGame(): void {
         if (!this.context.state.getMe()) {
             return;
         }
@@ -63,6 +66,8 @@ export class Renderer {
         this.playersRenderer.renderPlayers(context);
         // draw missiles
         this.missilesRenderer.renderMissiles(context);
+        // explosions
+        this.explosionsRenderer.renderExplosions(context);
 
         // switch the canvases
         canvas.style.display = "inherit";
