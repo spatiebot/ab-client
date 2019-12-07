@@ -1,11 +1,19 @@
 import { Events } from "../events/constants";
+import { ITickArgs } from "../events/event-args/itick-args";
 import { EventMessage } from "../events/event-message";
+import { StopWatch } from "../helpers/stopwatch";
 import { IContext } from "./icontext";
 
+const NS_PER_SEC = 1e9;
+const MS_PER_SEC = 1000;
+const FPS = 60;
+const TICK_MS = Math.ceil(MS_PER_SEC / FPS);
+
 export class EventQueueProcessor {
-    private isProcessing: boolean;
-    private skippedFrames: number = 0;
     private handlersByType: {};
+    private skippedFrames = 0;
+    private stopwatch: StopWatch;
+    private tickCounter: number;
 
     constructor(private context: IContext) {
     }
@@ -20,25 +28,36 @@ export class EventQueueProcessor {
             }
         }
 
-        this.context.tm.setInterval(() => this.tick(), 7);
+        this.context.logger.warn("TICK:", TICK_MS);
+        this.context.tm.setInterval(() => this.tick(), TICK_MS);
     }
 
     private tick(): void {
-        if (this.isProcessing) {
+        if (!this.stopwatch) {
+            this.stopwatch = new StopWatch();
+            this.tickCounter = 1;
+        }
+
+        const diffTime = this.stopwatch.elapsedMs;
+
+        if (diffTime > TICK_MS * (this.tickCounter + 1)) {
             this.skippedFrames++;
-            return;
-        }
+        } else {
+            if (this.skippedFrames > 0) {
+                this.context.logger.debug("Skipped frames " + this.skippedFrames);
+            }
+            const frameFactor = this.skippedFrames + diffTime / (TICK_MS * this.tickCounter);
 
-        this.isProcessing = true;
-        if (this.skippedFrames) {
-            this.context.logger.warn(`Skipped ${this.skippedFrames} frames.`);
+            // enqueue the tick message which will be processed last
+            this.context.eventQueue.pub(Events.TICK, {
+                frame: this.tickCounter,
+                frameFactor,
+                skippedFrames: this.skippedFrames,
+                timeFromStart: diffTime,
+            } as ITickArgs);
+
             this.skippedFrames = 0;
-        }
 
-        // enqueue the tick message which will be processed last
-        this.context.eventQueue.pub(Events.TICK, {});
-
-        try {
             while (true) {
                 const nextMessage = this.context.eventQueue.dequeue();
                 if (!nextMessage) {
@@ -46,8 +65,12 @@ export class EventQueueProcessor {
                 }
                 this.process(nextMessage);
             }
-        } finally {
-            this.isProcessing = false;
+        }
+
+        this.tickCounter++;
+
+        if (this.skippedFrames > 0) {
+            this.tick();
         }
     }
 

@@ -29,13 +29,16 @@ export class BrowserContext implements IContext {
     public renderer = new Renderer(this);
 
     constructor() {
-        this.settings = new Settings();
+
         this.logger = new BrowserLogger();
+        this.webSocketFactory = new BrowserWebSocketFactory();
+
+        this.settings = new Settings();
         this.eventQueue = new EventQueue();
         this.tm = new TimerManager();
         this.processor = new EventQueueProcessor(this);
         this.state = new State();
-        this.webSocketFactory = new BrowserWebSocketFactory();
+
         this.handlers = [
             ...HandlerCollections.getDefaultHandlers(this),
             new ExplosionHandler(this),

@@ -3,17 +3,19 @@
         "build": "gulp tsPipeline:build:dev"
     },
     "dependencies": {
+        "browser-process-hrtime": "^1.0.0",
         "pino": "^5.14.0",
         "pino-pretty": "^3.4.0",
         "ws": "^7.2.0"
     },
     "devDependencies": {
+        "@types/node": "^12.12.14",
         "gulp": "4.0.0",
         "gulp-tslint": "8.1.4",
         "gulp-typescript": "6.0.0-alpha.1",
         "gulp-webpack": "1.5.0",
-        "typescript": "3.7.3",
         "tslint": "5.20.1",
+        "typescript": "3.7.3",
         "webpack": "4.41.2"
     }
 }

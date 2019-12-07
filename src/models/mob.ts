@@ -12,4 +12,5 @@ export class Mob {
     public accel: Pos;
     public ownerId: number;
     public isVisibleOnScreen: boolean;
+    public distance: number;
 }

@@ -1,7 +1,8 @@
-export class Pos {
+export class Pos { // TODO rename to Vector
 
     public x: number;
     public y: number;
+    public length: number;
 
     constructor(x?: number | { x: number, y: number }, y?: number) {
         if ((x || x === 0) && (y || y === 0)) {

@@ -1,4 +1,5 @@
 import { IMessageHandler } from "../handlers/imessage-handler";
+import { MissileMaintenanceHandler } from "../handlers/maintenance/missile-maintenance-handler";
 import { ServerMessageHandler } from "../handlers/server-message-handler";
 import { CrateNewHandler } from "../handlers/server-messages/crate-new-handler";
 import { FlagUpdateHandler } from "../handlers/server-messages/flag-update-handler";
@@ -36,6 +37,7 @@ import { IContext } from "./icontext";
 export class HandlerCollections {
     public static getDefaultHandlers(context: IContext): IMessageHandler[] {
         return [
+            // server messages
             new CrateNewHandler(context),
             new FlagUpdateHandler(context),
             new LeaveHorizonHandler(context),
@@ -68,6 +70,9 @@ export class HandlerCollections {
             new ScoreDetailedHandler(context),
             new ScoreUpdateHandler(context),
             new TeamsHandler(context),
+
+            // maintenance
+            new MissileMaintenanceHandler(context),
         ];
     }
 
