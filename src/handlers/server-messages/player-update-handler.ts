@@ -1,3 +1,4 @@
+import { Keystate } from "../../ab-protocol/src/lib";
 import { PlayerUpdate } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
@@ -5,11 +6,14 @@ import { IGenericPlayerArgs } from "../../events/event-args/igeneric-player-args
 import { EventMessage } from "../../events/event-message";
 import { Decoder } from "../../helpers/decoder";
 import { Pos } from "../../models/pos";
+import { PowerUps } from "../../models/power-ups";
 import { IMessageHandler } from "../imessage-handler";
 
 export class PlayerUpdateHandler implements IMessageHandler {
 
     public handles = [Events.PLAYER_UPDATE];
+
+    private lastUp: boolean;
 
     constructor(private context: IContext) {
 
@@ -27,22 +31,16 @@ export class PlayerUpdateHandler implements IMessageHandler {
         player.isVisibleOnScreen = true;
 
         const movements = Decoder.keystateToPlayerMovements(msg.keystate);
-        if (movements) {
-            player.boost = movements.boost;
-            player.flagspeed = movements.flagspeed;
-            player.stealthed = movements.stealthed;
-            player.strafe = movements.strafe;
-            player.keystate = movements.keystate;
-        }
+        player.setMovements(movements);
 
         const powerUps = Decoder.upgradesToPowerUps(msg.upgrades);
-        player.powerUps = powerUps;
+        player.powerUps = powerUps || new PowerUps();
 
         player.pos.x = msg.posX;
         player.pos.y = msg.posY;
         player.rot = msg.rot;
         player.speed = new Pos(msg.speedX, msg.speedY);
 
-        this.context.eventQueue.pub(Events.PLAYER_CHANGE, {player} as IGenericPlayerArgs);
+        this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);
     }
 }

@@ -6,6 +6,7 @@ import { EventMessage } from "../../events/event-message";
 import { Decoder } from "../../helpers/decoder";
 import { Player } from "../../models/player";
 import { Pos } from "../../models/pos";
+import { PowerUps } from "../../models/power-ups";
 import { IMessageHandler } from "../imessage-handler";
 
 export class PlayerNewHandler implements IMessageHandler {
@@ -29,7 +30,7 @@ export class PlayerNewHandler implements IMessageHandler {
         p.status = msg.status;
         p.team = msg.team;
 
-        p.powerUps = Decoder.upgradesToPowerUps(msg.upgrades);
+        p.powerUps = Decoder.upgradesToPowerUps(msg.upgrades) || new PowerUps();
 
         this.context.state.addPlayer(p);
         this.context.eventQueue.pub(Events.PLAYER_CHANGE, {player: p} as IGenericPlayerArgs);

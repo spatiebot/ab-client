@@ -4,10 +4,9 @@ import { EventMessage } from "../events/event-message";
 import { StopWatch } from "../helpers/stopwatch";
 import { IContext } from "./icontext";
 
-const NS_PER_SEC = 1e9;
 const MS_PER_SEC = 1000;
 const FPS = 60;
-const TICK_MS = Math.ceil(MS_PER_SEC / FPS);
+const TICK_MS = MS_PER_SEC / FPS;
 
 export class EventQueueProcessor {
     private handlersByType: {};
@@ -28,8 +27,7 @@ export class EventQueueProcessor {
             }
         }
 
-        this.context.logger.warn("TICK:", TICK_MS);
-        this.context.tm.setInterval(() => this.tick(), TICK_MS);
+        this.context.tm.setInterval(() => this.tick(), Math.floor(TICK_MS));
     }
 
     private tick(): void {
@@ -40,7 +38,10 @@ export class EventQueueProcessor {
 
         const diffTime = this.stopwatch.elapsedMs;
 
-        if (diffTime > TICK_MS * (this.tickCounter + 1)) {
+        let tooEarly = false;
+        if (diffTime < TICK_MS) {
+            tooEarly = true;
+        } else if (diffTime > TICK_MS * (this.tickCounter + 1)) {
             this.skippedFrames++;
         } else {
             if (this.skippedFrames > 0) {
@@ -67,10 +68,12 @@ export class EventQueueProcessor {
             }
         }
 
-        this.tickCounter++;
+        if (!tooEarly) {
+            this.tickCounter++;
+        }
 
-        if (this.skippedFrames > 0) {
-            this.tick();
+        if (this.skippedFrames > 0 || tooEarly) {
+            this.context.tm.setTimeout(() => this.tick(), 1);
         }
     }
 

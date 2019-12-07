@@ -1,3 +1,4 @@
+import { Keystate } from "../../ab-protocol/src/lib";
 import { EventRepel } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
@@ -37,13 +38,8 @@ export class PlayerRepelHandler implements IMessageHandler {
             }
 
             const movements = Decoder.keystateToPlayerMovements(repelledPlayer.keystate);
-            if (movements) {
-                p.boost = movements.boost;
-                p.flagspeed = movements.flagspeed;
-                p.stealthed = movements.stealthed;
-                p.strafe = movements.strafe;
-                p.keystate = movements.keystate;
-            }
+            p.setMovements(movements);
+
             p.pos.x = repelledPlayer.posX;
             p.pos.y = repelledPlayer.posY;
             p.rot = repelledPlayer.rot;
@@ -53,7 +49,7 @@ export class PlayerRepelHandler implements IMessageHandler {
             p.health = repelledPlayer.playerHealth;
             p.healthRegen = repelledPlayer.playerHealthRegen;
 
-            this.context.eventQueue.pub(Events.PLAYER_CHANGE, {player: p} as IGenericPlayerArgs);
+            this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player: p } as IGenericPlayerArgs);
         }
 
         for (const missile of msg.mobs) {

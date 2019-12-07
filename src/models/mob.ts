@@ -13,4 +13,10 @@ export class Mob {
     public ownerId: number;
     public isVisibleOnScreen: boolean;
     public distance: number;
+
+    constructor() {
+        this.speed = new Pos();
+        this.pos = new Pos();
+        this.accel = new Pos();
+    }
 }

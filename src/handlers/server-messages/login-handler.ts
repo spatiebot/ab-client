@@ -6,6 +6,7 @@ import { EventMessage } from "../../events/event-message";
 import { Decoder } from "../../helpers/decoder";
 import { Player } from "../../models/player";
 import { Pos } from "../../models/pos";
+import { PowerUps } from "../../models/power-ups";
 import { IMessageHandler } from "../imessage-handler";
 
 export class LoginHandler implements IMessageHandler {
@@ -33,7 +34,7 @@ export class LoginHandler implements IMessageHandler {
             p.status = loginPlayer.status;
             p.team = loginPlayer.team;
 
-            p.powerUps = Decoder.upgradesToPowerUps(loginPlayer.upgrades);
+            p.powerUps = Decoder.upgradesToPowerUps(loginPlayer.upgrades) || new PowerUps();
 
             s.addPlayer(p);
 

@@ -12,6 +12,9 @@ export class Pos { // TODO rename to Vector
             const other = x as Pos;
             this.x = other.x;
             this.y = other.y;
+        } else {
+            this.x = 0;
+            this.y = 0;
         }
     }
 }

@@ -2,7 +2,9 @@ import { ILogger } from "../app-context/ilogger";
 
 export class BrowserLogger implements ILogger {
     public debug(msg: string, ...args: any[]): void {
-        this.log(msg, ...args);
+        if ((window as any).debug) {
+            this.log(msg, ...args);
+        }
     }
     public info(msg: string, ...args: any[]): void {
         this.log(msg, ...args);

@@ -12,7 +12,7 @@ export class PeriodicLogger {
         if (this.stopwatch.elapsedSeconds < this.intervalSeconds) {
             return;
         }
-        this.context.logger.debug(msg, ...args);
+        this.context.logger.info(msg, ...args);
         this.stopwatch.start();
     }
 }

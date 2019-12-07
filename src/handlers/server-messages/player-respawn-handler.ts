@@ -6,6 +6,7 @@ import { IGenericPlayerArgs } from "../../events/event-args/igeneric-player-args
 import { EventMessage } from "../../events/event-message";
 import { Decoder } from "../../helpers/decoder";
 import { Pos } from "../../models/pos";
+import { PowerUps } from "../../models/power-ups";
 import { IMessageHandler } from "../imessage-handler";
 
 export class PlayerRespawnHandler implements IMessageHandler {
@@ -25,7 +26,7 @@ export class PlayerRespawnHandler implements IMessageHandler {
         }
         p.pos = new Pos(msg.posX, msg.posY);
         p.rot = msg.rot;
-        p.powerUps = Decoder.upgradesToPowerUps(msg.upgrades);
+        p.powerUps = Decoder.upgradesToPowerUps(msg.upgrades) || new PowerUps();
         p.status = PLAYER_STATUS.ALIVE;
 
         this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player: p } as IGenericPlayerArgs);
