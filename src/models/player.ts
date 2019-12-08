@@ -1,9 +1,12 @@
 import { Keystate, MOB_TYPES, PLAYER_STATUS } from "../ab-protocol/src/lib";
+import { StopWatch } from "../helpers/stopwatch";
 import { Mob } from "./mob";
 import { PlayerMovements } from "./player-movements";
 import { Pos } from "./pos";
 import { PowerUps } from "./power-ups";
 import { Upgrades } from "./upgrades";
+
+const STALENESS_MS = 4000;
 
 export class Player extends Mob {
     public id: number;
@@ -11,8 +14,6 @@ export class Player extends Mob {
     public name: string;
     public type: number;
     public team: number;
-
-    public lowResPos: Pos;
 
     public energy: number;
     public energyRegen: number;
@@ -39,9 +40,21 @@ export class Player extends Mob {
     public damage: number;
     public ping: number;
     public captures: number;
+    public ranking: number;
 
     public status: PLAYER_STATUS;
     public isMuted: boolean;
+
+    public get posFromMinimap(): Pos {
+        return this.lowResPos;
+    }
+    public set posFromMinimap(value: Pos) {
+        this.lowResPos = value;
+        this.lowResPosUpdateTimer.start();
+    }
+
+    private lowResPos: Pos;
+    private lowResPosUpdateTimer = new StopWatch();
 
     constructor() {
         super();
@@ -49,6 +62,14 @@ export class Player extends Mob {
         this.upgrades = new Upgrades();
         this.powerUps = new PowerUps();
         this.keystate = {} as Keystate;
+    }
+
+    public get mostReliablePos(): Pos {
+        const diff = this.posUpdateTimer.elapsedMs - this.lowResPosUpdateTimer.elapsedMs;
+        if (diff < STALENESS_MS || !this.lowResPos) {
+            return this.pos;
+        }
+        return this.lowResPos;
     }
 
     public setMovements(movements: PlayerMovements) {

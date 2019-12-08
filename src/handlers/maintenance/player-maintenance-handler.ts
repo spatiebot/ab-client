@@ -122,6 +122,8 @@ export class PlayerMaintenanceHandler implements IMessageHandler {
             let maxspeed =
                 aircraftSpecs.maxSpeed * boostFactor * UPGRADES_SPECS.SPEED.factor[player.upgrades.speed];
 
+            // this.logger.log("maxspeed", { maxspeed, speedValue, max: aircraftSpecs.maxSpeed, boostFactor });
+
             if (player.powerUps.inferno) {
                 maxspeed *= aircraftSpecs.infernoFactor;
             }

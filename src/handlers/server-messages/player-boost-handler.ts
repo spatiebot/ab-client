@@ -26,8 +26,7 @@ export class PlayerBoostHandler implements IMessageHandler {
         player.boost = msg.boost;
         player.energy = msg.energy;
         player.energyRegen = msg.energyRegen;
-        player.pos.x = msg.posX;
-        player.pos.y = msg.posY;
+        player.pos = new Pos(msg.posX, msg.posY);
         player.rot = msg.rot;
         player.speed = new Pos(msg.speedX, msg.speedY);
 

@@ -21,8 +21,7 @@ export class PlayerRepelHandler implements IMessageHandler {
 
         const player = this.context.state.getPlayerById(msg.id);
         if (player) {
-            player.pos.x = msg.posX;
-            player.pos.y = msg.posY;
+            player.pos = new Pos(msg.posX, msg.posY);
             player.rot = msg.rot;
             player.speed = new Pos(msg.speedX, msg.speedY);
             player.energyRegen = msg.energyRegen;
@@ -40,8 +39,7 @@ export class PlayerRepelHandler implements IMessageHandler {
             const movements = Decoder.keystateToPlayerMovements(repelledPlayer.keystate);
             p.setMovements(movements);
 
-            p.pos.x = repelledPlayer.posX;
-            p.pos.y = repelledPlayer.posY;
+            p.pos = new Pos(repelledPlayer.posX, repelledPlayer.posY);
             p.rot = repelledPlayer.rot;
             p.speed = new Pos(repelledPlayer.speedX, repelledPlayer.speedY);
             p.energyRegen = repelledPlayer.energyRegen;

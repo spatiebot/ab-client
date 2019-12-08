@@ -28,6 +28,8 @@ export class PlayerRespawnHandler implements IMessageHandler {
         p.rot = msg.rot;
         p.powerUps = Decoder.upgradesToPowerUps(msg.upgrades) || new PowerUps();
         p.status = PLAYER_STATUS.ALIVE;
+        p.health = 1;
+        p.energy = 1;
 
         this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player: p } as IGenericPlayerArgs);
 

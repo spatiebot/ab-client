@@ -3,7 +3,7 @@ import { StopWatch } from "../helpers/stopwatch";
 import { Pos } from "./pos";
 
 const EXPLOSION_TIMEOUT_MS = 500;
-const EXPLOSION_MAX_SIZE = 30;
+const EXPLOSION_MAX_SIZE = 60;
 
 export class Explosion {
     public pos: Pos;

@@ -16,13 +16,16 @@ export class ScoreBoardHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
         const data = ev.args as ScoreBoardData[];
 
+        let ranking = 0;
         for (const playerScore of data) {
+            ranking++;
             const player = this.context.state.getPlayerById(playerScore.id);
             if (!player) {
                 continue;
             }
             player.score = playerScore.score;
             player.level = playerScore.level;
+            player.ranking = ranking;
 
             this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);
         }

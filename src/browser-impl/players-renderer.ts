@@ -1,6 +1,15 @@
-import { PLAYER_STATUS } from "../ab-protocol/src/lib";
+import { SHIPS_SPECS } from "../ab-assets/ships-constants";
+import { CTF_TEAMS, PLAYER_STATUS } from "../ab-protocol/src/lib";
 import { IContext } from "../app-context/icontext";
+import { Pos } from "../models/pos";
 import { ClippedView } from "./clipped-view";
+
+const COLOR_GREENISH = "rgba(0, 153, 102)";
+const COLOR_GREENISH_PROWLER = "rgba(0, 153, 102, 0.6)";
+const COLOR_BLUE_TEAM = "rgba(0, 102, 153)";
+const COLOR_BLUE_TEAM_PROWLER = "rgba(0, 102, 153, 0.6)";
+const COLOR_RED_TEAM = "rgba(153, 60, 60)";
+const COLOR_RED_TEAM_PROWLER = "rgba(153, 60, 60, 0.6)";
 
 export class PlayersRenderer {
 
@@ -9,23 +18,49 @@ export class PlayersRenderer {
     }
 
     public renderPlayers(context: CanvasRenderingContext2D): void {
-        context.font = "8pt serif";
+        context.font = "9pt 'Tahoma'";
         for (const player of this.context.state.getPlayers()) {
-            const name = "[" + player.name + "," + player.id + "]";
 
-            if (player.status === PLAYER_STATUS.ALIVE) {
-                let pos = player.pos;
-                if (!player.isVisibleOnScreen || player.stealthed || !pos) {
-                    pos = player.lowResPos;
-                }
-                if (pos) {
-                    if (this.clip.isVisible(pos)) {
-                        const clipPos = this.clip.translate(pos);
-                        context.fillStyle = "navy";
-                        context.fillText(name, clipPos.x, clipPos.y);
-                    }
-                }
+            // draw ships as their hit circles for now
+            const aircraftSpecs = SHIPS_SPECS[player.type];
+            const hitCircles = aircraftSpecs.collisions;
+
+            if (player.status !== PLAYER_STATUS.ALIVE) {
+                continue;
             }
+
+            const pos = player.mostReliablePos;
+            if (!pos || !this.clip.isVisible(pos)) {
+                continue;
+            }
+
+            if (player.team === CTF_TEAMS.BLUE) {
+                context.fillStyle = player.stealthed ? COLOR_BLUE_TEAM_PROWLER : COLOR_BLUE_TEAM;
+            } else if (player.team === CTF_TEAMS.RED) {
+                context.fillStyle = player.stealthed ? COLOR_RED_TEAM_PROWLER : COLOR_RED_TEAM;
+            } else {
+                context.fillStyle = player.stealthed ? COLOR_GREENISH_PROWLER : COLOR_GREENISH;
+            }
+            const clipPos = this.clip.translate(pos);
+
+            context.translate(clipPos.x, clipPos.y);
+            context.rotate(player.rot);
+            for (const hitCircle of hitCircles) {
+                const hitCirclePos = new Pos(hitCircle[0], hitCircle[1]);
+                const r = hitCircle[2];
+
+                context.beginPath();
+                context.arc(hitCirclePos.x, hitCirclePos.y, r, 0, 2 * Math.PI);
+                context.fill();
+            }
+            context.rotate(-player.rot);
+            context.translate(-clipPos.x, -clipPos.y);
+
+            // draw name
+            context.fillStyle = "black";
+            const name = `${player.ranking}. ${player.name} (${Math.floor(player.health * 100)}%)`;
+            const nameWidth = context.measureText(name).width;
+            context.fillText(name, clipPos.x - nameWidth / 2, clipPos.y + 60);
         }
     }
 }

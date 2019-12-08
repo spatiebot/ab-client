@@ -28,7 +28,7 @@ export class MiniMapHandler implements IMessageHandler {
                 player.status = PLAYER_STATUS.INACTIVE;
             } else {
                 const coords = decodeMinimapCoords(playerMinimapPos.x, playerMinimapPos.y);
-                player.lowResPos = new Pos(coords);
+                player.posFromMinimap = new Pos(coords);
             }
 
             this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);

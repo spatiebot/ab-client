@@ -7,7 +7,7 @@ export class ExplosionsRenderer {
     }
 
     public renderExplosions(context: CanvasRenderingContext2D) {
-        context.fillStyle = "rgba(255, 255, 0, 0.5)";
+        context.fillStyle = "rgba(255, 255, 0, 0.7)";
         for (const explosion of this.context.state.getActiveExplosions()) {
             const pos = explosion.pos;
             if (pos) {

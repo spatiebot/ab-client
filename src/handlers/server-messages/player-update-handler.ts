@@ -36,8 +36,7 @@ export class PlayerUpdateHandler implements IMessageHandler {
         const powerUps = Decoder.upgradesToPowerUps(msg.upgrades);
         player.powerUps = powerUps || new PowerUps();
 
-        player.pos.x = msg.posX;
-        player.pos.y = msg.posY;
+        player.pos = new Pos(msg.posX, msg.posY);
         player.rot = msg.rot;
         player.speed = new Pos(msg.speedX, msg.speedY);
 

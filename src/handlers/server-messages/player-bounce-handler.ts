@@ -27,8 +27,7 @@ export class PlayerBounceHandler implements IMessageHandler {
         const movements = Decoder.keystateToPlayerMovements(msg.keystate);
         player.setMovements(movements);
 
-        player.pos.x = msg.posX;
-        player.pos.y = msg.posY;
+        player.pos = new Pos(msg.posX, msg.posY);
         player.rot = msg.rot;
         player.speed = new Pos(msg.speedX, msg.speedY);
 

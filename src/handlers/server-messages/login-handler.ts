@@ -22,8 +22,10 @@ export class LoginHandler implements IMessageHandler {
         const s = this.context.state;
         s.id = msg.id;
 
+        let ranking = 0;
         for (const loginPlayer of msg.players) {
             const p = new Player();
+            ranking++;
 
             p.id = loginPlayer.id;
             p.flag = loginPlayer.flag;
@@ -33,6 +35,9 @@ export class LoginHandler implements IMessageHandler {
             p.rot = loginPlayer.rot;
             p.status = loginPlayer.status;
             p.team = loginPlayer.team;
+            p.ranking = ranking;
+            p.health = 1;
+            p.energy = 1;
 
             p.powerUps = Decoder.upgradesToPowerUps(loginPlayer.upgrades) || new PowerUps();
 
