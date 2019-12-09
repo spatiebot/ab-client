@@ -47,6 +47,10 @@ export class State {
         return this.players[Number(id)];
     }
 
+    public getPlayerByName(name: string): Player {
+        return this.getPlayers().find((x) => x.name === name);
+    }
+
     public getPlayers(): Player[] {
         return Object.values(this.players);
     }

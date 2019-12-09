@@ -1,7 +1,7 @@
 import { CHAT_TYPE } from "../../ab-assets/chat-constants";
 
-export interface IChatArgs {
+export interface IChatSendArgs {
+    text: string;
+    type: CHAT_TYPE;
     playerId: number;
-    chatType: CHAT_TYPE;
-    chatMessage: string;
 }

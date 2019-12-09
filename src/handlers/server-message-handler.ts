@@ -1,8 +1,9 @@
+import { CHAT_TYPE } from "../ab-assets/chat-constants";
 import { decodeUpgrades, ProtocolPacket, SERVER_ERRORS, SERVER_MESSAGE_TYPES, SERVER_PACKETS } from "../ab-protocol/src/lib";
 import { ScoreBoard, ScoreDetailed, ScoreDetailedCtf } from "../ab-protocol/src/types/packets-server";
 import { IContext } from "../app-context/icontext";
 import { Events } from "../events/constants";
-import { ChatArgs } from "../events/event-args/chat-args";
+import { IChatArgs } from "../events/event-args/chat-args";
 import { EventMessage } from "../events/event-message";
 import { IMessageHandler } from "./imessage-handler";
 
@@ -16,16 +17,24 @@ export class ServerMessageHandler implements IMessageHandler {
 
     public exec(ev: EventMessage): void {
         const serverMessage = ev.args as ProtocolPacket;
+
+        let chatType: CHAT_TYPE;
+
         switch (serverMessage.c) {
             case SERVER_PACKETS.CHAT_PUBLIC:
+                chatType = CHAT_TYPE.CHAT;
             case SERVER_PACKETS.CHAT_SAY:
+                chatType = CHAT_TYPE.SAY;
             case SERVER_PACKETS.CHAT_TEAM:
+                chatType = CHAT_TYPE.TEAM;
             case SERVER_PACKETS.CHAT_WHISPER:
-                this.context.eventQueue.pub(Events.CHAT, {
+                chatType = CHAT_TYPE.WHISPER;
+
+                this.context.eventQueue.pub(Events.CHAT_RECEIVED, {
                     chatMessage: serverMessage.text,
-                    chatType: serverMessage.c,
+                    chatType,
                     playerId: serverMessage.id || serverMessage.from,
-                } as ChatArgs);
+                } as IChatArgs);
                 break;
 
             case SERVER_PACKETS.CHAT_VOTEMUTED:

@@ -5,8 +5,12 @@
     <body>
         <canvas id="first" style="background-color: silver; position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
         <canvas id="second" style="background-color: silver; position: absolute; left: 0; top: 0; z-index: 0; display: hidden"></canvas>
-        <div id="chat" style="width: 300px; height: 300px; border: 1px solid gray; padding: 5px; overflow: auto; 
-        position: absolute; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 10pt;">
+        <div id="chat-input" style="position: absolute; top: 10; left: 10; width: 300px; height: 60px;">
+            <input type="text" style="width: 100%" id="chat-input-textbox"/>
+        </div>
+        <div id="chat" style="width: 288px; height: 288px; border: 1px solid gray; padding: 5px; overflow: auto; 
+        position: absolute; top: 30; left: 10; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 10pt;">
+
         </div>
         <script src="browser-pack.js"></script>
     </body>

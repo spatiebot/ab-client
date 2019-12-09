@@ -1,3 +1,4 @@
+import { ChatSendHandler } from "../handlers/chat-send-handler";
 import { IMessageHandler } from "../handlers/imessage-handler";
 import { KeyboardMessageHandler } from "../handlers/keyboard-message-handler";
 import { MissileMaintenanceHandler } from "../handlers/maintenance/missile-maintenance-handler";
@@ -79,6 +80,7 @@ export class HandlerCollections {
 
             // client input
             new KeyboardMessageHandler(context),
+            new ChatSendHandler(context),
         ];
     }
 

@@ -1,3 +1,4 @@
+import { CHAT_TYPE } from "../ab-assets/chat-constants";
 import { KEY_CODES } from "../ab-protocol/src/lib";
 import * as marshaling from "../ab-protocol/src/marshaling";
 import { ProtocolPacket } from "../ab-protocol/src/packets";
@@ -38,6 +39,41 @@ export class Connection {
         if (this.backupClientIsConnected) {
             this.send(msg, true);
         }
+    }
+
+    public sendCommand(command: string, params: string) {
+        const msg = {
+            c: CLIENT_PACKETS.COMMAND,
+            com: command,
+            data: params,
+        };
+        this.send(msg);
+    }
+
+    public sendChat(type: CHAT_TYPE, text: string, targetPlayerID: number = null): void {
+        let c: number;
+        switch (type) {
+            case CHAT_TYPE.CHAT:
+                c = CLIENT_PACKETS.CHAT;
+                break;
+            case CHAT_TYPE.SAY:
+                c = CLIENT_PACKETS.SAY;
+                break;
+            case CHAT_TYPE.TEAM:
+                c = CLIENT_PACKETS.TEAMCHAT;
+                break;
+            case CHAT_TYPE.WHISPER:
+                c = CLIENT_PACKETS.WHISPER;
+                break;
+        }
+
+        const msg = {
+            c,
+            id: targetPlayerID,
+            text,
+        };
+
+        this.send(msg);
     }
 
     private onInitPrimary(): Promise<any> {

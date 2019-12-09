@@ -15,6 +15,7 @@ import { ChatRenderHandler } from "../handlers/render/chat-render-handler";
 import { GameRenderHandler } from "../handlers/render/game-render-handler";
 import { BrowserLogger } from "./browser-logger";
 import { BrowserWebSocketFactory } from "./browser-websocket-factory";
+import { ChatInput } from "./chat-input";
 import { KeyboardInput } from "./keyboard-input";
 import { Renderer } from "./renderer";
 
@@ -31,7 +32,8 @@ export class BrowserContext implements IContext {
 
     // browser-only:
     public renderer = new Renderer(this);
-    public keyboardInput = new KeyboardInput(this);
+    private chatInput = new ChatInput(this);
+    private keyboardInput = new KeyboardInput(this, this.chatInput);
 
     constructor() {
 

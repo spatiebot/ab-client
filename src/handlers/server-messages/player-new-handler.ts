@@ -29,6 +29,8 @@ export class PlayerNewHandler implements IMessageHandler {
         p.rot = msg.rot;
         p.status = msg.status;
         p.team = msg.team;
+        p.energy = 1;
+        p.health = 1;
 
         p.powerUps = Decoder.upgradesToPowerUps(msg.upgrades) || new PowerUps();
 

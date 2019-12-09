@@ -25,7 +25,7 @@ export class PlayersRenderer {
             const aircraftSpecs = SHIPS_SPECS[player.type];
             const hitCircles = aircraftSpecs.collisions;
 
-            if (player.status !== PLAYER_STATUS.ALIVE) {
+            if (player.status !== PLAYER_STATUS.ALIVE || !player.isVisibleOnScreen) {
                 continue;
             }
 
