@@ -1,3 +1,4 @@
+import { Connection } from "../connectivity/connection";
 import { EventQueue } from "../events/event-queue";
 import { IMessageHandler } from "../handlers/imessage-handler";
 import { EventQueueProcessor } from "./eventqueue-processor";
@@ -16,6 +17,9 @@ export interface IContext {
     processor: EventQueueProcessor;
     state: State;
     webSocketFactory: IWebSocketFactory;
+    connection: Connection;
 
     handlers: IMessageHandler[];
+
+    start(): Promise<any>;
 }

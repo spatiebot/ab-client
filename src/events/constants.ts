@@ -8,6 +8,7 @@ export enum Events {
     CTF_GAME_OVER,
     EXPLOSION,
     FLAG_UPDATE,
+    KEYBOARD,
     LOGIN,
     LEAVE_HORIZON,
     MOB_DESPAWN,

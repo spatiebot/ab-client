@@ -6,6 +6,7 @@ import { IWebSocketFactory } from "../app-context/iwebsocket-factory";
 import { Settings } from "../app-context/settings";
 import { State } from "../app-context/state";
 import { TimerManager } from "../app-context/timer-manager";
+import { Connection } from "../connectivity/connection";
 import { EventQueue } from "../events/event-queue";
 import { ChatLogger } from "../handlers/chat-logger";
 import { IMessageHandler } from "../handlers/imessage-handler";
@@ -22,6 +23,7 @@ export class NodeContext implements IContext {
     public state = new State();
     public handlers: IMessageHandler[];
     public webSocketFactory: IWebSocketFactory = new NodeWebSocketFactory();
+    public connection: Connection = new Connection(this);
 
     constructor() {
         this.handlers = [
@@ -30,4 +32,11 @@ export class NodeContext implements IContext {
         ];
     }
 
+    public async start(): Promise<any> {
+        this.logger.info("Initializing app");
+        this.processor.startProcessingEventQueue();
+
+        await this.connection.init();
+        this.logger.info("Initialization finished");
+    }
 }

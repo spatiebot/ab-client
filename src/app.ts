@@ -5,13 +5,7 @@ class App {
 
     public async run() {
         const context = new NodeContext();
-        context.logger.info("Initializing app");
-
-        context.processor.startProcessingEventQueue();
-
-        const connection = new Connection(context);
-        await connection.init();
-        context.logger.info("Initialization finished");
+        await context.start();
     }
 }
 

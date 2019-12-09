@@ -5,7 +5,7 @@ import { Pos } from "./pos";
 const EXPLOSION_TIMEOUT_MS = 500;
 const EXPLOSION_MAX_SIZE = 60;
 
-export class Explosion {
+export class ExplosionVisual {
     public pos: Pos;
     public type: MOB_TYPES;
 

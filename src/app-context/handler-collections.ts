@@ -1,4 +1,5 @@
 import { IMessageHandler } from "../handlers/imessage-handler";
+import { KeyboardMessageHandler } from "../handlers/keyboard-message-handler";
 import { MissileMaintenanceHandler } from "../handlers/maintenance/missile-maintenance-handler";
 import { PlayerMaintenanceHandler } from "../handlers/maintenance/player-maintenance-handler";
 import { ServerMessageHandler } from "../handlers/server-message-handler";
@@ -75,6 +76,9 @@ export class HandlerCollections {
             // maintenance
             new MissileMaintenanceHandler(context),
             new PlayerMaintenanceHandler(context),
+
+            // client input
+            new KeyboardMessageHandler(context),
         ];
     }
 

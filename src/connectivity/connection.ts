@@ -1,3 +1,4 @@
+import { KEY_CODES } from "../ab-protocol/src/lib";
 import * as marshaling from "../ab-protocol/src/marshaling";
 import { ProtocolPacket } from "../ab-protocol/src/packets";
 import CLIENT_PACKETS from "../ab-protocol/src/packets/client";
@@ -14,6 +15,7 @@ export class Connection {
     private backupClientIsConnected: boolean;
     private ackToBackup: boolean;
     private ackInterval: any;
+    private keySequenceNumber: number = 0;
     private loginPromiseResolver: (value?: any) => void;
 
     constructor(private context: IContext) {
@@ -22,6 +24,20 @@ export class Connection {
     public async init(): Promise<any> {
         this.client = await this.initWebSocket(true);
         await this.onInitPrimary();
+    }
+
+    public sendKey(key: KEY_CODES, state: boolean) {
+        this.keySequenceNumber++;
+        const msg = {
+            c: CLIENT_PACKETS.KEY,
+            key,
+            seq: this.keySequenceNumber,
+            state,
+        };
+        this.send(msg);
+        if (this.backupClientIsConnected) {
+            this.send(msg, true);
+        }
     }
 
     private onInitPrimary(): Promise<any> {
@@ -134,4 +150,5 @@ export class Connection {
             this.client.send(clientMgs);
         }
     }
+
 }

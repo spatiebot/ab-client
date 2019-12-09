@@ -1,6 +1,7 @@
 import { CTF_TEAMS, MOB_TYPES } from "../ab-protocol/src/lib";
 import { CtfTeam } from "../models/ctf-team";
-import { Explosion } from "../models/explosion";
+import { ExplosionVisual } from "../models/explosion-visual";
+import { KillVisual } from "../models/kill-visual";
 import { Mob } from "../models/mob";
 import { Player } from "../models/player";
 
@@ -22,7 +23,8 @@ export class State {
     private players = {};
     private mobs = {};
     private teams = {};
-    private explosions: Explosion[] = [];
+    private explosions: ExplosionVisual[] = [];
+    private kills: KillVisual[] = [];
 
     constructor() {
         this.teams[CTF_TEAMS.BLUE] = new CtfTeam();
@@ -88,15 +90,26 @@ export class State {
         return this.teams[otherTeam];
     }
 
-    public addExplosion(expl: Explosion) {
+    public addExplosion(expl: ExplosionVisual) {
         this.explosions.push(expl);
     }
 
     // get only active explosions, also purges the collection of inactive explosions
-    public getActiveExplosions(): Explosion[] {
+    public getActiveExplosions(): ExplosionVisual[] {
         const activeExplosions = this.explosions.filter((e) => !e.isFinished);
         this.explosions = activeExplosions;
         return activeExplosions;
+    }
+
+    public addKill(kill: KillVisual) {
+        this.kills.push(kill);
+    }
+
+    // get only active kill visuals, also purges the collection of inactive kills
+    public getActiveKills(): KillVisual[] {
+        const activeKills = this.kills.filter((e) => !e.isFinished);
+        this.kills = activeKills;
+        return activeKills;
     }
 
 }

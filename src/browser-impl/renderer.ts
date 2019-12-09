@@ -14,9 +14,6 @@ export class Renderer {
 
     private chatBox: HTMLDivElement;
 
-    // private readonly fullWidth = 33000;
-    // private readonly fullHeight = 16600;
-
     private clip: ClippedView;
     private playersRenderer: PlayersRenderer;
     private wallsRenderer: WallsRenderer;
@@ -66,7 +63,7 @@ export class Renderer {
         this.playersRenderer.renderPlayers(context);
         // draw missiles
         this.missilesRenderer.renderMissiles(context);
-        // explosions
+        // explosions and kills
         this.explosionsRenderer.renderExplosions(context);
 
         // switch the canvases
