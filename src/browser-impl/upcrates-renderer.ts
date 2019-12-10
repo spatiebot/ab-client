@@ -7,7 +7,7 @@ const rampageCrateColor = "rgba(150, 0, 0, 0.8)";
 const shieldCrateColor = "white";
 const upgradeCrateColor = "rgba(196, 188, 114, 0.8)";
 const borderColor = "gray";
-const CRATE_HALF_SIZE = 8;
+const CRATE_HALF_SIZE = 12;
 const CRATE_SIZE = CRATE_HALF_SIZE * 2;
 const CRATE_ROTATION = Math.PI / 4;
 
@@ -45,7 +45,9 @@ export class UpcratesRenderer {
 
             context.beginPath();
             context.fillStyle = fillColor;
-            context.rect(-CRATE_HALF_SIZE, -CRATE_HALF_SIZE, CRATE_SIZE, CRATE_SIZE);
+            const halfSize = this.clip.scale(CRATE_HALF_SIZE);
+            const size = this.clip.scale(CRATE_SIZE);
+            context.rect(-halfSize, -halfSize, size, size);
             context.fill();
             context.fillStyle = borderColor;
             context.stroke();

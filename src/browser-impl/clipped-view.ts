@@ -54,4 +54,8 @@ export class ClippedView {
             new Pos(this.clipRectangle[1]),
         ];
     }
+
+    public getClipSize(): Pos {
+        return new Pos(this.lastWidth, this.lastHeight);
+    }
 }

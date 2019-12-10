@@ -1,5 +1,6 @@
 import { IContext } from "../app-context/icontext";
 import { PeriodicLogger } from "../helpers/periodic-logger";
+import { BackgroundRenderer } from "./background-renderer";
 import { ClippedView } from "./clipped-view";
 import { ExplosionsRenderer } from "./explosions-renderer";
 import { MissilesRenderer } from "./missiles-renderer";
@@ -21,6 +22,7 @@ export class Renderer {
     private missilesRenderer: MissilesRenderer;
     private explosionsRenderer: ExplosionsRenderer;
     private upcratesRenderer: UpcratesRenderer;
+    private backgroundRenderer: BackgroundRenderer;
 
     private periodicLogger: PeriodicLogger;
 
@@ -32,6 +34,8 @@ export class Renderer {
 
         this.periodicLogger = new PeriodicLogger(context);
         this.clip = new ClippedView(context);
+
+        this.backgroundRenderer = new BackgroundRenderer(this.clip);
         this.playersRenderer = new PlayersRenderer(context, this.clip);
         this.wallsRenderer = new WallsRenderer(this.clip);
         this.missilesRenderer = new MissilesRenderer(context, this.clip);
@@ -57,9 +61,8 @@ export class Renderer {
 
         this.clip.setClip(canvas);
 
-        // make empty
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
+        // background
+        this.backgroundRenderer.renderBackground(context);
         // draw walls
         this.wallsRenderer.renderWalls(context);
         // upgrade and powerup crates
