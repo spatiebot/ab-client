@@ -14,6 +14,12 @@ const MISSILES: MOB_TYPES[] = [
     MOB_TYPES.PROWLER_MISSILE,
 ];
 
+const CRATES: MOB_TYPES[] = [
+    MOB_TYPES.UPGRADE,
+    MOB_TYPES.SHIELD,
+    MOB_TYPES.INFERNO,
+];
+
 export class State {
     public id: number;
     public ping: number;
@@ -83,6 +89,11 @@ export class State {
     public getMissiles(): Mob[] {
         const allMobs = Object.values(this.mobs) as Mob[];
         return allMobs.filter((m) => MISSILES.indexOf(m.mobType) !== -1);
+    }
+
+    public getUpcrates(): Mob[] {
+        const allMobs = Object.values(this.mobs) as Mob[];
+        return allMobs.filter((m) => CRATES.indexOf(m.mobType) !== -1);
     }
 
     public getCtfTeam(team: CTF_TEAMS): CtfTeam {

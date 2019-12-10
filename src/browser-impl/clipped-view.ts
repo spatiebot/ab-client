@@ -3,11 +3,10 @@ import { Pos } from "../models/pos";
 
 export class ClippedView {
 
-    public zoom: number;
-
     private clipRectangle: Pos[];
     private lastWidth: number;
     private lastHeight: number;
+    private zoom: number;
 
     constructor(private context: IContext) {
     }
@@ -42,5 +41,17 @@ export class ClippedView {
 
     public translate(pos: Pos): Pos {
         return new Pos((pos.x - this.clipRectangle[0].x) * this.zoom, (pos.y - this.clipRectangle[0].y) * this.zoom);
+    }
+
+    public scale(x: number) {
+        return x * this.zoom;
+    }
+
+    public getClipRectangle(): Pos[] {
+        // make a copy to prevent altering
+        return [
+            new Pos(this.clipRectangle[0]),
+            new Pos(this.clipRectangle[1]),
+        ];
     }
 }

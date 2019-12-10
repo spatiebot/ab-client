@@ -46,8 +46,8 @@ export class PlayersRenderer {
             context.translate(clipPos.x, clipPos.y);
             context.rotate(player.rot);
             for (const hitCircle of hitCircles) {
-                const hitCirclePos = new Pos(hitCircle[0] * this.clip.zoom, hitCircle[1] * this.clip.zoom);
-                const r = hitCircle[2] * this.clip.zoom;
+                const hitCirclePos = new Pos(this.clip.scale(hitCircle[0]), this.clip.scale(hitCircle[1]));
+                const r = this.clip.scale(hitCircle[2]);
 
                 context.beginPath();
                 context.arc(hitCirclePos.x, hitCirclePos.y, r, 0, 2 * Math.PI);
@@ -60,7 +60,7 @@ export class PlayersRenderer {
             context.fillStyle = "black";
             const name = `${player.ranking}. ${player.name} (${Math.floor(player.health * 100)}%)`;
             const nameWidth = context.measureText(name).width;
-            context.fillText(name, clipPos.x - nameWidth / 2, clipPos.y + 60);
+            context.fillText(name, clipPos.x - nameWidth / 2, clipPos.y + this.clip.scale(60));
         }
     }
 }

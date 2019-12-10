@@ -16,7 +16,7 @@ export class ExplosionsRenderer {
             if (this.clip.isVisible(pos)) {
                 const clipPos = this.clip.translate(pos);
                 context.beginPath();
-                context.arc(clipPos.x, clipPos.y, explosion.size * this.clip.zoom, 0, 2 * Math.PI);
+                context.arc(clipPos.x, clipPos.y, this.clip.scale(explosion.size), 0, 2 * Math.PI);
                 context.fill();
             }
         }
@@ -31,7 +31,7 @@ export class ExplosionsRenderer {
             if (this.clip.isVisible(pos)) {
                 const clipPos = this.clip.translate(pos);
                 context.beginPath();
-                context.arc(clipPos.x, clipPos.y, kill.size * this.clip.zoom, 0, 2 * Math.PI);
+                context.arc(clipPos.x, clipPos.y, this.clip.scale(kill.size), 0, 2 * Math.PI);
                 context.fill();
             }
         }

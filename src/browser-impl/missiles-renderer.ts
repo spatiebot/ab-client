@@ -14,7 +14,7 @@ export class MissilesRenderer {
                 if (this.clip.isVisible(pos)) {
                     const clipPos = this.clip.translate(pos);
                     context.beginPath();
-                    context.arc(clipPos.x, clipPos.y, 3, 0, 2 * Math.PI);
+                    context.arc(clipPos.x, clipPos.y, 4, 0, 2 * Math.PI);
                     context.fill();
                 }
             }

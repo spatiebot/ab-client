@@ -21,7 +21,7 @@ export class WallsRenderer {
                 context.beginPath();
 
                 const clipPos = this.clip.translate(pos);
-                context.arc(clipPos.x, clipPos.y, widthMargin * this.clip.zoom, 0, 2 * Math.PI);
+                context.arc(clipPos.x, clipPos.y, this.clip.scale(widthMargin), 0, 2 * Math.PI);
                 context.fill();
             }
         }

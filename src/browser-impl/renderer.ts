@@ -4,6 +4,7 @@ import { ClippedView } from "./clipped-view";
 import { ExplosionsRenderer } from "./explosions-renderer";
 import { MissilesRenderer } from "./missiles-renderer";
 import { PlayersRenderer } from "./players-renderer";
+import { UpcratesRenderer } from "./upcrates-renderer";
 import { WallsRenderer } from "./walls-renderer";
 
 export class Renderer {
@@ -19,6 +20,7 @@ export class Renderer {
     private wallsRenderer: WallsRenderer;
     private missilesRenderer: MissilesRenderer;
     private explosionsRenderer: ExplosionsRenderer;
+    private upcratesRenderer: UpcratesRenderer;
 
     private periodicLogger: PeriodicLogger;
 
@@ -34,6 +36,7 @@ export class Renderer {
         this.wallsRenderer = new WallsRenderer(this.clip);
         this.missilesRenderer = new MissilesRenderer(context, this.clip);
         this.explosionsRenderer = new ExplosionsRenderer(context, this.clip);
+        this.upcratesRenderer = new UpcratesRenderer(context, this.clip);
     }
 
     public addChat(playerName: string, msg: string) {
@@ -59,6 +62,8 @@ export class Renderer {
 
         // draw walls
         this.wallsRenderer.renderWalls(context);
+        // upgrade and powerup crates
+        this.upcratesRenderer.renderUpcrates(context);
         // draw players
         this.playersRenderer.renderPlayers(context);
         // draw missiles
