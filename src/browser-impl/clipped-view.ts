@@ -28,7 +28,7 @@ export class ClippedView {
         const halfHeight = (canvas.height / zoom) / 2;
         this.clipRectangle = [
             new Pos(myPos.x - halfWidth, myPos.y - halfHeight),
-            new Pos(myPos.x + halfWidth, halfHeight),
+            new Pos(myPos.x + halfWidth, myPos.y + halfHeight),
         ];
 
         this.zoom = zoom;

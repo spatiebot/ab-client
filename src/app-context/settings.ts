@@ -6,5 +6,5 @@ export class Settings {
     public flag: string = "jolly";
     public logLevel: string = "info";
     public isDevelopment: boolean = true;
-    public zoom = 0.5;
+    public zoom = 0.8;
 }
