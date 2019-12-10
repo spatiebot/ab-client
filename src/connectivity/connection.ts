@@ -76,6 +76,14 @@ export class Connection {
         this.send(msg);
     }
 
+    public sendScreenSize(width: number, height: number) {
+        this.send({
+            c: CLIENT_PACKETS.HORIZON,
+            horizonX: Math.ceil(width / 2),
+            horizonY: Math.ceil(height / 2),
+        });
+    }
+
     private onInitPrimary(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.loginPromiseResolver = resolve;

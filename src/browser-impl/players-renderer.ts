@@ -46,8 +46,8 @@ export class PlayersRenderer {
             context.translate(clipPos.x, clipPos.y);
             context.rotate(player.rot);
             for (const hitCircle of hitCircles) {
-                const hitCirclePos = new Pos(hitCircle[0], hitCircle[1]);
-                const r = hitCircle[2];
+                const hitCirclePos = new Pos(hitCircle[0] * this.clip.zoom, hitCircle[1] * this.clip.zoom);
+                const r = hitCircle[2] * this.clip.zoom;
 
                 context.beginPath();
                 context.arc(hitCirclePos.x, hitCirclePos.y, r, 0, 2 * Math.PI);
