@@ -13,8 +13,22 @@ const COLOR_RED_TEAM_PROWLER = "rgba(153, 60, 60, 0.6)";
 
 export class PlayersRenderer {
 
-    constructor(private context: IContext, private clip: ClippedView) {
+    private images: {
+        raptor: HTMLImageElement,
+        spirit: HTMLImageElement,
+        mohawk: HTMLImageElement,
+        tornado: HTMLImageElement,
+        prowler: HTMLImageElement,
+    };
 
+    constructor(private context: IContext, private clip: ClippedView) {
+        this.images = {
+            mohawk: document.getElementById("mohawk") as HTMLImageElement,
+            prowler: document.getElementById("prowler") as HTMLImageElement,
+            raptor: document.getElementById("raptor") as HTMLImageElement,
+            spirit: document.getElementById("spirit") as HTMLImageElement,
+            tornado: document.getElementById("tornado") as HTMLImageElement,
+        };
     }
 
     public renderPlayers(context: CanvasRenderingContext2D): void {
@@ -45,22 +59,44 @@ export class PlayersRenderer {
 
             context.translate(clipPos.x, clipPos.y);
             context.rotate(player.rot);
-            for (const hitCircle of hitCircles) {
-                const hitCirclePos = new Pos(this.clip.scale(hitCircle[0]), this.clip.scale(hitCircle[1]));
-                const r = this.clip.scale(hitCircle[2]);
+            // for (const hitCircle of hitCircles) {
+            //     const hitCirclePos = new Pos(this.clip.scale(hitCircle[0]), this.clip.scale(hitCircle[1]));
+            //     const r = this.clip.scale(hitCircle[2]);
 
-                context.beginPath();
-                context.arc(hitCirclePos.x, hitCirclePos.y, r, 0, 2 * Math.PI);
-                context.fill();
-            }
+            //     context.beginPath();
+            //     context.arc(hitCirclePos.x, hitCirclePos.y, r, 0, 2 * Math.PI);
+            //     context.fill();
+            // }
+            const image: HTMLImageElement = this.images[aircraftSpecs.name];
+            const imageScale = 0.8;
+            const targetWidth = this.clip.scale(image.width * imageScale);
+            const targetHeight = this.clip.scale(image.height * imageScale);
+
+            context.drawImage(image, 0, 0, image.width, image.height,
+                -targetWidth / 2, -targetHeight / 2, targetWidth, targetHeight);
             context.rotate(-player.rot);
             context.translate(-clipPos.x, -clipPos.y);
 
             // draw name
-            context.fillStyle = "black";
-            const name = `${player.ranking}. ${player.name} (${Math.floor(player.health * 100)}%)`;
+            context.fillStyle = "white";
+            const name = `${player.ranking}. ${player.name}`;
             const nameWidth = context.measureText(name).width;
-            context.fillText(name, clipPos.x - nameWidth / 2, clipPos.y + this.clip.scale(60));
+            const left = clipPos.x - nameWidth / 2;
+            const top = clipPos.y + this.clip.scale(60);
+            context.fillText(name, left, top);
+
+            // draw stats
+            const lineHeight = this.clip.scale(20);
+            context.fillStyle = "silver";
+            const stats1 = `Health: ${Math.floor(player.health * 100)}%;`;
+            context.fillText(stats1, left, top + lineHeight);
+            const stats2 = `Score: ${player.score}`;
+            context.fillText(stats2, left, top + lineHeight * 2);
+
+            // upgrades are not detected well yet
+            // const stats3 = `Upgr: ${player.upgrades.available}, S${player.upgrades.speed} ` +
+            //     `D${player.upgrades.defense} E${player.upgrades.energy} M${player.upgrades.missile}`;
+            // context.fillText(stats3, left, top + lineHeight * 3);
         }
     }
 }

@@ -9,5 +9,13 @@ class App {
     }
 }
 
-const app = new App();
-app.run();
+const w = window as any;
+w.mapLoaded = (map: HTMLImageElement) => {
+    // takes long, so we should wait for this.
+
+    map.style.display = "none";
+
+    const app = new App();
+    app.run();
+
+};

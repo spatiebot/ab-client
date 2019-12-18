@@ -1,18 +1,29 @@
 <html>
-    <head>
-        <title>Airmash</title>
-    </head>
-    <body>
-        <img src="map.png" id="map" style="display: none" />
-        <canvas id="first" style="background-color: transparent; position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
-        <canvas id="second" style="background-color: transparent; position: absolute; left: 0; top: 0; z-index: 0; display: hidden"></canvas>
-        <div id="chat-input" style="position: absolute; top: 10; left: 10; width: 300px; height: 60px;">
-            <input type="text" style="width: 100%" id="chat-input-textbox"/>
-        </div>
-        <div id="chat" style="width: 288px; height: 288px; border: 1px solid gray; padding: 5px; overflow: auto; 
+
+<head>
+    <title>Airmash</title>
+</head>
+
+<body>
+    <script src="browser-pack.js"></script>
+    <img src="map-small.png" id="map" onload="mapLoaded(this)" />
+    <img src="raptor.png" id="raptor" style="display: none;" />
+    <img src="spirit.png" id="spirit" style="display: none;" />
+    <img src="mohawk.png" id="mohawk" style="display: none;" />
+    <img src="tornado.png" id="tornado" style="display: none;" />
+    <img src="prowler.png" id="prowler" style="display: none;" />
+
+    <canvas id="first" style="background-color: transparent; position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+    <canvas id="second"
+        style="background-color: transparent; position: absolute; left: 0; top: 0; z-index: 0; display: hidden"></canvas>
+    <div id="chat-input" style="position: absolute; top: 10; left: 10; width: 300px; height: 60px;">
+        <input type="text" style="width: 100%" id="chat-input-textbox" />
+    </div>
+    <div id="chat"
+        style="width: 288px; height: 288px; border: 1px solid gray; padding: 5px; overflow: auto; 
         position: absolute; top: 30; left: 10; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 10pt; color: white;">
 
-        </div>
-        <script src="browser-pack.js"></script>
-    </body>
+    </div>
+</body>
+
 </html>

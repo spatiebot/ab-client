@@ -13,12 +13,13 @@ export class BackgroundRenderer {
     public renderBackground(context: CanvasRenderingContext2D): void {
 
         // draw background
-        // the background image is twice too small.
+        // the background image is 4x too small.
+        const mapScale = .25;
         const clipRect = this.clip.getClipRectangle();
         const clipSize = new Pos(clipRect[1].x - clipRect[0].x, clipRect[1].y - clipRect[0].y);
         context.drawImage(this.backgroundImage,
-            (MAP_SIZE.WIDTH / 2 + clipRect[0].x) / 2, (MAP_SIZE.HEIGHT / 2 + clipRect[0].y) / 2,
-            clipSize.x / 2, clipSize.y / 2,
+            (MAP_SIZE.WIDTH / 2 + clipRect[0].x) * mapScale, (MAP_SIZE.HEIGHT / 2 + clipRect[0].y) * mapScale,
+            clipSize.x * mapScale, clipSize.y * mapScale,
             0, 0, this.clip.scale(clipSize.x), this.clip.scale(clipSize.y));
 
         // draw a grid
