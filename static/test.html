@@ -1,0 +1,70 @@
+<html>
+
+<body>
+
+    <canvas id="map" style="background-color: transparent; border: 1px solid red;"></canvas>
+    <canvas id="map2" style="background-color: transparent; border: 1px solid black"></canvas>
+
+    <script type="text/javascript" src="https://unpkg.com/canvg@3.0.2/lib/umd.js"></script>
+    <script>
+        const MAP_SIZE = {
+            WIDTH: 32768,
+            HEIGHT: 16384,
+        };
+        let v = null;
+
+        window.onload = async () => {
+
+            const fullWidth = MAP_SIZE.WIDTH;
+            const fullHeight = MAP_SIZE.HEIGHT;
+
+            const orgWidth = 576;
+            const orgHeight = 288;
+
+            const scale = 3;
+            const width = Math.floor(fullWidth / scale);
+            const height = Math.floor(fullHeight / scale);
+
+            const canvas = document.querySelector("#map");
+            const ctx = canvas.getContext("2d");
+            canvas.width = width;
+            canvas.height = height;
+
+            const divider = 4;
+
+            const canvas2 = document.querySelector("#map2");
+            const ctx2 = canvas2.getContext("2d");
+
+            canvas2.width = width * divider;
+            canvas2.height = height * divider;
+
+            for (let x = 0; x < divider; x++) {
+                for (let y = 0; y < divider; y++) {
+                    console.log(x, y)
+
+                    const offsetX = Math.floor(-x * (orgWidth / divider));
+                    const offsetY = Math.floor(-y * (orgHeight / divider));
+
+                    v = await canvg.Canvg.from(ctx, "./map-miller.svg", {
+                        ignoreDimensions: true,
+                        scaleHeight: height * divider,
+                        scaleWidth: width * divider,
+                        offsetX: offsetX,
+                        offsetY: offsetY,
+                    });
+                    await v.render();
+
+                    ctx2.drawImage(canvas, 0, 0, width, height, x * width, y * height, width, height);
+
+                    // het lukt niet om op zo'n groot canvas drawimage te doen!
+                    break;
+                    ctx.clearRect(0, 0, width, height);
+                }
+                break;
+            }
+
+            // canvas.style.display = "none";
+        };
+
+    </script>
+</body>

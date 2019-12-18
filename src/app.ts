@@ -1,4 +1,3 @@
-import { Connection } from "./connectivity/connection";
 import { NodeContext } from "./node-impl/node-context";
 
 class App {

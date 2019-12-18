@@ -1,18 +1,28 @@
 <html>
-    <head>
-        <title>Airmash</title>
-    </head>
-    <body>
-        <img src="map.png" id="map" style="display: none" />
-        <canvas id="first" style="background-color: transparent; position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
-        <canvas id="second" style="background-color: transparent; position: absolute; left: 0; top: 0; z-index: 0; display: hidden"></canvas>
-        <div id="chat-input" style="position: absolute; top: 10; left: 10; width: 300px; height: 60px;">
-            <input type="text" style="width: 100%" id="chat-input-textbox"/>
-        </div>
-        <div id="chat" style="width: 288px; height: 288px; border: 1px solid gray; padding: 5px; overflow: auto; 
-        position: absolute; top: 30; left: 10; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 10pt; color: white;">
 
-        </div>
-        <script src="browser-pack.js"></script>
-    </body>
+<head>
+    <title>Airmash</title>
+</head>
+
+<body style="margin: 0;">
+    <!-- <img id="map" src="map.png" style="width: 32768; height: 16566; position: absolute; top: 0; left: 0;" />  -->
+
+    <canvas id="map" style="background-color: transparent; position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+    <canvas id="map2" style="background-color: transparent; position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+    <canvas id="first" style="background-color: transparent; position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+    <canvas id="second"
+        style="background-color: transparent; position: absolute; left: 0; top: 0; z-index: 0; display: hidden"></canvas>
+    <div id="chat-input" style="position: absolute; top: 10; left: 10; width: 300px; height: 60px;">
+        <input type="text" style="width: 100%" id="chat-input-textbox" />
+    </div>
+    <div id="chat"
+        style="width: 288px; height: 288px; border: 1px solid gray; padding: 5px; overflow: auto;  
+         position: absolute; top: 30; left: 10; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 10pt; 
+         color: gray;">
+
+    </div>
+
+    <script src="browser-pack.js"></script>
+</body>
+
 </html>
