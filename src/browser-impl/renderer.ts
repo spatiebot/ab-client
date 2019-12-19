@@ -9,10 +9,8 @@ import { UpcratesRenderer } from "./upcrates-renderer";
 import { WallsRenderer } from "./walls-renderer";
 
 export class Renderer {
-    private canvases: HTMLCanvasElement[] = [];
-    private contexts: CanvasRenderingContext2D[] = [];
-    private activeCanvasIndex = 0;
-    private otherCanvasIndex = 1;
+    private canvas: HTMLCanvasElement;
+    private canvasContext: CanvasRenderingContext2D;
 
     private chatBox: HTMLDivElement;
 
@@ -27,8 +25,8 @@ export class Renderer {
     private periodicLogger: PeriodicLogger;
 
     constructor(private context: IContext) {
-        this.initializeCanvas("#first", 0);
-        this.initializeCanvas("#second", 1);
+        this.canvas = document.getElementById("canvas") as HTMLCanvasElement;
+        this.canvasContext = this.canvas.getContext("2d");
 
         this.chatBox = document.getElementById("chat") as HTMLDivElement;
 
@@ -55,11 +53,8 @@ export class Renderer {
             return;
         }
 
-        // draw on the invisible canvas
-        const canvas = this.canvases[this.otherCanvasIndex];
-        const context = this.contexts[this.otherCanvasIndex];
-
-        this.clip.setClip(canvas);
+        const context = this.canvasContext;
+        this.clip.setClip(this.canvas);
 
         // background
         this.backgroundRenderer.renderBackground(context);
@@ -73,19 +68,6 @@ export class Renderer {
         this.missilesRenderer.renderMissiles(context);
         // explosions and kills
         this.explosionsRenderer.renderExplosions(context);
-
-        // switch the canvases
-        canvas.style.display = "inherit";
-        this.canvases[this.activeCanvasIndex].style.display = "hidden";
-        this.activeCanvasIndex = this.otherCanvasIndex;
-        this.otherCanvasIndex = this.activeCanvasIndex;
-    }
-
-    private initializeCanvas(name: string, index: number): void {
-        const canvas = document.querySelector(name) as HTMLCanvasElement;
-        const context = canvas.getContext("2d");
-        this.canvases[index] = canvas;
-        this.contexts[index] = context;
     }
 
 }
