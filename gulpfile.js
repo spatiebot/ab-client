@@ -26,7 +26,19 @@ gulp.task('webpack', function() {
             mode: 'development'
         }, webpack))
         .pipe(gulp.dest('dist/'));
-})
+});
+
+
+gulp.task('webpack-prod', function() {
+    return gulp.src('dist/browser-app.js')
+        .pipe(gulpWebpack({
+            output: {
+                filename: 'browser-pack.js'
+            },
+            mode: 'production'
+        }, webpack))
+        .pipe(gulp.dest('dist/'));
+});
 
 gulp.task('copy-data', function () {
     return gulp.src('./static/**')
@@ -35,4 +47,5 @@ gulp.task('copy-data', function () {
 
 gulp.task('default', gulp.parallel('copy-data', gulp.series('compile', 'lint')));
 gulp.task('browser', gulp.series('default', 'webpack'));
+gulp.task('browser-prod', gulp.series('default', 'webpack-prod'));
 gulp.task('node', gulp.series('default'));
