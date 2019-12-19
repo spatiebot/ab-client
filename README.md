@@ -1,7 +1,7 @@
 # ab-client
 A hybrid nodejs and browser client for airmash.
 
-It's in a very premature state. For example: it looks terrible, you can't select a server or name, etc etc. Todolist on [Trello](https://trello.com/b/PFLmPiJ2/ab-client)
+It's in a very premature state. For example: it looks terrible, you can't apply upgrades, CTF doesn't work, etc. Todolist on [Trello](https://trello.com/b/PFLmPiJ2/ab-client)
 
 # building
 
