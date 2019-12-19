@@ -35,7 +35,7 @@ export class Renderer {
         this.periodicLogger = new PeriodicLogger(context);
         this.clip = new ClippedView(context);
 
-        this.backgroundRenderer = new BackgroundRenderer(this.clip);
+        this.backgroundRenderer = new BackgroundRenderer(this.clip, context);
         this.playersRenderer = new PlayersRenderer(context, this.clip);
         this.wallsRenderer = new WallsRenderer(this.clip);
         this.missilesRenderer = new MissilesRenderer(context, this.clip);

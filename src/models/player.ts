@@ -30,10 +30,10 @@ export class Player extends Mob {
     public hasInferno: boolean;
     public shieldOrInfernoDuration: number;
 
-    public health: number;
+    public health: number = 1;
     public healthRegen: number;
 
-    public score: number;
+    public score: number = 0;
     public level: number;
     public kills: number;
     public deaths: number;

@@ -35,10 +35,6 @@ export class PlayersRenderer {
         context.font = "9pt 'Tahoma'";
         for (const player of this.context.state.getPlayers()) {
 
-            // draw ships as their hit circles for now
-            const aircraftSpecs = SHIPS_SPECS[player.type];
-            const hitCircles = aircraftSpecs.collisions;
-
             if (player.status !== PLAYER_STATUS.ALIVE || !player.isVisibleOnScreen) {
                 continue;
             }
@@ -48,37 +44,56 @@ export class PlayersRenderer {
                 continue;
             }
 
-            if (player.team === CTF_TEAMS.BLUE) {
-                context.fillStyle = player.stealthed ? COLOR_BLUE_TEAM_PROWLER : COLOR_BLUE_TEAM;
-            } else if (player.team === CTF_TEAMS.RED) {
-                context.fillStyle = player.stealthed ? COLOR_RED_TEAM_PROWLER : COLOR_RED_TEAM;
-            } else {
-                context.fillStyle = player.stealthed ? COLOR_GREENISH_PROWLER : COLOR_GREENISH;
-            }
             const clipPos = this.clip.translate(pos);
 
             context.translate(clipPos.x, clipPos.y);
             context.rotate(player.rot);
-            // for (const hitCircle of hitCircles) {
-            //     const hitCirclePos = new Pos(this.clip.scale(hitCircle[0]), this.clip.scale(hitCircle[1]));
-            //     const r = this.clip.scale(hitCircle[2]);
 
-            //     context.beginPath();
-            //     context.arc(hitCirclePos.x, hitCirclePos.y, r, 0, 2 * Math.PI);
-            //     context.fill();
-            // }
-            const image: HTMLImageElement = this.images[aircraftSpecs.name];
-            const imageScale = 0.8;
-            const targetWidth = this.clip.scale(image.width * imageScale);
-            const targetHeight = this.clip.scale(image.height * imageScale);
+            const aircraftSpecs = SHIPS_SPECS[player.type];
 
-            context.drawImage(image, 0, 0, image.width, image.height,
-                -targetWidth / 2, -targetHeight / 2, targetWidth, targetHeight);
+            // render image or hitcircles, depending on the setting
+            if (this.context.settings.useBitmaps) {
+                const image: HTMLImageElement = this.images[aircraftSpecs.name];
+                const imageScale = 0.8;
+                const targetWidth = this.clip.scale(image.width * imageScale);
+                const targetHeight = this.clip.scale(image.height * imageScale);
+
+                if (player.stealthed) {
+                    // make prowler a ghost if stealthed
+                    context.globalAlpha = 0.4;
+                }
+
+                context.drawImage(image, 0, 0, image.width, image.height,
+                    -targetWidth / 2, -targetHeight / 2, targetWidth, targetHeight);
+
+                context.globalAlpha = 1;
+            } else {
+
+                if (player.team === CTF_TEAMS.BLUE) {
+                    context.fillStyle = player.stealthed ? COLOR_BLUE_TEAM_PROWLER : COLOR_BLUE_TEAM;
+                } else if (player.team === CTF_TEAMS.RED) {
+                    context.fillStyle = player.stealthed ? COLOR_RED_TEAM_PROWLER : COLOR_RED_TEAM;
+                } else {
+                    context.fillStyle = player.stealthed ? COLOR_GREENISH_PROWLER : COLOR_GREENISH;
+                }
+
+                const hitCircles = aircraftSpecs.collisions;
+                for (const hitCircle of hitCircles) {
+                    const hitCirclePos = new Pos(this.clip.scale(hitCircle[0]), this.clip.scale(hitCircle[1]));
+                    const r = this.clip.scale(hitCircle[2]);
+
+                    context.beginPath();
+                    context.arc(hitCirclePos.x, hitCirclePos.y, r, 0, 2 * Math.PI);
+                    context.fill();
+                }
+
+            }
+
             context.rotate(-player.rot);
             context.translate(-clipPos.x, -clipPos.y);
 
             // draw name
-            context.fillStyle = "white";
+            context.fillStyle = this.context.settings.useBitmaps ? "white" : "black";
             const name = `${player.ranking}. ${player.name}`;
             const nameWidth = context.measureText(name).width;
             const left = clipPos.x - nameWidth / 2;

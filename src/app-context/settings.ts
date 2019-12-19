@@ -5,6 +5,7 @@ export class Settings {
     public horizonY: number = 2000;
     public flag: string = "jolly";
     public logLevel: string = "info";
-    public isDevelopment: boolean = true;
+    public isDevelopment: boolean = false;
     public zoom = 0.8;
+    public useBitmaps: boolean = true;
 }

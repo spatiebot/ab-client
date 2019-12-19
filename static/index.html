@@ -1,29 +1,114 @@
 <html>
 
 <head>
+    <meta charset="utf-8" />
     <title>Airmash</title>
+    <style type="text/css">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 10pt;
+        }
+
+        div#nameAndGame {
+            width: 300px;
+            height: 200px;
+            background-color: slategray;
+            padding: 10px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+        #aircraftSelection img {
+            transform: rotate(50deg);
+            width: 40px;
+            height: auto;
+        }
+        img#select-spirit {
+            width: 110px;
+            margin-left: -35px;
+        }
+        img#select-tornado {
+            width: 42px;
+        }
+        img#select-prowler {
+            width: 46px;
+        }
+    </style>
 </head>
 
-<body>
-    <script src="browser-pack.js"></script>
-    <img src="map-small.png" id="map" onload="mapLoaded(this)" />
-    <img src="raptor.png" id="raptor" style="display: none;" />
-    <img src="spirit.png" id="spirit" style="display: none;" />
-    <img src="mohawk.png" id="mohawk" style="display: none;" />
-    <img src="tornado.png" id="tornado" style="display: none;" />
-    <img src="prowler.png" id="prowler" style="display: none;" />
+<body style="overflow: hidden;">
+    <!-- background map -->
+    <img src="map-small.png" id="map" style="display: none;" />
+    <!-- aircraft images used for rendering -->
+    <img src="raptor.png" id="raptor" style="display: none" /><br/>
+    <img src="spirit.png" id="spirit" style="display: none" /><br/>
+    <img src="mohawk.png" id="mohawk" style="display: none" /><br/>
+    <img src="tornado.png" id="tornado" style="display: none" /><br/>
+    <img src="prowler.png" id="prowler" style="display: none" /><br/>
 
+    <!-- canvases on which rendering takes place -->
     <canvas id="first" style="background-color: transparent; position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
     <canvas id="second"
         style="background-color: transparent; position: absolute; left: 0; top: 0; z-index: 0; display: hidden"></canvas>
-    <div id="chat-input" style="position: absolute; top: 10; left: 10; width: 300px; height: 60px;">
+
+    <!-- chat box -->
+    <div id="chat-input" style="position: absolute; top: 10; left: 10; width: 300px; height: 60px; display: none;">
         <input type="text" style="width: 100%" id="chat-input-textbox" />
     </div>
-    <div id="chat"
-        style="width: 288px; height: 288px; border: 1px solid gray; padding: 5px; overflow: auto; 
-        position: absolute; top: 30; left: 10; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 10pt; color: white;">
-
+    <div id="chat" style="width: 288px; height: 288px; border: 1px solid gray; padding: 5px; overflow: auto; 
+        position: absolute; top: 30; left: 10; color: white; display: none;">
     </div>
+    <!-- aircraft selection -->
+    <div id="aircraftSelection" style="width: 50px; padding: 5px;  
+        position: absolute; top: 338; left: 10; display: none;">
+        <img src="raptor.png" id="select-raptor" /><br/>
+        <img src="spirit.png" id="select-spirit" /><br/>
+        <img src="mohawk.png" id="select-mohawk" /><br/>
+        <img src="tornado.png" id="select-tornado" /><br/>
+        <img src="prowler.png" id="select-prowler" /><br/>
+    </div>
+
+    <!-- game and name selection -->
+    <div id="nameAndGame">
+        <table>
+            <tr>
+                <td>Name</td>
+                <td><input id="playerName"></td>
+            </tr>
+            <tr>
+                <td>Game</td>
+                <td><select id="gameSelect"></select> </td>
+            </tr>
+            <tr>
+                <td>Style</td>
+                <td>
+                    <select id="styleSelect">
+                        <option value="1">Ugly</option>
+                        <option value="2">No bitmaps (even more ugly)</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Zoom</td>
+                <td>
+                    <select id="zoomSelect">
+                        <option value="0.6">0.6</option>
+                        <option value="0.8" selected="selected">0.8</option>
+                        <option value="1">No zoom</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="button" id="start" value="  Start  " />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script src="browser-pack.js"></script>
 </body>
 
 </html>
