@@ -30,8 +30,6 @@ export class MiniMapHandler implements IMessageHandler {
                 const coords = decodeMinimapCoords(playerMinimapPos.x, playerMinimapPos.y);
                 player.posFromMinimap = new Pos(coords);
             }
-
-            this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);
         }
     }
 }

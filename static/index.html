@@ -9,6 +9,39 @@
             font-size: 10pt;
         }
 
+        .contrast-with-background {
+            color: white;
+        }
+
+        .block-right {
+            position: absolute;
+            right: 10px;
+            text-align: right;
+        }
+
+        .block-left {
+            position: absolute;
+            left: 10px;
+        }
+
+        #stats,
+        #upgradeSelection {
+            font-size: 14pt;
+        }
+        #upgradeSelection div {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        .with-border {
+            border: 1px solid darkslategray;
+            background-color: rgba(100, 100, 150, 0.3);
+        }
+
         div#nameAndGame {
             width: 300px;
             height: 200px;
@@ -21,18 +54,23 @@
             right: 0;
             margin: auto;
         }
+
         #aircraftSelection img {
-            transform: rotate(50deg);
+            transform: rotate(-30deg);
             width: 40px;
             height: auto;
+            cursor: pointer;
         }
+
         img#select-spirit {
             width: 110px;
             margin-left: -35px;
         }
+
         img#select-tornado {
             width: 42px;
         }
+
         img#select-prowler {
             width: 46px;
         }
@@ -43,30 +81,45 @@
     <!-- background map -->
     <img src="map-small.png" id="map" style="display: none;" />
     <!-- aircraft images used for rendering -->
-    <img src="raptor.png" id="raptor" style="display: none" /><br/>
-    <img src="spirit.png" id="spirit" style="display: none" /><br/>
-    <img src="mohawk.png" id="mohawk" style="display: none" /><br/>
-    <img src="tornado.png" id="tornado" style="display: none" /><br/>
-    <img src="prowler.png" id="prowler" style="display: none" /><br/>
+    <img src="raptor.png" id="raptor" style="display: none" /><br />
+    <img src="spirit.png" id="spirit" style="display: none" /><br />
+    <img src="mohawk.png" id="mohawk" style="display: none" /><br />
+    <img src="tornado.png" id="tornado" style="display: none" /><br />
+    <img src="prowler.png" id="prowler" style="display: none" /><br />
 
     <!-- canvas on which rendering takes place -->
     <canvas id="canvas" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
- 
+
     <!-- chat box -->
-    <div id="chat-input" style="position: absolute; top: 10; left: 10; width: 300px; height: 60px; display: none;">
-        <input type="text" style="width: 100%" id="chat-input-textbox" />
+    <div id="chat-input" class="block-left" style="top: 10; width: 300px; height: 60px; display: none;">
+        <span class="contrast-with-background" style="position: absolute;">Type &lt;Enter&gt; to chat</span>
+        <input type="text" style="width: 100%; position: absolute;" id="chat-input-textbox" />
     </div>
-    <div id="chat" style="width: 288px; height: 288px; border: 1px solid gray; padding: 5px; overflow: auto; 
-        position: absolute; top: 30; left: 10; color: white; display: none;">
+    <div id="chat" class="block-left contrast-with-background with-border"
+        style="width: 350px; height: 200px; padding: 5px; overflow: auto; top: 30; display: none;">
     </div>
     <!-- aircraft selection -->
-    <div id="aircraftSelection" style="width: 50px; padding: 5px;  
-        position: absolute; top: 338; left: 10; display: none;">
-        <img src="raptor.png" id="select-raptor" /><br/>
-        <img src="spirit.png" id="select-spirit" /><br/>
-        <img src="mohawk.png" id="select-mohawk" /><br/>
-        <img src="tornado.png" id="select-tornado" /><br/>
-        <img src="prowler.png" id="select-prowler" /><br/>
+    <div id="aircraftSelection" class="block-right" style="width: 50px; padding: 5px; top: 10; display: none;">
+        <img src="raptor.png" id="select-raptor" /><br />
+        <img src="spirit.png" id="select-spirit" /><br />
+        <img src="mohawk.png" id="select-mohawk" /><br />
+        <img src="tornado.png" id="select-tornado" /><br />
+        <img src="prowler.png" id="select-prowler" /><br />
+    </div>
+    <!-- stats -->
+    <div id="stats" class="contrast-with-background block-right" style="padding: 5px; top: 300px; display: none">
+        Score: <span id="stats-score">0</span><br />
+        Upgrades: <span id="stats-upgrades">0</span><br />
+        Kills: <span id="stats-kills">0</span></br>
+        Deaths: <span id="stats-deaths">0</span></br>
+    </div>
+    <!-- upgrade selection -->
+    <div id="upgradeSelection" class="contrast-with-background block-right"
+        style="width: 50px; padding: 5px; top: 420px; display: none">
+        <div id="select-speed" class="with-border" title="Speed upgrade">S: <span id="stats-speed">0</span></div>
+        <div id="select-defense" class="with-border" title="Defense upgrade">D: <span id="stats-defense">0</span></div>
+        <div id="select-energy" class="with-border" title="Energy regeneration upgrade">E: <span id="stats-energy">0</span></div>
+        <div id="select-missile" class="with-border" title="Missile speed upgrade">M: <span id="stats-missile">0</span></div>
     </div>
 
     <!-- game and name selection -->

@@ -20,7 +20,6 @@ export class PlayerChangeFlagHandler implements IMessageHandler {
 
         if (p) {
             p.flag = msg.flag;
-            this.context.eventQueue.pub(Events.PLAYER_CHANGE, {player: p} as IGenericPlayerArgs);
         }
     }
 }

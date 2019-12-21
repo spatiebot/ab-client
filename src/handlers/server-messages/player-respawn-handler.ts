@@ -30,8 +30,5 @@ export class PlayerRespawnHandler implements IMessageHandler {
         p.status = PLAYER_STATUS.ALIVE;
         p.health = 1;
         p.energy = 1;
-
-        this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player: p } as IGenericPlayerArgs);
-
     }
 }

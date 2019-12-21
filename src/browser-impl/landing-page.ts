@@ -30,6 +30,8 @@ export class LandingPage {
             document.getElementById("chat").style.display = "block";
             document.getElementById("chat-input").style.display = "block";
             document.getElementById("aircraftSelection").style.display = "block";
+            document.getElementById("stats").style.display = "block";
+            document.getElementById("upgradeSelection").style.display = "block";
 
             window.document.body.style.backgroundImage = "inherit";
 

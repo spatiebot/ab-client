@@ -3,6 +3,7 @@ import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
 import { IGenericPlayerArgs } from "../../events/event-args/igeneric-player-args";
 import { EventMessage } from "../../events/event-message";
+import { Upgrades } from "../../models/upgrades";
 import { IMessageHandler } from "../imessage-handler";
 
 export class ScoreUpdateHandler implements IMessageHandler {
@@ -20,10 +21,14 @@ export class ScoreUpdateHandler implements IMessageHandler {
         if (player) {
             player.score = msg.score;
             player.kills = msg.totalkills;
-            player.deaths = msg.totalkills;
+            player.deaths = msg.totaldeaths;
 
-            this.context.eventQueue.pub(Events.PLAYER_CHANGE, {player} as IGenericPlayerArgs);
+            if (!player.upgrades) {
+                player.upgrades = new Upgrades();
+            }
+            player.upgrades.available = msg.upgrades;
 
+            this.context.eventQueue.pub(Events.STATS_UPDATE, { });
         }
     }
 }

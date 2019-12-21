@@ -32,7 +32,9 @@ export class PlayersRenderer {
     }
 
     public renderPlayers(context: CanvasRenderingContext2D): void {
+
         context.font = "9pt 'Tahoma'";
+
         for (const player of this.context.state.getPlayers()) {
 
             if (player.status !== PLAYER_STATUS.ALIVE || !player.isVisibleOnScreen) {
@@ -94,7 +96,7 @@ export class PlayersRenderer {
 
             // draw name
             context.fillStyle = this.context.settings.useBitmaps ? "white" : "black";
-            const name = `${player.ranking}. ${player.name}`;
+            const name = `${player.ranking || "?"}. ${player.name}`;
             const nameWidth = context.measureText(name).width;
             const left = clipPos.x - nameWidth / 2;
             const top = clipPos.y + this.clip.scale(60);
@@ -107,11 +109,6 @@ export class PlayersRenderer {
             context.fillText(stats1, left, top + lineHeight);
             const stats2 = `Score: ${player.score}`;
             context.fillText(stats2, left, top + lineHeight * 2);
-
-            // upgrades are not detected well yet
-            // const stats3 = `Upgr: ${player.upgrades.available}, S${player.upgrades.speed} ` +
-            //     `D${player.upgrades.defense} E${player.upgrades.energy} M${player.upgrades.missile}`;
-            // context.fillText(stats3, left, top + lineHeight * 3);
         }
     }
 }

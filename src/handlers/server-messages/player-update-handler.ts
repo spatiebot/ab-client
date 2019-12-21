@@ -39,7 +39,5 @@ export class PlayerUpdateHandler implements IMessageHandler {
         player.pos = new Pos(msg.posX, msg.posY);
         player.rot = msg.rot;
         player.speed = new Pos(msg.speedX, msg.speedY);
-
-        this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);
     }
 }

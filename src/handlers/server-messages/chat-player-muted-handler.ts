@@ -20,7 +20,6 @@ export class ChatPlayerMutedHandler implements IMessageHandler {
 
         if (player) {
             player.isMuted = true;
-            this.context.eventQueue.pub(Events.PLAYER_CHANGE, {player} as IGenericPlayerArgs);
         }
     }
 }

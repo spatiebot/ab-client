@@ -25,8 +25,5 @@ export class PlayerStealthHandler implements IMessageHandler {
         player.stealthed = msg.state;
         player.energy = msg.energy;
         player.energyRegen = msg.energyRegen;
-
-        this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);
-
     }
 }

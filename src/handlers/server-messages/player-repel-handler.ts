@@ -26,7 +26,6 @@ export class PlayerRepelHandler implements IMessageHandler {
             player.speed = new Pos(msg.speedX, msg.speedY);
             player.energyRegen = msg.energyRegen;
             player.energy = msg.energy;
-            this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);
         }
 
         for (const repelledPlayer of msg.players) {
@@ -46,8 +45,6 @@ export class PlayerRepelHandler implements IMessageHandler {
             p.energy = repelledPlayer.energy;
             p.health = repelledPlayer.playerHealth;
             p.healthRegen = repelledPlayer.playerHealthRegen;
-
-            this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player: p } as IGenericPlayerArgs);
         }
 
         for (const missile of msg.mobs) {

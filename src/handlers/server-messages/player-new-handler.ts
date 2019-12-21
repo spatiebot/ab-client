@@ -35,6 +35,5 @@ export class PlayerNewHandler implements IMessageHandler {
         p.powerUps = Decoder.upgradesToPowerUps(msg.upgrades) || new PowerUps();
 
         this.context.state.addPlayer(p);
-        this.context.eventQueue.pub(Events.PLAYER_CHANGE, {player: p} as IGenericPlayerArgs);
     }
 }

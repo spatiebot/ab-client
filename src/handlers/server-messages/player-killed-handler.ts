@@ -21,7 +21,6 @@ export class PlayerKilledHandler implements IMessageHandler {
 
         if (p) {
             p.status = PLAYER_STATUS.INACTIVE;
-            this.context.eventQueue.pub(Events.PLAYER_CHANGE, {player: p} as IGenericPlayerArgs);
         }
     }
 }

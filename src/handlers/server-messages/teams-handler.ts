@@ -23,8 +23,6 @@ export class TeamsHandler implements IMessageHandler {
             }
 
             player.team = p.team;
-
-            this.context.eventQueue.pub(Events.PLAYER_CHANGE, {player} as IGenericPlayerArgs);
         }
     }
 }

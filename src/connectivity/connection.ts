@@ -191,7 +191,9 @@ export class Connection {
                 this.backupClient.send(clientMgs);
             }
         } else {
-            this.client.send(clientMgs);
+            if (this.client) {
+                this.client.send(clientMgs);
+            }
         }
     }
 

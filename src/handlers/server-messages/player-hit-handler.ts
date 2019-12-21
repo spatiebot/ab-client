@@ -30,9 +30,6 @@ export class PlayerHitHandler implements IMessageHandler {
             }
             player.health = who.health;
             player.healthRegen = who.healthRegen;
-
-            this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);
-
         }
 
         this.context.state.removeMob(msg.id);

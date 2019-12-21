@@ -29,9 +29,7 @@ export class LeaveHorizonHandler implements IMessageHandler {
             mobOrPlayer.isVisibleOnScreen = false;
         }
 
-        if (msg.type === LEAVE_HORIZON_TYPES.PLAYER) {
-            this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player: mobOrPlayer } as IGenericPlayerArgs);
-        } else {
+        if (msg.type !== LEAVE_HORIZON_TYPES.PLAYER) {
             // We don't seem to get every despawn of mobs that have left the horizon,
             // so remove it entirely now. This is what the canonical frontend does also.
             this.context.state.removeMob(msg.id);

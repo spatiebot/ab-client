@@ -22,9 +22,6 @@ export class PlayerPowerupHandler implements IMessageHandler {
             player.hasShield = msg.type === PLAYER_POWERUP_TYPES.SHIELD;
             player.hasInferno = msg.type === PLAYER_POWERUP_TYPES.INFERNO;
             player.shieldOrInfernoDuration = msg.duration;
-
-            this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);
-
         }
     }
 }

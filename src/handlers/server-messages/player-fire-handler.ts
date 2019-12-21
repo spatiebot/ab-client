@@ -26,7 +26,6 @@ export class PlayerFireHandler implements IMessageHandler {
 
         player.energy = msg.energy;
         player.energyRegen = msg.energyRegen;
-        this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);
 
         for (const missile of msg.projectiles) {
             const mob = new Mob();

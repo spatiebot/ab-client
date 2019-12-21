@@ -19,8 +19,6 @@ export class PlayerSwitchTypeHandler implements IMessageHandler {
         const p = this.context.state.getPlayerById(msg.id);
         if (p) {
             p.type = msg.type;
-
-            this.context.eventQueue.pub(Events.PLAYER_CHANGE, {player: p} as IGenericPlayerArgs);
         }
     }
 }

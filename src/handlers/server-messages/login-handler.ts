@@ -42,8 +42,6 @@ export class LoginHandler implements IMessageHandler {
             p.powerUps = Decoder.upgradesToPowerUps(loginPlayer.upgrades) || new PowerUps();
 
             s.addPlayer(p);
-
-            this.context.eventQueue.pub(Events.PLAYER_CHANGE, {player: p} as IGenericPlayerArgs);
         }
     }
 }

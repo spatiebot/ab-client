@@ -26,7 +26,7 @@ import { PlayerRespawnHandler } from "../handlers/server-messages/player-respawn
 import { PlayerStealthHandler } from "../handlers/server-messages/player-stealth-handler";
 import { PlayerSwitchTypeHandler } from "../handlers/server-messages/player-switch-type-handler";
 import { PlayerUpdateHandler } from "../handlers/server-messages/player-update-handler";
-import { PlayerUpgradeHandler } from "../handlers/server-messages/player-upgrade-handler";
+import { PlayerUpgradeAppliedHandler } from "../handlers/server-messages/player-upgrade-handler";
 import { ScoreBoardHandler } from "../handlers/server-messages/score-board-handler";
 import { ScoreDetailedHandler } from "../handlers/server-messages/score-detailed-handler";
 import { ScoreUpdateHandler } from "../handlers/server-messages/score-update-handler";
@@ -63,7 +63,7 @@ export class HandlerCollections {
             new PlayerStealthHandler(context),
             new PlayerSwitchTypeHandler(context),
             new PlayerUpdateHandler(context),
-            new PlayerUpgradeHandler(context),
+            new PlayerUpgradeAppliedHandler(context),
             new ServerCommandReplyHandler(context),
             new ServerCustomHandler(context),
             new ServerErrorHandler(context),

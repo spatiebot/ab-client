@@ -26,8 +26,6 @@ export class ScoreBoardHandler implements IMessageHandler {
             player.score = playerScore.score;
             player.level = playerScore.level;
             player.ranking = ranking;
-
-            this.context.eventQueue.pub(Events.PLAYER_CHANGE, { player } as IGenericPlayerArgs);
         }
     }
 }

@@ -134,7 +134,7 @@ export class ServerMessageHandler implements IMessageHandler {
                 break;
 
             case SERVER_PACKETS.PLAYER_UPGRADE:
-                this.context.eventQueue.pub(Events.PLAYER_UPGRADE, serverMessage);
+                this.context.eventQueue.pub(Events.PLAYER_UPGRADE_APPLIED, serverMessage);
                 break;
 
             case SERVER_PACKETS.PLAYER_RESPAWN:

@@ -13,7 +13,9 @@ import { IMessageHandler } from "../handlers/imessage-handler";
 import { KillVisualizationHandler } from "../handlers/kill-visualization-handler";
 import { ChatRenderHandler } from "../handlers/render/chat-render-handler";
 import { GameRenderHandler } from "../handlers/render/game-render-handler";
+import { StatsRenderHandler } from "../handlers/render/stats-render-handler";
 import { AircraftSelection } from "./aircraft-selection";
+import { ApplyUpgrades } from "./apply-upgrades";
 import { BrowserLogger } from "./browser-logger";
 import { BrowserWebSocketFactory } from "./browser-websocket-factory";
 import { ChatInput } from "./chat-input";
@@ -36,6 +38,7 @@ export class BrowserContext implements IContext {
     private chatInput = new ChatInput(this);
     private keyboardInput = new KeyboardInput(this, this.chatInput);
     private aircraftSelection = new AircraftSelection(this);
+    private upgradeSelection = new ApplyUpgrades(this);
 
     constructor() {
 
@@ -55,6 +58,7 @@ export class BrowserContext implements IContext {
             new KillVisualizationHandler(this),
             new GameRenderHandler(this),
             new ChatRenderHandler(this),
+            new StatsRenderHandler(this),
         ];
     }
 
