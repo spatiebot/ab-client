@@ -13,8 +13,10 @@ You'll need Node v12 or more, and the gulp-cli.
 to create a browser client:
 
 - `gulp browser`
+or
+- `gulp browser-prod`
 
-will result in dist/index.html with a *very* premature browser client
+will result in dist/index.html with a *very* premature browser client. The "prod" variant will be minified.
 
 - `gulp`
 
