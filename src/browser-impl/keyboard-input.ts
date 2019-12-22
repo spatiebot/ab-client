@@ -21,30 +21,36 @@ export class KeyboardInput {
     private onKey(e: KeyboardEvent, isKeyDown: boolean) {
 
         const hasInputFocus = ((e.target as HTMLElement).nodeName.toLowerCase() === "input");
-
+        let handled = false;
         let keyToSend: KEY_CODES;
         switch (e.keyCode) {
             case 17: // Control
+                handled = true;
                 keyToSend = KEY_CODES.SPECIAL;
                 break;
 
             case 32: // Space
+                handled = true;
                 keyToSend = KEY_CODES.FIRE;
                 break;
 
             case 37: // Left
+                handled = true;
                 keyToSend = KEY_CODES.LEFT;
                 break;
 
             case 38: // Up
+                handled = true;
                 keyToSend = KEY_CODES.UP;
                 break;
 
             case 39: // Right
+                handled = true;
                 keyToSend = KEY_CODES.RIGHT;
                 break;
 
             case 40: // Down
+                handled = true;
                 keyToSend = KEY_CODES.DOWN;
                 break;
 
@@ -80,6 +86,7 @@ export class KeyboardInput {
             case 114: // F3
             case 115: // F4
             case 116: // F5
+                handled = true;
                 if (isKeyDown) {
                     this.aircraftSelection.selectAircraft("" + (e.keyCode - 111));
                 }
@@ -90,7 +97,9 @@ export class KeyboardInput {
             this.context.eventQueue.pub(Events.KEYBOARD, { key: keyToSend, state: isKeyDown } as IKeyboardArgs);
         }
 
-        e.stopPropagation();
-        e.preventDefault();
+        if (handled) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
     }
 }
