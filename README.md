@@ -22,4 +22,8 @@ will result in dist/index.html with a *very* premature browser client. The "prod
 
 will result in dist/app.js with a nodejs client that only logs chat messages.
 
+# attribution
+
+Flags from https://github.com/gosquared/flags, except for the jolly and rainbow flag, which are from Wikipedia.  
+The map is a slightly distorted version of the Miller projection from Wikipedia https://commons.wikimedia.org/wiki/File:World_map_(Miller_cylindrical_projection,_blank).svg  
 

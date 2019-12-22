@@ -34,6 +34,7 @@ export class LandingPage {
             document.getElementById("stats").style.display = "block";
             document.getElementById("upgradeSelection").style.display = "block";
             document.getElementById("minimap").style.display = "block";
+            document.getElementById("player-list").style.display = "block";
 
             window.document.body.style.backgroundImage = "inherit";
 

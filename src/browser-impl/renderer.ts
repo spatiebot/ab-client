@@ -6,6 +6,7 @@ import { ClippedView } from "./clipped-view";
 import { ExplosionsRenderer } from "./explosions-renderer";
 import { MinimapRenderer } from "./minimap-renderer";
 import { MissilesRenderer } from "./missiles-renderer";
+import { PlayerListRenderer } from "./playerlist-renderer";
 import { PlayersRenderer } from "./players-renderer";
 import { UpcratesRenderer } from "./upcrates-renderer";
 import { WallsRenderer } from "./walls-renderer";
@@ -34,6 +35,7 @@ export class Renderer {
     private upcratesRenderer: UpcratesRenderer;
     private backgroundRenderer: BackgroundRenderer;
     private minimapRenderer: MinimapRenderer;
+    private playerListRenderer: PlayerListRenderer;
 
     private periodicLogger: PeriodicLogger;
 
@@ -51,6 +53,7 @@ export class Renderer {
         this.explosionsRenderer = new ExplosionsRenderer(context, this.clip);
         this.upcratesRenderer = new UpcratesRenderer(context, this.clip);
         this.minimapRenderer = new MinimapRenderer(context);
+        this.playerListRenderer = new PlayerListRenderer(context);
     }
 
     public addChat(playerName: string, msg: string) {
@@ -76,6 +79,10 @@ export class Renderer {
 
     public renderMinimap() {
         this.minimapRenderer.render();
+    }
+
+    public renderPlayerList() {
+        this.playerListRenderer.render();
     }
 
     public renderGame(): void {

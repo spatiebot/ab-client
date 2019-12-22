@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Airmash</title>
+    <link rel="stylesheet" type="text/css" href="flags/famfamfam-flags.css" />
     <style type="text/css">
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -87,6 +88,27 @@
             width: 46px;
         }
 
+        #chat-input {
+            top: 10;
+            width: 300px;
+            height: 60px;
+            position: absolute;
+            left: 10px;
+        }
+
+        #chat {
+            position: absolute;
+            left: 10px;
+            width: 350px;
+            height: 200px;
+            padding: 5px;
+            overflow: auto;
+            top: 30px;
+            color: white;
+            border: 1px solid darkslategray;
+            background-color: rgba(100, 100, 150, 0.3);
+        }
+
         #minimap {
             position: absolute;
             width: 400px;
@@ -94,8 +116,21 @@
             bottom: 0px;
             left: 0px;
         }
+
         #minimap img {
             opacity: 0.5;
+        }
+
+        #player-list {
+            position: absolute;
+            top: 270px;
+            width: 350px;
+            /* height minus my top and minus minimap height and minus a margin of 20px*/
+            height: calc(100% - 270px - 200px - 20px); 
+            left: 10px;
+            bottom: 250p;
+            overflow: hidden;
+            color: white;
         }
     </style>
 </head>
@@ -114,14 +149,16 @@
     <canvas id="canvas" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
 
     <!-- chat box -->
-    <div id="chat-input" class="block-left" style="top: 10; width: 300px; height: 60px; display: none;">
+    <div id="chat-input" style="display: none;">
         <span class="contrast-with-background" style="position: absolute;">Type &lt;Enter&gt; to chat</span>
         <input type="text" style="width: 100%; position: absolute;" id="chat-input-textbox" />
     </div>
-    <div id="chat" class="block-left contrast-with-background with-border"
-        style="width: 350px; height: 200px; padding: 5px; overflow: auto; top: 30; display: none;">
+    <div id="chat" style="display: none;">
     </div>
+    <!-- player list -->
+    <table id="player-list" style="display: none;">
 
+    </table>
     <!-- minimap -->
     <div id="minimap" style="display: none">
         <img src="minimap-miller.png" style="position: absolute; width: 100%; height: 100%;" />
@@ -195,7 +232,7 @@
             </tr>
         </table>
     </div>
-    <script src="browser-pack.js?v4"></script>
+    <script src="browser-pack.js?v6"></script>
 </body>
 
 </html>

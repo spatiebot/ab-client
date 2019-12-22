@@ -11,6 +11,6 @@ export class GameRenderHandler implements IMessageHandler {
     }
 
     public exec(ev: EventMessage): void {
-        this.context.renderer.renderGame();
+        window.requestAnimationFrame(() => this.context.renderer.renderGame());
     }
 }

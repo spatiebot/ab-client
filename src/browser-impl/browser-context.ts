@@ -13,7 +13,7 @@ import { IMessageHandler } from "../handlers/imessage-handler";
 import { KillVisualizationHandler } from "../handlers/kill-visualization-handler";
 import { ChatRenderHandler } from "../handlers/render/chat-render-handler";
 import { GameRenderHandler } from "../handlers/render/game-render-handler";
-import { MinimapRenderHandler } from "../handlers/render/minimap-render-handler";
+import { MinimapAndPlayerListRenderHandler } from "../handlers/render/minimap-and-playerlist-render-handler";
 import { StatsRenderHandler } from "../handlers/render/stats-render-handler";
 import { AircraftSelection } from "./aircraft-selection";
 import { ApplyUpgrades } from "./apply-upgrades";
@@ -60,7 +60,7 @@ export class BrowserContext implements IContext {
             new GameRenderHandler(this),
             new ChatRenderHandler(this),
             new StatsRenderHandler(this),
-            new MinimapRenderHandler(this),
+            new MinimapAndPlayerListRenderHandler(this),
         ];
     }
 
