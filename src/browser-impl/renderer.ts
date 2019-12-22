@@ -4,6 +4,7 @@ import { Upgrades } from "../models/upgrades";
 import { BackgroundRenderer } from "./background-renderer";
 import { ClippedView } from "./clipped-view";
 import { ExplosionsRenderer } from "./explosions-renderer";
+import { MinimapRenderer } from "./minimap-renderer";
 import { MissilesRenderer } from "./missiles-renderer";
 import { PlayersRenderer } from "./players-renderer";
 import { UpcratesRenderer } from "./upcrates-renderer";
@@ -32,6 +33,7 @@ export class Renderer {
     private explosionsRenderer: ExplosionsRenderer;
     private upcratesRenderer: UpcratesRenderer;
     private backgroundRenderer: BackgroundRenderer;
+    private minimapRenderer: MinimapRenderer;
 
     private periodicLogger: PeriodicLogger;
 
@@ -48,6 +50,7 @@ export class Renderer {
         this.missilesRenderer = new MissilesRenderer(context, this.clip);
         this.explosionsRenderer = new ExplosionsRenderer(context, this.clip);
         this.upcratesRenderer = new UpcratesRenderer(context, this.clip);
+        this.minimapRenderer = new MinimapRenderer(context);
     }
 
     public addChat(playerName: string, msg: string) {
@@ -69,6 +72,10 @@ export class Renderer {
         this.upgrEnergyElement.innerText = "" + upgrades.energy;
         this.upgrMissileElement.innerText = "" + upgrades.missile;
         this.upgrSpeedElement.innerText = "" + upgrades.speed;
+    }
+
+    public renderMinimap() {
+        this.minimapRenderer.render();
     }
 
     public renderGame(): void {

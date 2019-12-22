@@ -12,6 +12,7 @@ export class EventQueueProcessor {
     private handlersByType: {};
     private skippedFrames = 0;
     private stopwatch: StopWatch;
+    private eachSecondStopwatch: StopWatch;
     private tickCounter: number;
 
     constructor(private context: IContext) {
@@ -34,6 +35,7 @@ export class EventQueueProcessor {
         if (!this.stopwatch) {
             this.stopwatch = new StopWatch();
             this.tickCounter = 1;
+            this.eachSecondStopwatch = new StopWatch();
         }
 
         const diffTime = this.stopwatch.elapsedMs;
@@ -56,6 +58,11 @@ export class EventQueueProcessor {
                 skippedFrames: this.skippedFrames,
                 timeFromStart: diffTime,
             } as ITickArgs);
+
+            if (this.eachSecondStopwatch.elapsedSeconds >= 1) {
+                this.context.eventQueue.pub(Events.EACH_SECOND, {});
+                this.eachSecondStopwatch.start();
+            }
 
             this.skippedFrames = 0;
 

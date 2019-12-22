@@ -27,11 +27,13 @@ export class LandingPage {
             this.context.settings.useBitmaps = styleSelect.value !== "2";
 
             document.getElementById("nameAndGame").style.display = "none";
+
             document.getElementById("chat").style.display = "block";
             document.getElementById("chat-input").style.display = "block";
             document.getElementById("aircraftSelection").style.display = "block";
             document.getElementById("stats").style.display = "block";
             document.getElementById("upgradeSelection").style.display = "block";
+            document.getElementById("minimap").style.display = "block";
 
             window.document.body.style.backgroundImage = "inherit";
 

@@ -7,6 +7,7 @@ export enum Events {
     CONNECTION_CLOSE,
     CRATE_NEW,
     CTF_GAME_OVER,
+    EACH_SECOND,
     EXPLOSION,
     FLAG_UPDATE,
     KEYBOARD,
