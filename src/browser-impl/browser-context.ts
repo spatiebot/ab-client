@@ -36,9 +36,9 @@ export class BrowserContext implements IContext {
     // browser-only:
     public renderer = new Renderer(this);
     private chatInput = new ChatInput(this);
-    private keyboardInput = new KeyboardInput(this, this.chatInput);
     private aircraftSelection = new AircraftSelection(this);
     private upgradeSelection = new ApplyUpgrades(this);
+    private keyboardInput = new KeyboardInput(this, this.chatInput, this.upgradeSelection, this.aircraftSelection);
 
     constructor() {
 

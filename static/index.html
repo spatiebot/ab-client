@@ -35,6 +35,16 @@
             cursor: pointer;
             text-align: center;
             line-height: 50px;
+            user-select: none;
+        }
+
+        #drop-upgrade {
+            margin-top: 20px;
+        }
+        #drop-upgrade img {
+            margin-top: 7px;
+            width: 30px;
+            height: auto;
         }
 
         .with-border {
@@ -100,11 +110,11 @@
     </div>
     <!-- aircraft selection -->
     <div id="aircraftSelection" class="block-right" style="width: 50px; padding: 5px; top: 10; display: none;">
-        <img src="raptor.png" id="select-raptor" /><br />
-        <img src="spirit.png" id="select-spirit" /><br />
-        <img src="mohawk.png" id="select-mohawk" /><br />
-        <img src="tornado.png" id="select-tornado" /><br />
-        <img src="prowler.png" id="select-prowler" /><br />
+        <img src="raptor.png" id="select-raptor" title="F1" /><br />
+        <img src="spirit.png" id="select-spirit" title="F2" /><br />
+        <img src="mohawk.png" id="select-mohawk" title="F3" /><br />
+        <img src="tornado.png" id="select-tornado" title="F4" /><br />
+        <img src="prowler.png" id="select-prowler" title="F5" /><br />
     </div>
     <!-- stats -->
     <div id="stats" class="contrast-with-background block-right" style="padding: 5px; top: 300px; display: none">
@@ -116,10 +126,13 @@
     <!-- upgrade selection -->
     <div id="upgradeSelection" class="contrast-with-background block-right"
         style="width: 50px; padding: 5px; top: 420px; display: none">
-        <div id="select-speed" class="with-border" title="Speed upgrade">S: <span id="stats-speed">0</span></div>
-        <div id="select-defense" class="with-border" title="Defense upgrade">D: <span id="stats-defense">0</span></div>
-        <div id="select-energy" class="with-border" title="Energy regeneration upgrade">E: <span id="stats-energy">0</span></div>
-        <div id="select-missile" class="with-border" title="Missile speed upgrade">M: <span id="stats-missile">0</span></div>
+        <div id="select-speed" class="with-border" title="Speed upgrade (1)">S: <span id="stats-speed">0</span></div>
+        <div id="select-defense" class="with-border" title="Defense upgrade (2)">D: <span id="stats-defense">0</span></div>
+        <div id="select-energy" class="with-border" title="Energy regeneration upgrade (3)">E: <span id="stats-energy">0</span></div>
+        <div id="select-missile" class="with-border" title="Missile speed upgrade (4)">M: <span id="stats-missile">0</span></div>
+        <div id="drop-upgrade" class="with-border" title="Drop 1 upgrade (x)">
+            <img src="drop-upgrades.png" />
+        </div>
     </div>
 
     <!-- game and name selection -->
