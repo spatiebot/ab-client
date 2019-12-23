@@ -58,6 +58,7 @@ export class PlayerRepelHandler implements IMessageHandler {
             mob.accel = new Pos(missile.accelX, missile.accelY);
             mob.maxSpeed = missile.maxSpeed;
             mob.speed = new Pos(missile.speedX, missile.speedY);
+            mob.rot = mob.speed.direction();
             mob.mobType = missile.type;
             mob.ownerId = msg.id;
         }

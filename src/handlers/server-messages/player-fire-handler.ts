@@ -36,6 +36,7 @@ export class PlayerFireHandler implements IMessageHandler {
             mob.speed = new Pos(missile.speedX, missile.speedY);
             mob.mobType = missile.type;
             mob.ownerId = msg.id;
+            mob.rot = mob.speed.direction();
 
             this.context.state.addMob(mob);
         }

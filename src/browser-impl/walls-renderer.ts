@@ -11,8 +11,8 @@ export class WallsRenderer {
         context.fillStyle = "gray";
         for (const point of abWalls) {
             const pos = new Pos(point[0], point[1]);
-            const widthMargin = point[2];
-            const halfWall = widthMargin / 2;
+            const diameter = point[2];
+            const halfWall = diameter / 2;
 
             const topLeft = new Pos(pos.x - halfWall, pos.y - halfWall);
             const bottRight = new Pos(pos.x + halfWall, pos.y + halfWall);
@@ -21,7 +21,8 @@ export class WallsRenderer {
                 context.beginPath();
 
                 const clipPos = this.clip.translate(pos);
-                context.arc(clipPos.x, clipPos.y, this.clip.scale(widthMargin), 0, 2 * Math.PI);
+                const scaledSize = this.clip.scale(diameter);
+                context.arc(clipPos.x, clipPos.y, scaledSize, 0, 2 * Math.PI);
                 context.fill();
             }
         }

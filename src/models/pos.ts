@@ -1,3 +1,5 @@
+const PI_2 = Math.PI * 2;
+
 export class Pos { // TODO rename to Vector
 
     public x: number;
@@ -16,5 +18,16 @@ export class Pos { // TODO rename to Vector
             this.x = 0;
             this.y = 0;
         }
+    }
+
+    public direction() {
+        let dir = -(Math.atan2(this.x, this.y) + Math.PI);
+        if (dir < 0) {
+            dir += PI_2;
+        }
+        if (dir > PI_2) {
+            dir -= PI_2;
+        }
+        return dir;
     }
 }

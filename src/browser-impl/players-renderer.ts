@@ -71,7 +71,7 @@ export class PlayersRenderer {
             // render image or hitcircles, depending on the setting
             if (this.context.settings.useBitmaps) {
                 const image: HTMLImageElement = this.images[aircraftSpecs.name];
-                const imageScale = 0.8;
+                const imageScale = 0.75;
                 const targetWidth = this.clip.scale(image.width * imageScale);
                 const targetHeight = this.clip.scale(image.height * imageScale);
 
