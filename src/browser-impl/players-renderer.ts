@@ -1,5 +1,5 @@
 import { SHIPS_SPECS } from "../ab-assets/ships-constants";
-import { CTF_TEAMS, PLAYER_STATUS } from "../ab-protocol/src/lib";
+import { COUNTRY_NAMES, CTF_TEAMS, FLAGS_CODE_TO_ISO, PLAYER_STATUS } from "../ab-protocol/src/lib";
 import { IContext } from "../app-context/icontext";
 import { Pos } from "../models/pos";
 import { ClippedView } from "./clipped-view";
@@ -11,6 +11,11 @@ const COLOR_BLUE_TEAM_PROWLER = "rgba(0, 102, 153, 0.6)";
 const COLOR_RED_TEAM = "rgba(153, 60, 60)";
 const COLOR_RED_TEAM_PROWLER = "rgba(153, 60, 60, 0.6)";
 
+const FLAG_WIDTH = 24;
+const FLAG_MARGIN_LEFT = 10;
+const FONT_SIZE = 11;
+const FLAG_PADDING_TOP = 4; // diff between length and width / 2
+
 export class PlayersRenderer {
 
     private images: {
@@ -20,6 +25,8 @@ export class PlayersRenderer {
         tornado: HTMLImageElement,
         prowler: HTMLImageElement,
     };
+
+    private flagImages: any = {};
 
     constructor(private context: IContext, private clip: ClippedView) {
         this.images = {
@@ -33,7 +40,15 @@ export class PlayersRenderer {
 
     public renderPlayers(context: CanvasRenderingContext2D): void {
 
-        context.font = "9pt 'Tahoma'";
+        const scaledFontSize = this.clip.scale(FONT_SIZE);
+        context.font = scaledFontSize + "pt 'Tahoma'";
+        const scaledFlagWidth = this.clip.scale(FLAG_WIDTH);
+        const scaledFlagPaddingTop = this.clip.scale(FLAG_PADDING_TOP);
+        const scaledFlagMarginLeft = this.clip.scale(FLAG_MARGIN_LEFT);
+
+        if (!this.flagImages.JOLLY) {
+            this.initFlagImages();
+        }
 
         for (const player of this.context.state.getPlayers()) {
 
@@ -94,13 +109,24 @@ export class PlayersRenderer {
             context.rotate(-player.rot);
             context.translate(-clipPos.x, -clipPos.y);
 
-            // draw name
+            // draw name + flag
             context.fillStyle = this.context.settings.useBitmaps ? "white" : "black";
             const name = `${player.ranking || "?"}. ${player.name}`;
-            const nameWidth = context.measureText(name).width;
+
+            const flagSpace = this.context.settings.useBitmaps ? scaledFlagWidth + scaledFlagMarginLeft : 0;
+
+            const nameWidth = context.measureText(name).width + flagSpace;
             const left = clipPos.x - nameWidth / 2;
             const top = clipPos.y + this.clip.scale(60);
             context.fillText(name, left, top);
+
+            if (this.context.settings.useBitmaps) {
+                const flag = FLAGS_CODE_TO_ISO["" + player.flag] || "JOLLY";
+                const flagImage = this.flagImages[flag] as HTMLImageElement;
+                context.drawImage(flagImage, 0, 0, FLAG_WIDTH, FLAG_WIDTH,
+                    left + nameWidth - scaledFlagWidth, top - scaledFlagWidth + scaledFontSize - scaledFlagPaddingTop,
+                    scaledFlagWidth, scaledFlagWidth);
+            }
 
             // draw stats
             const lineHeight = this.clip.scale(20);
@@ -109,6 +135,12 @@ export class PlayersRenderer {
             context.fillText(stats1, left, top + lineHeight);
             const stats2 = `Score: ${player.score}`;
             context.fillText(stats2, left, top + lineHeight * 2);
+        }
+    }
+
+    private initFlagImages() {
+        for (const flag of Object.keys(COUNTRY_NAMES)) {
+            this.flagImages[flag] = document.getElementById(`flag-${flag}`);
         }
     }
 }

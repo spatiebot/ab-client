@@ -12,7 +12,7 @@ export class ChatInput {
 
     constructor(private context: IContext) {
         this.input = document.getElementById("chat-input-textbox") as HTMLInputElement;
-        this.input.addEventListener("change", () => this.onChatInput());
+        this.input.addEventListener("blur", () => this.hide());
         this.hide();
     }
 
@@ -25,7 +25,11 @@ export class ChatInput {
         this.input.style.display = "none";
     }
 
-    private onChatInput() {
+    public isChatInputFocused() {
+        return this.input.style.display.toLowerCase() === "block";
+    }
+
+    public submit() {
         const text = this.input.value;
 
         if (text) {

@@ -24,6 +24,7 @@ export class NodeContext implements IContext {
     public handlers: IMessageHandler[];
     public webSocketFactory: IWebSocketFactory = new NodeWebSocketFactory();
     public connection: Connection = new Connection(this);
+    public isActive: boolean;
 
     constructor() {
         this.handlers = [
@@ -37,6 +38,7 @@ export class NodeContext implements IContext {
         this.processor.startProcessingEventQueue();
 
         await this.connection.init();
+        this.isActive = true;
         this.logger.info("Initialization finished");
     }
 }

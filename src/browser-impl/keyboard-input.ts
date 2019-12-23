@@ -20,8 +20,28 @@ export class KeyboardInput {
 
     private onKey(e: KeyboardEvent, isKeyDown: boolean) {
 
-        const hasInputFocus = ((e.target as HTMLElement).nodeName.toLowerCase() === "input");
-        let handled = false;
+        // if the landing page is still shown, do nothing here
+        if (!this.context.isActive) {
+            return;
+        }
+
+        const isChatInputFocused = this.chatInput.isChatInputFocused();
+
+        // do limited key detection when typing in the chat box
+        if (isChatInputFocused) {
+            if (isKeyDown) {
+                if (e.keyCode === 27) {
+                    this.chatInput.hide();
+                }
+
+                if (e.keyCode === 13) {
+                    this.chatInput.submit();
+                }
+            }
+            return;
+        }
+
+        let preventDefault = false;
         let keyToSend: KEY_CODES;
         switch (e.keyCode) {
             case 17: // Control
@@ -33,30 +53,28 @@ export class KeyboardInput {
                 break;
 
             case 37: // Left
+                preventDefault = true;
                 keyToSend = KEY_CODES.LEFT;
                 break;
 
             case 38: // Up
+                preventDefault = true;
                 keyToSend = KEY_CODES.UP;
                 break;
 
             case 39: // Right
+                preventDefault = true;
                 keyToSend = KEY_CODES.RIGHT;
                 break;
 
             case 40: // Down
+                preventDefault = true;
                 keyToSend = KEY_CODES.DOWN;
                 break;
 
             case 13: // Enter
                 if (isKeyDown) {
                     this.chatInput.showAndFocus();
-                }
-                break;
-
-            case 27: // esc
-                if (isKeyDown) {
-                    this.chatInput.hide();
                 }
                 break;
 
@@ -80,18 +98,18 @@ export class KeyboardInput {
             case 114: // F3
             case 115: // F4
             case 116: // F5
-                handled = true;
+                preventDefault = true;
                 if (isKeyDown) {
                     this.aircraftSelection.selectAircraft("" + (e.keyCode - 111));
                 }
 
         }
 
-        if (!hasInputFocus && keyToSend) {
+        if (keyToSend) {
             this.context.eventQueue.pub(Events.KEYBOARD, { key: keyToSend, state: isKeyDown } as IKeyboardArgs);
         }
 
-        if (handled) {
+        if (preventDefault) {
             e.stopPropagation();
             e.preventDefault();
         }

@@ -1,4 +1,4 @@
-import { FLAGS_CODE_TO_ISO } from "../ab-protocol/src/lib";
+import { FLAGS_CODE_TO_ISO, PLAYER_STATUS } from "../ab-protocol/src/lib";
 import { IContext } from "../app-context/icontext";
 import { Player } from "../models/player";
 
@@ -11,8 +11,6 @@ export class PlayerListRenderer {
     }
 
     public render(): void {
-        this.listElement.innerHTML = "";
-
         const players = this.context.state.getPlayers();
 
         players.sort((a: Player, b: Player) => {
@@ -21,29 +19,55 @@ export class PlayerListRenderer {
 
         let ranking = 1;
         for (const player of players) {
-            const row = this.listElement.insertRow();
 
-            const cellPos = row.insertCell();
-            cellPos.innerText = `${ranking}.`;
+            if (player.status === PLAYER_STATUS.INACTIVE && player.name === "Server") {
+                continue;
+            }
 
-            const cellFlag = row.insertCell();
+            let row = this.listElement.rows[ranking - 1];
+            let cellPos: HTMLTableDataCellElement;
+            let cellFlag: HTMLTableDataCellElement;
+            let cellName: HTMLTableDataCellElement;
+            let cellScore: HTMLTableDataCellElement;
+            let flagImage: HTMLImageElement;
 
-            const flag = FLAGS_CODE_TO_ISO["" + player.flag];
-            if (flag) {
-                const flagImage = document.createElement("img") as HTMLImageElement;
-                flagImage.src = "flags/" + flag + ".png";
+            if (row) {
+                cellPos = row.cells[0];
+                cellFlag = row.cells[1];
+                cellName = row.cells[2];
+                cellScore = row.cells[3];
+                flagImage = cellFlag.firstElementChild as HTMLImageElement;
+            } else {
+                row = this.listElement.insertRow();
+                cellPos = row.insertCell();
+                cellFlag = row.insertCell();
+                cellName = row.insertCell();
+                cellName.className = "playerlist-name";
+                cellScore = row.insertCell();
+
+                flagImage = document.createElement("img") as HTMLImageElement;
                 flagImage.width = 24;
                 flagImage.height = 24;
                 cellFlag.appendChild(flagImage);
             }
 
-            const cellName = row.insertCell();
-            cellName.innerText = player.name;
+            row.className = player.status === PLAYER_STATUS.INACTIVE ? "playerlist-player-inactive" : "";
 
-            const cellScore = row.insertCell();
+            cellPos.innerText = `${ranking}.`;
+
+            const flag = FLAGS_CODE_TO_ISO["" + player.flag] || "JOLLY";
+
+            flagImage.src = "flags/" + flag + ".png";
+
+            cellName.innerText = player.name;
             cellScore.innerText = `${player.score}`;
 
             ranking++;
+        }
+
+        while (this.listElement.rows[ranking - 1]) {
+            const row = this.listElement.rows[ranking - 1];
+            row.remove();
         }
     }
 }

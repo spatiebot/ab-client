@@ -33,6 +33,7 @@ export class BrowserContext implements IContext {
     public handlers: IMessageHandler[];
     public webSocketFactory: IWebSocketFactory;
     public connection: Connection;
+    public isActive: boolean;
 
     // browser-only:
     public renderer = new Renderer(this);
@@ -69,6 +70,7 @@ export class BrowserContext implements IContext {
         this.processor.startProcessingEventQueue();
 
         await this.connection.init();
+        this.isActive = true;
         this.logger.info("Initialization finished");
     }
 }

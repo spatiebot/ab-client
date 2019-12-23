@@ -1,4 +1,5 @@
 
+import { COUNTRY_NAMES } from "../ab-protocol/src/lib";
 import { ServerGamesRepository } from "../helpers/games-repository";
 import { BrowserContext } from "./browser-context";
 
@@ -42,6 +43,8 @@ export class LandingPage {
         };
 
         await this.populateServerList(gameSelect);
+
+        this.loadAllFlags();
     }
 
     private async populateServerList(gameSelect: HTMLSelectElement) {
@@ -59,6 +62,16 @@ export class LandingPage {
                 opt.innerText = server.name + " - " + game.name;
                 gameSelect.options.add(opt);
             }
+        }
+    }
+
+    private loadAllFlags() {
+        for (const flag of Object.keys(COUNTRY_NAMES)) {
+            const img = document.createElement("img");
+            img.src = `flags/${flag}.png`;
+            img.style.display = "none";
+            img.id = `flag-${flag}`;
+            document.body.appendChild(img);
         }
     }
 

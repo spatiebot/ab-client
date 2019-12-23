@@ -21,5 +21,7 @@ export interface IContext {
 
     handlers: IMessageHandler[];
 
+    isActive: boolean;
+
     start(): Promise<any>;
 }
