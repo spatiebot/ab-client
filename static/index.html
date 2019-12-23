@@ -125,7 +125,7 @@
             top: 270px;
             width: 350px;
             /* height minus my top and minus minimap height and minus a margin of 20px*/
-            height: calc(100% - 270px - 200px - 20px); 
+            height: calc(100% - 270px - 200px - 20px);
             left: 10px;
             bottom: 250p;
             overflow: hidden;
@@ -135,9 +135,10 @@
         #player-list tr.playerlist-player-inactive td {
             color: silver;
         }
+
         #player-list td.playerlist-name {
             width: 200px;
-            max-width : 200px;
+            max-width: 200px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -188,12 +189,13 @@
     <div id="stats" class="contrast-with-background block-right" style="padding: 5px; top: 300px; display: none">
         Score: <span id="stats-score">0</span><br />
         Upgrades: <span id="stats-upgrades">0</span><br />
-        Kills: <span id="stats-kills">0</span></br>
-        Deaths: <span id="stats-deaths">0</span></br>
+        Kills: <span id="stats-kills">0</span><br />
+        Deaths: <span id="stats-deaths">0</span><br />
+        Ping: <span id="stats-ping">100</span><br />
     </div>
     <!-- upgrade selection -->
     <div id="upgradeSelection" class="contrast-with-background block-right"
-        style="width: 50px; padding: 5px; top: 420px; display: none">
+        style="width: 50px; padding: 5px; top: 440px; display: none">
         <div id="select-speed" class="with-border" title="Speed upgrade (1)">S: <span id="stats-speed">0</span></div>
         <div id="select-defense" class="with-border" title="Defense upgrade (2)">D: <span id="stats-defense">0</span>
         </div>
@@ -243,7 +245,7 @@
             </tr>
         </table>
     </div>
-    <script src="browser-pack.js?v6"></script>
+    <script src="browser-pack.js?v7"></script>
 </body>
 
 </html>

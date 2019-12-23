@@ -15,6 +15,6 @@ export class StatsRenderHandler implements IMessageHandler {
             return;
         }
 
-        this.context.renderer.showStats(me.score, me.kills, me.deaths, me.upgrades);
+        this.context.renderer.showStats(me.score, me.kills, me.deaths, me.upgrades, this.context.state.ping);
     }
 }

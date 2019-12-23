@@ -22,6 +22,7 @@ export class Renderer {
     private upgradesElement: HTMLSpanElement;
     private killsElement: HTMLSpanElement;
     private deathsElement: HTMLSpanElement;
+    private pingElement: HTMLSpanElement;
     private upgrSpeedElement: HTMLSpanElement;
     private upgrDefenseElement: HTMLSpanElement;
     private upgrEnergyElement: HTMLSpanElement;
@@ -63,10 +64,11 @@ export class Renderer {
         this.chatBox.scrollTop = this.chatBox.scrollHeight;
     }
 
-    public showStats(score: number, kills: number, deaths: number, upgrades: Upgrades) {
+    public showStats(score: number, kills: number, deaths: number, upgrades: Upgrades, ping: number) {
         this.scoreElement.innerText = "" + score;
         this.killsElement.innerText = "" + kills;
         this.deathsElement.innerText = "" + deaths;
+        this.pingElement.innerText = "" + ping + " ms";
 
         upgrades = upgrades || new Upgrades();
 
@@ -116,6 +118,7 @@ export class Renderer {
         this.upgradesElement = document.getElementById("stats-upgrades") as HTMLSpanElement;
         this.killsElement = document.getElementById("stats-kills") as HTMLSpanElement;
         this.deathsElement = document.getElementById("stats-deaths") as HTMLSpanElement;
+        this.pingElement = document.getElementById("stats-ping") as HTMLSpanElement;
         this.upgrSpeedElement = document.getElementById("stats-speed") as HTMLSpanElement;
         this.upgrDefenseElement = document.getElementById("stats-defense") as HTMLSpanElement;
         this.upgrEnergyElement = document.getElementById("stats-energy") as HTMLSpanElement;
