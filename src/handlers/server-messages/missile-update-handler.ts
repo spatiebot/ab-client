@@ -17,10 +17,12 @@ export class MissileUpdateHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
         const msg = ev.args as MobUpdate;
 
-        const mob = this.context.state.getMobById(msg.id);
+        let mob = this.context.state.getMobById(msg.id);
 
         if (!mob) {
-            return;
+            mob = new Mob();
+            mob.id = msg.id;
+            this.context.state.addMob(mob);
         }
 
         mob.isVisibleOnScreen = true;
@@ -30,6 +32,5 @@ export class MissileUpdateHandler implements IMessageHandler {
         mob.speed = new Pos(msg.speedX, msg.speedY);
         mob.rot = mob.speed.direction();
         mob.mobType = msg.type;
-        mob.ownerId = msg.id;
     }
 }

@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="airmash2.svg"
+   sodipodi:docname="aircrafts-colorized.svg"
    inkscape:export-filename="W:\Private\2018\goliath.png"
    inkscape:export-xdpi="300"
    inkscape:export-ydpi="300">
@@ -129,15 +129,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="482.33742"
-     inkscape:cy="481.88562"
+     inkscape:zoom="0.7"
+     inkscape:cx="884.69373"
+     inkscape:cy="428.9637"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1027"
-     inkscape:window-x="-8"
+     inkscape:window-x="1912"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      showguides="true"
@@ -170,6 +170,24 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-308.26772)">
+    <path
+       style="fill:#ff0000;fill-opacity:0.93269228;fill-rule:evenodd;stroke:#000000;stroke-width:0.27742389;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 368.14509,741.22728 0.25579,9.96382 6.29768,0.96593 -0.0344,-9.92173 z"
+       id="path4726-1-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="d:\temp\missile.png"
+       inkscape:export-xdpi="299.8526"
+       inkscape:export-ydpi="299.8526" />
+    <path
+       style="fill:#ff0000;fill-opacity:0.93269228;fill-rule:evenodd;stroke:#000000;stroke-width:0.27742389;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 364.08375,741.20709 -0.2666,9.94216 -6.17857,0.99842 0.0344,-9.8784 z"
+       id="path4726-19"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="d:\temp\missile.png"
+       inkscape:export-xdpi="299.8526"
+       inkscape:export-ydpi="299.8526" />
     <path
        style="fill:#999999;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.67930979;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 47.889572,595.80458 137.926118,-97.78344 139.64161,96.75414 -25.04628,14.75329 -41.51508,-29.16349 -32.76603,24.53165 -16.29724,-12.86625 -23.33077,19.89979 -23.67391,-19.21358 -15.43948,12.69469 -33.28067,-24.01699 -40.142677,29.16348 z"
@@ -822,25 +840,14 @@
        inkscape:export-xdpi="71.752724"
        inkscape:export-ydpi="71.752724" />
     <path
-       style="fill:#808080;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.27611503;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 748.81993,497.33164 v 0.0337 c 0,0 -10.1844,16.45522 -5.7806,36.84232 3.02861,15.7994 5.75202,28.92723 5.7806,29.06491 v 0.0902 l 0.0109,-0.0449 0.0109,0.0449 v -0.0902 c 0.0285,-0.13774 2.75199,-13.26551 5.78059,-29.06491 2.54269,-12.88238 0.1578,-25.97624 -5.79959,-36.87609 z"
+       style="fill:#f2f2f2;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.27611503;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 366.11007,693.03477 v 0.0337 c 0,0 -7.7197,16.45522 -4.38165,36.84232 2.29566,15.7994 2.06707,21.10078 2.08873,21.23846 1.23404,-0.0292 3.64854,0.0462 4.58373,0.0418 0.97788,-12.87595 0.86984,-12.80625 2.10684,-21.28031 1.92734,-12.88238 0.11961,-25.97624 -4.39605,-36.87609 z"
        id="path5944"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccccccc"
-       inkscape:export-filename="d:\temp\predator.png"
-       inkscape:export-xdpi="71.752724"
-       inkscape:export-ydpi="71.752724" />
-    <ellipse
-       ry="11.319609"
-       rx="3.2361081"
-       cy="525.79584"
-       cx="-748.82837"
-       id="ellipse5966"
-       style="opacity:1;fill:#4e4e4e;fill-opacity:1;stroke:#000000;stroke-width:0.27611503;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       transform="scale(-1,1)"
-       inkscape:export-filename="d:\temp\predator.png"
-       inkscape:export-xdpi="71.752724"
-       inkscape:export-ydpi="71.752724" />
+       sodipodi:nodetypes="cccccccc"
+       inkscape:export-filename="d:\temp\missile.png"
+       inkscape:export-xdpi="299.8526"
+       inkscape:export-ydpi="299.8526" />
     <path
        inkscape:connector-curvature="0"
        id="path5968"
