@@ -23,17 +23,38 @@ export class ServerMessageHandler implements IMessageHandler {
         switch (serverMessage.c) {
             case SERVER_PACKETS.CHAT_PUBLIC:
                 chatType = CHAT_TYPE.CHAT;
-            case SERVER_PACKETS.CHAT_SAY:
-                chatType = CHAT_TYPE.SAY;
-            case SERVER_PACKETS.CHAT_TEAM:
-                chatType = CHAT_TYPE.TEAM;
-            case SERVER_PACKETS.CHAT_WHISPER:
-                chatType = CHAT_TYPE.WHISPER;
-
                 this.context.eventQueue.pub(Events.CHAT_RECEIVED, {
                     chatMessage: serverMessage.text,
                     chatType,
-                    playerId: serverMessage.id || serverMessage.from,
+                    playerId: serverMessage.id,
+                } as IChatArgs);
+                break;
+
+            case SERVER_PACKETS.CHAT_SAY:
+                chatType = CHAT_TYPE.SAY;
+                this.context.eventQueue.pub(Events.CHAT_RECEIVED, {
+                    chatMessage: serverMessage.text,
+                    chatType,
+                    playerId: serverMessage.id,
+                } as IChatArgs);
+                break;
+
+            case SERVER_PACKETS.CHAT_TEAM:
+                chatType = CHAT_TYPE.TEAM;
+                this.context.eventQueue.pub(Events.CHAT_RECEIVED, {
+                    chatMessage: serverMessage.text,
+                    chatType,
+                    playerId: serverMessage.id,
+                } as IChatArgs);
+                break;
+
+            case SERVER_PACKETS.CHAT_WHISPER:
+                chatType = CHAT_TYPE.WHISPER;
+                this.context.eventQueue.pub(Events.CHAT_RECEIVED, {
+                    chatMessage: serverMessage.text,
+                    chatType,
+                    playerId: serverMessage.from,
+                    to: serverMessage.to,
                 } as IChatArgs);
                 break;
 

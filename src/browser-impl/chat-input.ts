@@ -3,12 +3,13 @@ import { IContext } from "../app-context/icontext";
 import { Events } from "../events/constants";
 import { IChatArgs } from "../events/event-args/chat-args";
 import { IChatSendArgs } from "../events/event-args/ichat-send-args";
+import { IMessageToPlayerArgs } from "../events/event-args/message-to-player-args";
+import { Player } from "../models/player";
 
 export class ChatInput {
 
     private input: HTMLInputElement;
     private commandRegex = /^\/(\w+)\s(.+)$/;
-    private whisperRegex = /^(\w+)\s(\w+)$/;
 
     constructor(private context: IContext) {
         this.input = document.getElementById("chat-input-textbox") as HTMLInputElement;
@@ -48,28 +49,31 @@ export class ChatInput {
                 } else if (command === "s") {
                     this.context.eventQueue.pub(Events.CHAT_SEND, { text: args, type: CHAT_TYPE.SAY } as IChatSendArgs);
                 } else if (command === "w") {
-                    const whisperMatch = this.whisperRegex.exec(args);
-                    if (!whisperMatch) {
-                        this.context.eventQueue.pub(Events.CHAT_SEND, { text, type: CHAT_TYPE.CHAT } as IChatSendArgs);
-                    } else {
-                        const player = this.context.state.getPlayerByName(whisperMatch[1]);
-                        if (player) {
-                            this.context.eventQueue.pub(Events.CHAT_SEND,
-                                {
-                                    playerId: player.id,
-                                    text: whisperMatch[2],
-                                    type: CHAT_TYPE.WHISPER,
-                                } as IChatSendArgs);
-                        } else {
-                            // show in chat
-                            this.context.eventQueue.pub(Events.CHAT_RECEIVED,
-                                {
-                                    chatMessage: "ERROR: Unknown player",
-                                    chatType: CHAT_TYPE.WHISPER,
-                                    playerId: this.context.state.id,
-                                } as IChatArgs);
+                    const allPlayers = this.context.state.getPlayers();
+                    allPlayers.sort((a, b) => b.name.length - a.name.length);
+
+                    let player: Player;
+                    for (const targetPlayer of allPlayers) {
+                        if (args.startsWith(targetPlayer.name)) {
+                            player = targetPlayer;
+                            break;
                         }
                     }
+
+                    if (player) {
+                        const whisperText = args.substr(player.name.length + 1);
+                        this.context.eventQueue.pub(Events.CHAT_SEND,
+                            {
+                                playerId: player.id,
+                                text: whisperText,
+                                type: CHAT_TYPE.WHISPER,
+                            } as IChatSendArgs);
+                    } else {
+                        this.context.eventQueue.pub(Events.MESSAGE_TO_PLAYER, {
+                            message: "Unknown player, message not sent.",
+                        } as IMessageToPlayerArgs);
+                    }
+
                 } else {
                     this.context.connection.sendCommand(command, args);
                 }

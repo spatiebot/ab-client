@@ -1,6 +1,7 @@
 import { SHIPS_SPECS } from "../ab-assets/ships-constants";
 import { COUNTRY_NAMES, CTF_TEAMS, FLAGS_CODE_TO_ISO, PLAYER_STATUS } from "../ab-protocol/src/lib";
 import { IContext } from "../app-context/icontext";
+import { StopWatch } from "../helpers/stopwatch";
 import { Pos } from "../models/pos";
 import { ClippedView } from "./clipped-view";
 
@@ -16,6 +17,11 @@ const FLAG_MARGIN_LEFT = 10;
 const FONT_SIZE = 11;
 const FLAG_PADDING_TOP = 4; // diff between length and width / 2
 
+const SAY_MARGIN = 20;
+const SAY_HEIGHT = 40;
+const SAY_DURATION_SECONDS = 5;
+const SAY_DISTANCE_FROM_AIRCRAFT = 80;
+
 export class PlayersRenderer {
 
     private images: {
@@ -28,6 +34,8 @@ export class PlayersRenderer {
 
     private flagImages: any = {};
 
+    private saysToSay: Array<{ playerId: number, msg: string, sw: StopWatch }> = [];
+
     constructor(private context: IContext, private clip: ClippedView) {
         this.images = {
             mohawk: document.getElementById("mohawk") as HTMLImageElement,
@@ -36,6 +44,10 @@ export class PlayersRenderer {
             spirit: document.getElementById("spirit") as HTMLImageElement,
             tornado: document.getElementById("tornado") as HTMLImageElement,
         };
+    }
+
+    public addSay(playerId: number, msg: string) {
+        this.saysToSay.push({ playerId, msg, sw: new StopWatch() });
     }
 
     public renderPlayers(context: CanvasRenderingContext2D): void {
@@ -106,7 +118,6 @@ export class PlayersRenderer {
                     context.arc(hitCirclePos.x, hitCirclePos.y, r, 0, 2 * Math.PI);
                     context.fill();
                 }
-
             }
 
             context.rotate(-player.rot);
@@ -120,7 +131,7 @@ export class PlayersRenderer {
 
             const nameWidth = context.measureText(name).width + flagSpace;
             const left = clipPos.x - nameWidth / 2;
-            const top = clipPos.y + this.clip.scale(60);
+            const top = clipPos.y + this.clip.scale(70);
             context.fillText(name, left, top);
 
             if (this.context.settings.useBitmaps) {
@@ -138,6 +149,22 @@ export class PlayersRenderer {
             context.fillText(stats1, left, top + lineHeight);
             const stats2 = `Score: ${player.score}; ping: ${player.ping || "?"} ms`;
             context.fillText(stats2, left, top + lineHeight * 2);
+
+            // render text bubble
+            for (const say of this.saysToSay) {
+                if (say.playerId === player.id) {
+                    context.fillStyle = "black";
+                    const textWidth = context.measureText(say.msg).width;
+                    const sayLeft = clipPos.x - textWidth / 2;
+                    const sayTop = clipPos.y - this.clip.scale(SAY_DISTANCE_FROM_AIRCRAFT);
+                    const sayMargin = this.clip.scale(SAY_MARGIN);
+                    context.fillRect(sayLeft - sayMargin, sayTop - sayMargin,
+                        textWidth + sayMargin * 2, this.clip.scale(SAY_HEIGHT));
+                    context.fillStyle = "white";
+                    context.fillText(say.msg, sayLeft, sayTop);
+                }
+            }
+            this.saysToSay = this.saysToSay.filter((x) => x.sw.elapsedSeconds < SAY_DURATION_SECONDS);
         }
     }
 

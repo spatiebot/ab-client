@@ -1,3 +1,4 @@
+import { CHAT_TYPE } from "../ab-assets/chat-constants";
 import { IContext } from "../app-context/icontext";
 import { PeriodicLogger } from "../helpers/periodic-logger";
 import { Upgrades } from "../models/upgrades";
@@ -57,11 +58,32 @@ export class Renderer {
         this.playerListRenderer = new PlayerListRenderer(context);
     }
 
-    public addChat(playerName: string, msg: string) {
+    public addChat(playerId: number, playerName: string, chatType: CHAT_TYPE, msg: string, to: number) {
         playerName = playerName.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         msg = msg.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        this.chatBox.innerHTML += `<div>${playerName}: ${msg}</div>`;
-        this.chatBox.scrollTop = this.chatBox.scrollHeight;
+
+        if (chatType === CHAT_TYPE.SAY) {
+            this.playersRenderer.addSay(playerId, msg);
+        } else {
+            let type = "";
+            let typeLabel = "";
+            if (chatType === CHAT_TYPE.TEAM) {
+                type = "chat-team";
+                typeLabel = " =&gt; team";
+            } else if (chatType === CHAT_TYPE.WHISPER) {
+                type = "chat-whisper";
+                if (playerId === this.context.state.id) {
+                    const other = this.context.state.getPlayerName(to);
+                    typeLabel = " =&gt; " + other;
+                } else {
+                    typeLabel = " =&gt; me";
+                }
+            }
+
+            this.chatBox.innerHTML += `<div class="chat ${type}"><strong>${playerName}${typeLabel}</strong>: ${msg}</div>`;
+            this.chatBox.scrollTop = this.chatBox.scrollHeight;
+        }
+
     }
 
     public showStats(score: number, kills: number, deaths: number, upgrades: Upgrades) {

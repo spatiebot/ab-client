@@ -15,6 +15,6 @@ export class ChatRenderHandler implements IMessageHandler {
         const chat = ev.args as IChatArgs;
         const player = this.context.state.getPlayerName(chat.playerId);
 
-        this.context.renderer.addChat(player, chat.chatMessage);
+        this.context.renderer.addChat(chat.playerId, player, chat.chatType, chat.chatMessage, chat.to);
     }
 }

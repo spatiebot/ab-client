@@ -13,6 +13,7 @@ export enum Events {
     KEYBOARD,
     LOGIN,
     LEAVE_HORIZON,
+    MESSAGE_TO_PLAYER,
     MOB_DESPAWN,
     MINI_MAP,
     MISSILE_UPDATE,
