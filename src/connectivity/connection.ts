@@ -50,6 +50,10 @@ export class Connection {
         this.send(msg);
     }
 
+    public fetchDetailedScore() {
+        this.send({ c: CLIENT_PACKETS.SCOREDETAILED });
+    }
+
     public sendChat(type: CHAT_TYPE, text: string, targetPlayerID: number = null): void {
         let c: number;
         switch (type) {

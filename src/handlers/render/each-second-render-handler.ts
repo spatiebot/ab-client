@@ -3,7 +3,8 @@ import { Events } from "../../events/constants";
 import { EventMessage } from "../../events/event-message";
 import { IMessageHandler } from "../imessage-handler";
 
-export class MinimapAndPlayerListRenderHandler implements IMessageHandler {
+// renders stuff that is not that important each second
+export class EachSecondRenderHandler implements IMessageHandler {
 
     public handles = [Events.EACH_SECOND];
 
@@ -14,5 +15,8 @@ export class MinimapAndPlayerListRenderHandler implements IMessageHandler {
     public exec(ev: EventMessage): void {
         this.context.renderer.renderMinimap();
         this.context.renderer.renderPlayerList();
+        this.context.renderer.showPing();
+
+        this.context.connection.fetchDetailedScore();
     }
 }

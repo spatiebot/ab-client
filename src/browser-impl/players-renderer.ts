@@ -131,9 +131,9 @@ export class PlayersRenderer {
             // draw stats
             const lineHeight = this.clip.scale(20);
             context.fillStyle = "silver";
-            const stats1 = `Health: ${Math.floor(player.health * 100)}%;`;
+            const stats1 = `Health: ${Math.floor(player.health * 100)}%; energy: ${Math.floor(player.energy * 100)}%`;
             context.fillText(stats1, left, top + lineHeight);
-            const stats2 = `Score: ${player.score}`;
+            const stats2 = `Score: ${player.score}; ping: ${player.ping} ms`;
             context.fillText(stats2, left, top + lineHeight * 2);
         }
     }

@@ -15,7 +15,7 @@ export class Player extends Mob {
     public type: number;
     public team: number;
 
-    public energy: number;
+    public energy: number = 1;
     public energyRegen: number;
 
     public flagspeed: boolean;

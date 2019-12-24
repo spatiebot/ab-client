@@ -64,11 +64,10 @@ export class Renderer {
         this.chatBox.scrollTop = this.chatBox.scrollHeight;
     }
 
-    public showStats(score: number, kills: number, deaths: number, upgrades: Upgrades, ping: number) {
+    public showStats(score: number, kills: number, deaths: number, upgrades: Upgrades) {
         this.scoreElement.innerText = "" + score;
         this.killsElement.innerText = "" + kills;
         this.deathsElement.innerText = "" + deaths;
-        this.pingElement.innerText = "" + ping + " ms";
 
         upgrades = upgrades || new Upgrades();
 
@@ -77,6 +76,10 @@ export class Renderer {
         this.upgrEnergyElement.innerText = "" + upgrades.energy;
         this.upgrMissileElement.innerText = "" + upgrades.missile;
         this.upgrSpeedElement.innerText = "" + upgrades.speed;
+    }
+
+    public showPing() {
+        this.pingElement.innerText = "" + this.context.state.ping + " ms";
     }
 
     public renderMinimap() {
