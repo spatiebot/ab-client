@@ -55,7 +55,8 @@ export class PlayerListRenderer {
 
             row.className = player.status === PLAYER_STATUS.INACTIVE ? "playerlist-player-inactive" : "";
 
-            cellPos.innerText = `${player.ranking}. `;
+            const ranking = player.ranking || rowCount;
+            cellPos.innerText = `${ranking}. `;
 
             const flag = FLAGS_CODE_TO_ISO["" + player.flag] || "JOLLY";
 

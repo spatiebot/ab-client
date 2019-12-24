@@ -71,9 +71,12 @@ export class PlayersRenderer {
             // render image or hitcircles, depending on the setting
             if (this.context.settings.useBitmaps) {
                 const image: HTMLImageElement = this.images[aircraftSpecs.name];
-                const imageScale = 0.75;
+                const imageScale = 1; // used to have larger images before
                 const targetWidth = this.clip.scale(image.width * imageScale);
                 const targetHeight = this.clip.scale(image.height * imageScale);
+
+                const actionX = targetWidth / 2;
+                const actionY = targetHeight / 2;
 
                 if (player.stealthed) {
                     // make prowler a ghost if stealthed
@@ -81,7 +84,7 @@ export class PlayersRenderer {
                 }
 
                 context.drawImage(image, 0, 0, image.width, image.height,
-                    -targetWidth / 2, -targetHeight / 2, targetWidth, targetHeight);
+                    -actionX, -actionY, targetWidth, targetHeight);
 
                 context.globalAlpha = 1;
             } else {
