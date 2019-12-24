@@ -1,5 +1,5 @@
 import { CHAT_TYPE } from "../ab-assets/chat-constants";
-import { decodeUpgrades, ProtocolPacket, SERVER_ERRORS, SERVER_MESSAGE_TYPES, SERVER_PACKETS } from "../ab-protocol/src/lib";
+import { ProtocolPacket, SERVER_PACKETS } from "../ab-protocol/src/lib";
 import { ScoreBoard, ScoreDetailed, ScoreDetailedCtf } from "../ab-protocol/src/types/packets-server";
 import { IContext } from "../app-context/icontext";
 import { Events } from "../events/constants";
