@@ -14,17 +14,19 @@ export class PlayerListRenderer {
         const players = this.context.state.getPlayers();
 
         players.sort((a: Player, b: Player) => {
-            return (b.score || 0) - (a.score || 0);
+            const ar = a.ranking || Number.MAX_SAFE_INTEGER;
+            const br = b.ranking || Number.MAX_SAFE_INTEGER;
+            return ar - br;
         });
 
-        let ranking = 1;
+        let rowCount = 0;
         for (const player of players) {
 
             if (player.status === PLAYER_STATUS.INACTIVE && player.name === "Server") {
                 continue;
             }
 
-            let row = this.listElement.rows[ranking - 1];
+            let row = this.listElement.rows[rowCount];
             let cellPos: HTMLTableDataCellElement;
             let cellFlag: HTMLTableDataCellElement;
             let cellName: HTMLTableDataCellElement;
@@ -53,7 +55,7 @@ export class PlayerListRenderer {
 
             row.className = player.status === PLAYER_STATUS.INACTIVE ? "playerlist-player-inactive" : "";
 
-            cellPos.innerText = `${ranking}.`;
+            cellPos.innerText = `${player.ranking}. `;
 
             const flag = FLAGS_CODE_TO_ISO["" + player.flag] || "JOLLY";
 
@@ -62,11 +64,11 @@ export class PlayerListRenderer {
             cellName.innerText = player.name;
             cellScore.innerText = `${player.score}`;
 
-            ranking++;
+            rowCount++;
         }
 
-        while (this.listElement.rows[ranking - 1]) {
-            const row = this.listElement.rows[ranking - 1];
+        while (this.listElement.rows[rowCount]) {
+            const row = this.listElement.rows[rowCount];
             row.remove();
         }
     }

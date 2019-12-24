@@ -7,6 +7,7 @@ import { IContext } from "./icontext";
 const MS_PER_SEC = 1000;
 const FPS = 60;
 const TICK_MS = MS_PER_SEC / FPS;
+const SKIPPED_FRAMES_PANIC_THRESHOLD = 5 * FPS;
 
 export class EventQueueProcessor {
     private handlersByType: {};
@@ -36,6 +37,7 @@ export class EventQueueProcessor {
             this.stopwatch = new StopWatch();
             this.tickCounter = 1;
             this.eachSecondStopwatch = new StopWatch();
+            this.skippedFrames = 0;
         }
 
         const diffTime = this.stopwatch.elapsedMs;
@@ -79,7 +81,10 @@ export class EventQueueProcessor {
             this.tickCounter++;
         }
 
-        if (this.skippedFrames > 0 || tooEarly) {
+        if (this.skippedFrames > SKIPPED_FRAMES_PANIC_THRESHOLD) {
+            this.context.logger.warn(`Panic, dropping ${this.skippedFrames} skipped frames`);
+            this.stopwatch = null; // just drop all bookkeeping and start over
+        } else if (this.skippedFrames > 0 || tooEarly) {
             this.context.tm.setTimeout(() => this.tick(), 1);
         }
     }
