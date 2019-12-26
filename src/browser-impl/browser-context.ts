@@ -13,15 +13,18 @@ import { ExplosionVisualizationHandler } from "../handlers/explosion-visualizati
 import { IMessageHandler } from "../handlers/imessage-handler";
 import { KillVisualizationHandler } from "../handlers/kill-visualization-handler";
 import { ChatRenderHandler } from "../handlers/render/chat-render-handler";
+import { CtfGameOverRenderHandler } from "../handlers/render/ctf-game-over-render-handler";
 import { EachSecondRenderHandler } from "../handlers/render/each-second-render-handler";
 import { GameRenderHandler } from "../handlers/render/game-render-handler";
-import { AircraftSelection } from "./aircraft-selection";
-import { ApplyUpgrades } from "./apply-upgrades";
+import { KillRenderHandler } from "../handlers/render/kill-render-handler";
+import { ServerAnnouncementRenderHandler } from "../handlers/render/server-announcement-render-handler";
 import { BrowserLogger } from "./browser-logger";
 import { BrowserWebSocketFactory } from "./browser-websocket-factory";
-import { ChatInput } from "./chat-input";
-import { KeyboardInput } from "./keyboard-input";
-import { Renderer } from "./renderer";
+import { Renderer } from "./renderers/renderer";
+import { AircraftSelection } from "./user-input/aircraft-selection";
+import { ApplyUpgrades } from "./user-input/apply-upgrades";
+import { ChatInput } from "./user-input/chat-input";
+import { KeyboardInput } from "./user-input/keyboard-input";
 
 export class BrowserContext implements IContext {
     public gameType: GAME_TYPES;
@@ -62,6 +65,9 @@ export class BrowserContext implements IContext {
             new GameRenderHandler(this),
             new ChatRenderHandler(this),
             new EachSecondRenderHandler(this),
+            new ServerAnnouncementRenderHandler(this),
+            new CtfGameOverRenderHandler(this),
+            new KillRenderHandler(this),
         ];
     }
 

@@ -1,7 +1,7 @@
 export class StopWatch {
     private startTime: number;
 
-    constructor() {
+    constructor(private timeoutMs: number = null) {
         this.start();
     }
 
@@ -19,5 +19,12 @@ export class StopWatch {
 
     get elapsedMinutes(): number {
         return this.elapsedSeconds / 60;
+    }
+
+    get hasTimedOut(): boolean {
+        if (!this.timeoutMs) {
+            return false;
+        }
+        return this.elapsedMs > this.timeoutMs;
     }
 }

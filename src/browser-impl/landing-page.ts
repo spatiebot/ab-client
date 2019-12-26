@@ -36,6 +36,7 @@ export class LandingPage {
             document.getElementById("upgradeSelection").style.display = "block";
             document.getElementById("minimap").style.display = "block";
             document.getElementById("player-list").style.display = "block";
+            document.getElementById("server-message").style.display = "block";
             // ctf-block will be shown later
 
             window.document.body.style.backgroundImage = "inherit";

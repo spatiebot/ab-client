@@ -17,6 +17,7 @@ export class EachSecondRenderHandler implements IMessageHandler {
         this.context.renderer.renderPlayerList();
         this.context.renderer.showPing();
         this.context.renderer.showStats();
+        this.context.renderer.hideServerMessageAfterTimeout();
 
         this.context.connection.fetchDetailedScore();
     }

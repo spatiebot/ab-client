@@ -77,6 +77,7 @@
             margin-right: auto;
             text-align: center;
             font-size: 14pt;
+            color: white;
         }
 
         #ctf-info .team-blue {
@@ -85,6 +86,20 @@
 
         #ctf-info .team-red {
             color: #f66;
+        }
+
+        #server-message {
+            position: absolute;
+            width: 600px;
+            left: 0;
+            right: 0;
+            top: 230px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            font-size: 20pt;
+            font-weight: bold;
+            color: white;
         }
 
         #aircraftSelection img {
@@ -134,6 +149,10 @@
 
         .chat-whisper {
             background-color: purple;
+        }
+
+        .chat-warning {
+            background-color: darkred;
         }
 
         #minimap {
@@ -229,6 +248,8 @@
         <span class="team-red">Red flag: </span>
         <span class="team-red" id="red-flag-location">home</span>
     </div>
+    <div id="server-message" style="display: none">
+    </div>
 
     <!-- aircraft selection -->
     <div id="aircraftSelection" class="block-right" style="width: 50px; padding: 5px; top: 10; display: none;">
@@ -298,7 +319,7 @@
             </tr>
         </table>
     </div>
-    <script src="browser-pack.js?v12"></script>
+    <script src="browser-pack.js?v13"></script>
 </body>
 
 </html>

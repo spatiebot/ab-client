@@ -2,7 +2,6 @@ import { decodeMinimapCoords, PLAYER_STATUS } from "../../ab-protocol/src/lib";
 import { ScoreBoardRanking } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
-import { IGenericPlayerArgs } from "../../events/event-args/igeneric-player-args";
 import { EventMessage } from "../../events/event-message";
 import { Pos } from "../../models/pos";
 import { IMessageHandler } from "../imessage-handler";
