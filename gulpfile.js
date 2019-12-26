@@ -2,13 +2,12 @@ var gulp = require('gulp');
 var ts = require('gulp-typescript');
 var tslint = require('gulp-tslint');
 var tsProject = ts.createProject('tsconfig.json');
-// var webpack = require('webpack');
 var gulpWebpack = require('webpack-stream');
 
 gulp.task('compile', function () {
     return tsProject.src()
         .pipe(tsProject())
-        .js.pipe(gulp.dest('dist'));
+        .js.pipe(gulp.dest('build'));
 });
 
 gulp.task('lint', function () {
@@ -18,7 +17,7 @@ gulp.task('lint', function () {
 });
 
 gulp.task('webpack', function() {
-    return gulp.src('dist/browser-app.js')
+    return gulp.src('build/browser-app.js')
         .pipe(gulpWebpack({
             output: {
                 filename: 'browser-pack.js'
@@ -30,7 +29,7 @@ gulp.task('webpack', function() {
 
 
 gulp.task('webpack-prod', function() {
-    return gulp.src('dist/browser-app.js')
+    return gulp.src('build/browser-app.js')
         .pipe(gulpWebpack({
             output: {
                 filename: 'browser-pack.js'
