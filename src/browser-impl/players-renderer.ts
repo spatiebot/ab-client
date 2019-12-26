@@ -5,12 +5,20 @@ import { StopWatch } from "../helpers/stopwatch";
 import { Pos } from "../models/pos";
 import { ClippedView } from "./clipped-view";
 
+// colors in no-bitmap mode
 const COLOR_GREENISH = "rgba(0, 153, 102)";
 const COLOR_GREENISH_PROWLER = "rgba(0, 153, 102, 0.6)";
 const COLOR_BLUE_TEAM = "rgba(0, 102, 153)";
 const COLOR_BLUE_TEAM_PROWLER = "rgba(0, 102, 153, 0.6)";
 const COLOR_RED_TEAM = "rgba(153, 60, 60)";
 const COLOR_RED_TEAM_PROWLER = "rgba(153, 60, 60, 0.6)";
+
+// name colors
+const NAME_COLOR_REGULAR = "white";
+const NAME_COLOR_NO_BITMAP = "black";
+const NAME_COLOR_RED = "#f66";
+const NAME_COLOR_BLUE = "#80bfff";
+const STATS_COLOR = "silver";
 
 const FLAG_WIDTH = 24;
 const FLAG_MARGIN_LEFT = 10;
@@ -124,7 +132,14 @@ export class PlayersRenderer {
             context.translate(-clipPos.x, -clipPos.y);
 
             // draw name + flag
-            context.fillStyle = this.context.settings.useBitmaps ? "white" : "black";
+            let nameColor = this.context.settings.useBitmaps ? NAME_COLOR_REGULAR : NAME_COLOR_NO_BITMAP;
+            if (player.team === CTF_TEAMS.BLUE) {
+                nameColor = NAME_COLOR_BLUE;
+            } else if (player.team === CTF_TEAMS.RED) {
+                nameColor = NAME_COLOR_RED;
+            }
+            context.fillStyle = nameColor;
+
             const name = `${player.ranking || "?"}. ${player.name}`;
 
             const flagSpace = this.context.settings.useBitmaps ? scaledFlagWidth + scaledFlagMarginLeft : 0;
@@ -144,7 +159,7 @@ export class PlayersRenderer {
 
             // draw stats
             const lineHeight = this.clip.scale(20);
-            context.fillStyle = "silver";
+            context.fillStyle = STATS_COLOR;
             const stats1 = `Health: ${Math.floor(player.health * 100)}%; energy: ${Math.floor((player.energy || 1) * 100)}%`;
             context.fillText(stats1, left, top + lineHeight);
             const stats2 = `Score: ${player.score}; ping: ${player.ping || "?"} ms`;

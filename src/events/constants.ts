@@ -42,7 +42,6 @@ export enum Events {
     SCORE_DETAILED,
     SCORE_UPDATE,
     SPAM_WARING_RECEIVED,
-    STATS_UPDATE,
     TEAMS,
     TICK,
 }

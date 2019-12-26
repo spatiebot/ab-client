@@ -1,5 +1,5 @@
 
-import { COUNTRY_NAMES } from "../ab-protocol/src/lib";
+import { COUNTRY_NAMES, GAME_TYPES } from "../ab-protocol/src/lib";
 import { ServerGamesRepository } from "../helpers/games-repository";
 import { BrowserContext } from "./browser-context";
 
@@ -36,6 +36,7 @@ export class LandingPage {
             document.getElementById("upgradeSelection").style.display = "block";
             document.getElementById("minimap").style.display = "block";
             document.getElementById("player-list").style.display = "block";
+            // ctf-block will be shown later
 
             window.document.body.style.backgroundImage = "inherit";
 
@@ -53,10 +54,6 @@ export class LandingPage {
 
         for (const server of serverInfo.data) {
             for (const game of server.games) {
-                if (game.type !== 1) {
-                    // only FFA is supported for now
-                    continue;
-                }
                 const opt = new Option();
                 opt.value = "wss://" + game.host + "/" + game.path;
                 opt.innerText = server.name + " - " + game.name;

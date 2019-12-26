@@ -1,6 +1,7 @@
 const PI_2 = Math.PI * 2;
 
-export class Pos { // TODO rename to Vector
+export class Pos {
+    // TODO rename to Vector
 
     public x: number;
     public y: number;
@@ -29,5 +30,9 @@ export class Pos { // TODO rename to Vector
             dir -= PI_2;
         }
         return dir;
+    }
+
+    public equals(other: Pos): boolean {
+        return !!other && other.x === this.x && other.y === this.y;
     }
 }

@@ -1,3 +1,4 @@
+import { GAME_TYPES } from "../ab-protocol/src/lib";
 import { EventQueueProcessor } from "../app-context/eventqueue-processor";
 import { HandlerCollections } from "../app-context/handler-collections";
 import { IContext } from "../app-context/icontext";
@@ -15,6 +16,7 @@ import { NodeWebSocketFactory } from "./node-websocket-factory";
 
 export class NodeContext implements IContext {
 
+    public gameType: GAME_TYPES;
     public settings = new Settings();
     public logger: ILogger = new Logger(this.settings);
     public eventQueue = new EventQueue();

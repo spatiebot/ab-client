@@ -67,6 +67,26 @@
             margin: auto;
         }
 
+        #ctf-info {
+            position: absolute;
+            width: 600px;
+            left: 0;
+            right: 0;
+            top: 30px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            font-size: 14pt;
+        }
+
+        #ctf-info .team-blue {
+            color: #80bfff;
+        }
+
+        #ctf-info .team-red {
+            color: #f66;
+        }
+
         #aircraftSelection img {
             transform: rotate(-30deg);
             width: 40px;
@@ -111,6 +131,7 @@
         .chat-team {
             background-color: green;
         }
+
         .chat-whisper {
             background-color: purple;
         }
@@ -140,7 +161,15 @@
         }
 
         #player-list tr.playerlist-player-inactive td {
-            color: silver;
+            text-decoration: line-through;
+        }
+
+        #player-list tr.playerlist-team-blue td {
+            color: #80bfff;
+        }
+
+        #player-list tr.playerlist-team-red td {
+            color: #f66;
         }
 
         #player-list td.playerlist-name {
@@ -156,7 +185,9 @@
 <body style="overflow: hidden;">
     <!-- background map -->
     <img src="map-miller.png" id="map" style="display: none;" />
-    <img src="missile.png" id="missile" style="display: none;" />
+    <img src="tintin-rocket.png" id="missile" style="display: none;" />
+    <img src="blue-flag.png" id="blue-flag" style="display: none;" />
+    <img src="red-flag.png" id="red-flag" style="display: none;" />
     <!-- aircraft images used for rendering -->
     <img src="f16.png" id="raptor" style="display: none" /><br />
     <img src="b2.png" id="spirit" style="display: none" /><br />
@@ -182,6 +213,21 @@
     <div id="minimap" style="display: none">
         <img src="minimap-miller.png" style="position: absolute; width: 100%; height: 100%;" />
         <canvas id="minimap-canvas" style="position: absolute; width: 100%; height: 100%"></canvas>
+    </div>
+
+    <!-- CTF and server info -->
+    <div id="ctf-info" style="display: none;">
+        <span class="team-blue">Blue: </span>
+        <span class="team-blue" id="blue-score">0</span>
+        -
+        <span class="team-red">Red: </span>
+        <span class="team-red" id="red-score">0</span>
+        <br />
+        <span class="team-blue">Blue flag: </span>
+        <span class="team-blue" id="blue-flag-location">home</span>
+        -
+        <span class="team-red">Red flag: </span>
+        <span class="team-red" id="red-flag-location">home</span>
     </div>
 
     <!-- aircraft selection -->

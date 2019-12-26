@@ -11,6 +11,7 @@ export class Mob {
     public maxSpeed: number;
     public accel: Pos;
     public ownerId: number;
+    public team: number;
     public isVisibleOnScreen: boolean;
     public distance: number;
 

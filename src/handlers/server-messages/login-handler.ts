@@ -1,7 +1,7 @@
+import { CTF_TEAMS, GAME_TYPES } from "../../ab-protocol/src/lib";
 import { Login } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
-import { IGenericPlayerArgs } from "../../events/event-args/igeneric-player-args";
 import { EventMessage } from "../../events/event-message";
 import { Decoder } from "../../helpers/decoder";
 import { Player } from "../../models/player";
@@ -21,6 +21,12 @@ export class LoginHandler implements IMessageHandler {
         const msg = ev.args as Login;
         const s = this.context.state;
         s.id = msg.id;
+        s.team = msg.team;
+
+        this.context.gameType = GAME_TYPES.FFA;
+        if (msg.team === CTF_TEAMS.BLUE || msg.team === CTF_TEAMS.RED) {
+            this.context.gameType = GAME_TYPES.CTF;
+        }
 
         let ranking = 0;
         for (const loginPlayer of msg.players) {

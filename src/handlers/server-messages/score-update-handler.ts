@@ -27,8 +27,6 @@ export class ScoreUpdateHandler implements IMessageHandler {
                 player.upgrades = new Upgrades();
             }
             player.upgrades.available = msg.upgrades;
-
-            this.context.eventQueue.pub(Events.STATS_UPDATE, { });
         }
     }
 }

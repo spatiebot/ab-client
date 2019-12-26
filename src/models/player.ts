@@ -13,7 +13,6 @@ export class Player extends Mob {
     public flag: number;
     public name: string;
     public type: number;
-    public team: number;
 
     public energy: number = 1;
     public energyRegen: number;
@@ -87,5 +86,4 @@ export class Player extends Mob {
             this.keystate = {} as Keystate;
         }
     }
-
 }

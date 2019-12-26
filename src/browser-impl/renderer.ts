@@ -1,14 +1,16 @@
 import { CHAT_TYPE } from "../ab-assets/chat-constants";
+import { GAME_TYPES } from "../ab-protocol/src/lib";
 import { IContext } from "../app-context/icontext";
 import { PeriodicLogger } from "../helpers/periodic-logger";
-import { Upgrades } from "../models/upgrades";
 import { BackgroundRenderer } from "./background-renderer";
 import { ClippedView } from "./clipped-view";
 import { ExplosionsRenderer } from "./explosions-renderer";
+import { FlagRenderer } from "./flag-renderer";
 import { MinimapRenderer } from "./minimap-renderer";
 import { MissilesRenderer } from "./missiles-renderer";
 import { PlayerListRenderer } from "./playerlist-renderer";
 import { PlayersRenderer } from "./players-renderer";
+import { StatsRenderer } from "./stats-renderer";
 import { UpcratesRenderer } from "./upcrates-renderer";
 import { WallsRenderer } from "./walls-renderer";
 
@@ -19,15 +21,7 @@ export class Renderer {
 
     private chatBox: HTMLDivElement;
 
-    private scoreElement: HTMLSpanElement;
-    private upgradesElement: HTMLSpanElement;
-    private killsElement: HTMLSpanElement;
-    private deathsElement: HTMLSpanElement;
     private pingElement: HTMLSpanElement;
-    private upgrSpeedElement: HTMLSpanElement;
-    private upgrDefenseElement: HTMLSpanElement;
-    private upgrEnergyElement: HTMLSpanElement;
-    private upgrMissileElement: HTMLSpanElement;
 
     private clip: ClippedView;
     private playersRenderer: PlayersRenderer;
@@ -38,6 +32,8 @@ export class Renderer {
     private backgroundRenderer: BackgroundRenderer;
     private minimapRenderer: MinimapRenderer;
     private playerListRenderer: PlayerListRenderer;
+    private flagRenderer: FlagRenderer;
+    private statsRenderer: StatsRenderer;
 
     private periodicLogger: PeriodicLogger;
 
@@ -56,6 +52,8 @@ export class Renderer {
         this.upcratesRenderer = new UpcratesRenderer(context, this.clip);
         this.minimapRenderer = new MinimapRenderer(context);
         this.playerListRenderer = new PlayerListRenderer(context);
+        this.flagRenderer = new FlagRenderer(context, this.clip);
+        this.statsRenderer = new StatsRenderer(context);
     }
 
     public addChat(playerId: number, playerName: string, chatType: CHAT_TYPE, msg: string, to: number) {
@@ -86,18 +84,8 @@ export class Renderer {
 
     }
 
-    public showStats(score: number, kills: number, deaths: number, upgrades: Upgrades) {
-        this.scoreElement.innerText = "" + score;
-        this.killsElement.innerText = "" + kills;
-        this.deathsElement.innerText = "" + deaths;
-
-        upgrades = upgrades || new Upgrades();
-
-        this.upgradesElement.innerText = "" + upgrades.available;
-        this.upgrDefenseElement.innerText = "" + upgrades.defense;
-        this.upgrEnergyElement.innerText = "" + upgrades.energy;
-        this.upgrMissileElement.innerText = "" + upgrades.missile;
-        this.upgrSpeedElement.innerText = "" + upgrades.speed;
+    public showStats() {
+        this.statsRenderer.render();
     }
 
     public showPing() {
@@ -132,6 +120,10 @@ export class Renderer {
         this.missilesRenderer.renderMissiles(context);
         // explosions and kills
         this.explosionsRenderer.renderExplosions(context);
+
+        if (this.context.gameType === GAME_TYPES.CTF) {
+            this.flagRenderer.render(context);
+        }
     }
 
     private getUiElements() {
@@ -139,14 +131,6 @@ export class Renderer {
         this.canvasContext = this.canvas.getContext("2d");
 
         this.chatBox = document.getElementById("chat") as HTMLDivElement;
-        this.scoreElement = document.getElementById("stats-score") as HTMLSpanElement;
-        this.upgradesElement = document.getElementById("stats-upgrades") as HTMLSpanElement;
-        this.killsElement = document.getElementById("stats-kills") as HTMLSpanElement;
-        this.deathsElement = document.getElementById("stats-deaths") as HTMLSpanElement;
         this.pingElement = document.getElementById("stats-ping") as HTMLSpanElement;
-        this.upgrSpeedElement = document.getElementById("stats-speed") as HTMLSpanElement;
-        this.upgrDefenseElement = document.getElementById("stats-defense") as HTMLSpanElement;
-        this.upgrEnergyElement = document.getElementById("stats-energy") as HTMLSpanElement;
-        this.upgrMissileElement = document.getElementById("stats-missile") as HTMLSpanElement;
     }
 }

@@ -32,7 +32,5 @@ export class PlayerUpgradeAppliedHandler implements IMessageHandler {
         u.energy = msg.energy;
         u.missile = msg.missile;
         u.speed = msg.speed;
-
-        this.context.eventQueue.pub(Events.STATS_UPDATE, { });
     }
 }

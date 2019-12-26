@@ -1,3 +1,4 @@
+import { GAME_TYPES } from "../ab-protocol/src/lib";
 import { Connection } from "../connectivity/connection";
 import { EventQueue } from "../events/event-queue";
 import { IMessageHandler } from "../handlers/imessage-handler";
@@ -22,6 +23,8 @@ export interface IContext {
     handlers: IMessageHandler[];
 
     isActive: boolean;
+
+    gameType: GAME_TYPES;
 
     start(): Promise<any>;
 }

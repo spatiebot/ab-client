@@ -22,6 +22,7 @@ const CRATES: MOB_TYPES[] = [
 
 export class State {
     public id: number;
+    public team: number;
     public ping: number;
     public numPlayers: number;
     public numPlayersTotal: number;

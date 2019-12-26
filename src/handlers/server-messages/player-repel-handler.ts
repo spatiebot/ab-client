@@ -61,6 +61,7 @@ export class PlayerRepelHandler implements IMessageHandler {
             mob.rot = mob.speed.direction();
             mob.mobType = missile.type;
             mob.ownerId = msg.id;
+            mob.team = player.team;
         }
 
     }

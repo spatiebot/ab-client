@@ -1,7 +1,6 @@
 import { PlayerReteam, ScoreUpdate } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
-import { IGenericPlayerArgs } from "../../events/event-args/igeneric-player-args";
 import { EventMessage } from "../../events/event-message";
 import { IMessageHandler } from "../imessage-handler";
 
@@ -17,6 +16,10 @@ export class TeamsHandler implements IMessageHandler {
         const msg = ev.args as PlayerReteam;
 
         for (const p of msg.players) {
+            if (p.id === this.context.state.id) {
+                this.context.state.team = p.team;
+            }
+
             const player = this.context.state.getPlayerById(p.id);
             if (!player) {
                 continue;

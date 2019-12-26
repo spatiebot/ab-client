@@ -1,8 +1,9 @@
 import { PROJECTILES_SPECS } from "../ab-assets/missile-constants";
+import { GAME_TYPES } from "../ab-protocol/src/lib";
 import { IContext } from "../app-context/icontext";
 import { ClippedView } from "./clipped-view";
 
-const MISSILE_IMAGE_BASE_SCALE = 0.3;
+const MISSILE_IMAGE_BASE_SCALE = 1;
 
 export class MissilesRenderer {
 
@@ -30,6 +31,15 @@ export class MissilesRenderer {
                 context.translate(clipPos.x, clipPos.y);
                 context.rotate(missile.rot);
 
+                let shouldRestoreAlphs = false;
+                if (this.context.gameType === GAME_TYPES.CTF && missile.team) {
+                    if (missile.team === this.context.state.team && missile.ownerId !== this.context.state.id) {
+                        // show friendly missiles as transparent
+                        context.globalAlpha = 0.4;
+                        shouldRestoreAlphs = true;
+                    }
+                }
+
                 const imageScale = 1 + (PROJECTILES_SPECS[missile.mobType].damage as number - 0.3) / 1.8;
                 const targetWidth = this.clip.scale(this.missileImage.width *
                     imageScale * MISSILE_IMAGE_BASE_SCALE);
@@ -38,6 +48,10 @@ export class MissilesRenderer {
 
                 context.drawImage(this.missileImage, 0, 0, this.missileImage.width, this.missileImage.height,
                     -targetWidth / 2, -targetHeight / 2, targetWidth, targetHeight);
+
+                if (shouldRestoreAlphs) {
+                    context.globalAlpha = 1;
+                }
 
                 context.rotate(-missile.rot);
                 context.translate(-clipPos.x, -clipPos.y);

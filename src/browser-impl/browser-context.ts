@@ -1,3 +1,4 @@
+import { GAME_TYPES } from "../ab-protocol/src/lib";
 import { EventQueueProcessor } from "../app-context/eventqueue-processor";
 import { HandlerCollections } from "../app-context/handler-collections";
 import { IContext } from "../app-context/icontext";
@@ -14,7 +15,6 @@ import { KillVisualizationHandler } from "../handlers/kill-visualization-handler
 import { ChatRenderHandler } from "../handlers/render/chat-render-handler";
 import { EachSecondRenderHandler } from "../handlers/render/each-second-render-handler";
 import { GameRenderHandler } from "../handlers/render/game-render-handler";
-import { StatsRenderHandler } from "../handlers/render/stats-render-handler";
 import { AircraftSelection } from "./aircraft-selection";
 import { ApplyUpgrades } from "./apply-upgrades";
 import { BrowserLogger } from "./browser-logger";
@@ -24,6 +24,7 @@ import { KeyboardInput } from "./keyboard-input";
 import { Renderer } from "./renderer";
 
 export class BrowserContext implements IContext {
+    public gameType: GAME_TYPES;
     public settings: Settings;
     public logger: ILogger;
     public eventQueue: EventQueue;
@@ -60,7 +61,6 @@ export class BrowserContext implements IContext {
             new KillVisualizationHandler(this),
             new GameRenderHandler(this),
             new ChatRenderHandler(this),
-            new StatsRenderHandler(this),
             new EachSecondRenderHandler(this),
         ];
     }

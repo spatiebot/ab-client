@@ -1,4 +1,4 @@
-import { FLAGS_CODE_TO_ISO, PLAYER_STATUS } from "../ab-protocol/src/lib";
+import { CTF_TEAMS, FLAGS_CODE_TO_ISO, PLAYER_STATUS } from "../ab-protocol/src/lib";
 import { IContext } from "../app-context/icontext";
 import { Player } from "../models/player";
 
@@ -54,6 +54,12 @@ export class PlayerListRenderer {
             }
 
             row.className = player.status === PLAYER_STATUS.INACTIVE ? "playerlist-player-inactive" : "";
+
+            if (player.team === CTF_TEAMS.BLUE) {
+                row.className += " playerlist-team-blue";
+            } else if (player.team === CTF_TEAMS.RED) {
+                row.className += " playerlist-team-red";
+            }
 
             const ranking = player.ranking || rowCount;
             cellPos.innerText = `${ranking}. `;
