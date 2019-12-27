@@ -16,6 +16,11 @@ export class KillRenderHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
         const msg = ev.args as PlayerKill;
 
+        if (!msg.killer) {
+            // spectate or switching aircraft
+            return;
+        }
+
         let text = "";
         if (msg.killer === this.context.state.id) {
             text = `You have destroyed ${this.context.state.getPlayerName(msg.id)}`;

@@ -2,6 +2,7 @@ import { SHIPS_SPECS } from "../../ab-assets/ships-constants";
 import { COUNTRY_NAMES, CTF_TEAMS, FLAGS_CODE_TO_ISO, PLAYER_STATUS } from "../../ab-protocol/src/lib";
 import { IContext } from "../../app-context/icontext";
 import { StopWatch } from "../../helpers/stopwatch";
+import { Player } from "../../models/player";
 import { Pos } from "../../models/pos";
 import { ClippedView } from "../clipped-view";
 
@@ -19,6 +20,14 @@ const NAME_COLOR_NO_BITMAP = "black";
 const NAME_COLOR_RED = "#f66";
 const NAME_COLOR_BLUE = "#80bfff";
 const STATS_COLOR = "silver";
+
+// health/energy colors
+const HEALTH_OK = "green";
+const HEALTH_WARN = "orange";
+const HEALTH_DANGER = "red";
+const ENERGY = "silver";
+const HEALTH_ENERGY_BARS_RADIUS = 75;
+const HEALTH_ENERGY_BARS_WIDTH = 8;
 
 const FLAG_WIDTH = 24;
 const FLAG_MARGIN_LEFT = 10;
@@ -83,103 +92,145 @@ export class PlayersRenderer {
 
             const clipPos = this.clip.translate(pos);
 
+            // move & rotate canvas to render the aircraft
             context.translate(clipPos.x, clipPos.y);
             context.rotate(player.rot);
 
-            const aircraftSpecs = SHIPS_SPECS[player.type];
+            this.renderAircraft(player, context);
 
-            // render image or hitcircles, depending on the setting
-            if (this.context.settings.useBitmaps) {
-                const image: HTMLImageElement = this.images[aircraftSpecs.name];
-                const imageScale = 1; // used to have larger images before
-                const targetWidth = this.clip.scale(image.width * imageScale);
-                const targetHeight = this.clip.scale(image.height * imageScale);
-
-                const actionX = targetWidth / 2;
-                const actionY = targetHeight / 2;
-
-                if (player.stealthed) {
-                    // make prowler a ghost if stealthed
-                    context.globalAlpha = 0.4;
-                }
-
-                context.drawImage(image, 0, 0, image.width, image.height,
-                    -actionX, -actionY, targetWidth, targetHeight);
-
-                context.globalAlpha = 1;
-            } else {
-
-                if (player.team === CTF_TEAMS.BLUE) {
-                    context.fillStyle = player.stealthed ? COLOR_BLUE_TEAM_PROWLER : COLOR_BLUE_TEAM;
-                } else if (player.team === CTF_TEAMS.RED) {
-                    context.fillStyle = player.stealthed ? COLOR_RED_TEAM_PROWLER : COLOR_RED_TEAM;
-                } else {
-                    context.fillStyle = player.stealthed ? COLOR_GREENISH_PROWLER : COLOR_GREENISH;
-                }
-
-                const hitCircles = aircraftSpecs.collisions;
-                for (const hitCircle of hitCircles) {
-                    const hitCirclePos = new Pos(this.clip.scale(hitCircle[0]), this.clip.scale(hitCircle[1]));
-                    const r = this.clip.scale(hitCircle[2]);
-
-                    context.beginPath();
-                    context.arc(hitCirclePos.x, hitCirclePos.y, r, 0, 2 * Math.PI);
-                    context.fill();
-                }
-            }
-
+            // rotate back to render bars
             context.rotate(-player.rot);
-            context.translate(-clipPos.x, -clipPos.y);
+
+            this.renderBars(context, player);
 
             // draw name + flag
-            let nameColor = this.context.settings.useBitmaps ? NAME_COLOR_REGULAR : NAME_COLOR_NO_BITMAP;
-            if (player.team === CTF_TEAMS.BLUE) {
-                nameColor = NAME_COLOR_BLUE;
-            } else if (player.team === CTF_TEAMS.RED) {
-                nameColor = NAME_COLOR_RED;
-            }
-            context.fillStyle = nameColor;
-
-            const name = `${player.ranking || "?"}. ${player.name}`;
-
-            const flagSpace = this.context.settings.useBitmaps ? scaledFlagWidth + scaledFlagMarginLeft : 0;
-
-            const nameWidth = context.measureText(name).width + flagSpace;
-            const left = clipPos.x - nameWidth / 2;
-            const top = clipPos.y + this.clip.scale(70);
-            context.fillText(name, left, top);
-
-            if (this.context.settings.useBitmaps) {
-                const flag = FLAGS_CODE_TO_ISO["" + player.flag] || "JOLLY";
-                const flagImage = this.flagImages[flag] as HTMLImageElement;
-                context.drawImage(flagImage, 0, 0, FLAG_WIDTH, FLAG_WIDTH,
-                    left + nameWidth - scaledFlagWidth, top - scaledFlagWidth + scaledFontSize - scaledFlagPaddingTop,
-                    scaledFlagWidth, scaledFlagWidth);
-            }
-
-            // draw stats
-            const lineHeight = this.clip.scale(20);
-            context.fillStyle = STATS_COLOR;
-            const stats1 = `Health: ${Math.floor(player.health * 100)}%; energy: ${Math.floor((player.energy || 1) * 100)}%`;
-            context.fillText(stats1, left, top + lineHeight);
-            const stats2 = `Score: ${player.score}; ping: ${player.ping || "?"} ms`;
-            context.fillText(stats2, left, top + lineHeight * 2);
+            this.renderName(player, context,
+                scaledFlagWidth, scaledFlagMarginLeft, scaledFontSize, scaledFlagPaddingTop);
 
             // render text bubble
-            for (const say of this.saysToSay) {
-                if (say.playerId === player.id) {
-                    context.fillStyle = "black";
-                    const textWidth = context.measureText(say.msg).width;
-                    const sayLeft = clipPos.x - textWidth / 2;
-                    const sayTop = clipPos.y - this.clip.scale(SAY_DISTANCE_FROM_AIRCRAFT);
-                    const sayMargin = this.clip.scale(SAY_MARGIN);
-                    context.fillRect(sayLeft - sayMargin, sayTop - sayMargin,
-                        textWidth + sayMargin * 2, this.clip.scale(SAY_HEIGHT));
-                    context.fillStyle = "white";
-                    context.fillText(say.msg, sayLeft, sayTop);
-                }
+            this.renderTextBubble(player, context);
+
+            // restore canvas
+            context.translate(-clipPos.x, -clipPos.y);
+        }
+    }
+
+    private renderTextBubble(player: Player, context: CanvasRenderingContext2D) {
+        for (const say of this.saysToSay) {
+            if (say.playerId === player.id) {
+                context.fillStyle = "black";
+                const textWidth = context.measureText(say.msg).width;
+                const sayLeft = textWidth / 2;
+                const sayTop = -this.clip.scale(SAY_DISTANCE_FROM_AIRCRAFT);
+                const sayMargin = this.clip.scale(SAY_MARGIN);
+                context.fillRect(sayLeft - sayMargin, sayTop - sayMargin,
+                    textWidth + sayMargin * 2, this.clip.scale(SAY_HEIGHT));
+                context.fillStyle = "white";
+                context.fillText(say.msg, sayLeft, sayTop);
             }
-            this.saysToSay = this.saysToSay.filter((x) => x.sw.elapsedSeconds < SAY_DURATION_SECONDS);
+        }
+        this.saysToSay = this.saysToSay.filter((x) => x.sw.elapsedSeconds < SAY_DURATION_SECONDS);
+    }
+
+    private renderName(
+        player: Player,
+        context: CanvasRenderingContext2D,
+        scaledFlagWidth: number,
+        scaledFlagMarginLeft: number,
+        scaledFontSize: number,
+        scaledFlagPaddingTop: number) {
+
+        let nameColor = this.context.settings.useBitmaps ? NAME_COLOR_REGULAR : NAME_COLOR_NO_BITMAP;
+        if (player.team === CTF_TEAMS.BLUE) {
+            nameColor = NAME_COLOR_BLUE;
+        } else if (player.team === CTF_TEAMS.RED) {
+            nameColor = NAME_COLOR_RED;
+        }
+        context.fillStyle = nameColor;
+
+        const name = `${player.ranking || "?"}. ${player.name}`;
+        const flagSpace = this.context.settings.useBitmaps ? scaledFlagWidth + scaledFlagMarginLeft : 0;
+        const nameWidth = context.measureText(name).width + flagSpace;
+        const left = - nameWidth / 2;
+        const top = this.clip.scale(70);
+
+        context.fillText(name, left, top);
+
+        if (this.context.settings.useBitmaps) {
+            const flag = FLAGS_CODE_TO_ISO["" + player.flag] || "JOLLY";
+            const flagImage = this.flagImages[flag] as HTMLImageElement;
+            context.drawImage(flagImage, 0, 0, FLAG_WIDTH, FLAG_WIDTH,
+                left + nameWidth - scaledFlagWidth, top - scaledFlagWidth + scaledFontSize - scaledFlagPaddingTop,
+                scaledFlagWidth, scaledFlagWidth);
+        }
+
+        // draw stats
+        const lineHeight = this.clip.scale(20);
+        context.fillStyle = STATS_COLOR;
+        const stats2 = `Score: ${player.score}; ping: ${player.ping || "?"} ms`;
+        context.fillText(stats2, left, top + lineHeight);
+    }
+
+    private renderBars(context: CanvasRenderingContext2D, player: Player) {
+
+        context.strokeStyle = HEALTH_OK;
+        if (player.health < 0.3) {
+            context.strokeStyle = HEALTH_DANGER;
+        } else if (player.health < 0.6) {
+            context.strokeStyle = HEALTH_WARN;
+        }
+
+        const r = this.clip.scale(HEALTH_ENERGY_BARS_RADIUS);
+
+        context.lineWidth = this.clip.scale(HEALTH_ENERGY_BARS_WIDTH);
+        context.globalAlpha = player.id === this.context.state.id ? 0.8 : 0.5;
+
+        context.beginPath();
+        context.arc(0, 0, r, Math.PI, Math.PI + (Math.PI * player.health / 2));
+        context.stroke();
+
+        context.strokeStyle = ENERGY;
+        context.beginPath();
+        const energy = Math.max(0.01, player.energy);
+        context.arc(0, 0, r, 0, Math.PI * 2 - Math.PI * energy / 2, true);
+        context.stroke();
+
+        context.globalAlpha = 1;
+    }
+
+    private renderAircraft(player: Player, context: CanvasRenderingContext2D) {
+
+        const aircraftSpecs = SHIPS_SPECS[player.type];
+
+        if (this.context.settings.useBitmaps) {
+            const image: HTMLImageElement = this.images[aircraftSpecs.name];
+            const imageScale = 1; // used to have larger images before
+            const targetWidth = this.clip.scale(image.width * imageScale);
+            const targetHeight = this.clip.scale(image.height * imageScale);
+            const actionX = targetWidth / 2;
+            const actionY = targetHeight / 2;
+            if (player.stealthed) {
+                // make prowler a ghost if stealthed
+                context.globalAlpha = 0.4;
+            }
+            context.drawImage(image, 0, 0, image.width, image.height, -actionX, -actionY, targetWidth, targetHeight);
+            context.globalAlpha = 1;
+        } else {
+            if (player.team === CTF_TEAMS.BLUE) {
+                context.fillStyle = player.stealthed ? COLOR_BLUE_TEAM_PROWLER : COLOR_BLUE_TEAM;
+            } else if (player.team === CTF_TEAMS.RED) {
+                context.fillStyle = player.stealthed ? COLOR_RED_TEAM_PROWLER : COLOR_RED_TEAM;
+            } else {
+                context.fillStyle = player.stealthed ? COLOR_GREENISH_PROWLER : COLOR_GREENISH;
+            }
+            const hitCircles = aircraftSpecs.collisions;
+            for (const hitCircle of hitCircles) {
+                const hitCirclePos = new Pos(this.clip.scale(hitCircle[0]), this.clip.scale(hitCircle[1]));
+                const r = this.clip.scale(hitCircle[2]);
+                context.beginPath();
+                context.arc(hitCirclePos.x, hitCirclePos.y, r, 0, 2 * Math.PI);
+                context.fill();
+            }
         }
     }
 

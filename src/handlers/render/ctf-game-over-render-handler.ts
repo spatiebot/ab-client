@@ -15,7 +15,7 @@ export class CtfGameOverRenderHandler implements IMessageHandler {
     public exec(ev: EventMessage): void {
         const msg = ev.args as ServerCustomCTFData;
 
-        this.context.renderer.showServerMessage(SERVER_MESSAGE_TYPES.INFO, msg.t,
+        this.context.renderer.showServerMessage(SERVER_MESSAGE_TYPES.INFO, 5000,
             `Game over!<br/>The ${msg.w === CTF_TEAMS.BLUE ? "blue" : "red"} team has won!`);
     }
 }

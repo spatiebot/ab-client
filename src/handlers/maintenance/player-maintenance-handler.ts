@@ -39,13 +39,18 @@ export class PlayerMaintenanceHandler implements IMessageHandler {
         const aircraftSpecs = SHIPS_SPECS[player.type];
 
         const boostFactor = player.boost ? aircraftSpecs.boostFactor : 1;
-        const energyDiff = player.energyRegen * tick.frameFactor;
 
-        player.energy += energyDiff;
-        if (player.energy > 1) {
-            player.energy = 1;
-        } else if (player.energy < 0) {
-            player.energy = 0;
+        if (!isNaN(player.energyRegen)) {
+            const energyDiff = player.energyRegen * tick.frameFactor;
+
+            player.energy += energyDiff;
+            if (player.energy > 1) {
+                player.energy = 1;
+            } else if (player.energy < 0) {
+                player.energy = 0;
+            } else if (isNaN(player.energy)) {
+                player.energy = 1;
+            }
         }
 
         player.health += tick.frameFactor * aircraftSpecs.healthRegen;

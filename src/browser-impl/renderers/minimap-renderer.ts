@@ -59,7 +59,7 @@ export class MinimapRenderer {
                 }
                 switch (player.ranking) {
                     case 1:
-                        fillStyle = "gold";
+                        fillStyle = "yellow";
                         break;
                     case 2:
                         fillStyle = "silver";
