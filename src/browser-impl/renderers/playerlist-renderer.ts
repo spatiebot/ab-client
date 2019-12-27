@@ -42,10 +42,13 @@ export class PlayerListRenderer {
             } else {
                 row = this.listElement.insertRow();
                 cellPos = row.insertCell();
+                cellPos.className = "playerlist-pos";
                 cellFlag = row.insertCell();
+                cellFlag.className = "playerlist-flag";
                 cellName = row.insertCell();
                 cellName.className = "playerlist-name";
                 cellScore = row.insertCell();
+                cellScore.className = "playerlist-score";
 
                 flagImage = document.createElement("img") as HTMLImageElement;
                 flagImage.width = 24;
