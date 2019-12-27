@@ -55,16 +55,48 @@
         }
 
         div#nameAndGame {
-            width: 300px;
-            height: 200px;
-            background-color: slategray;
-            padding: 10px;
+            width: 600px;
+            height: 400px;
+            background-color: Silver;
+            padding: 20px;
             position: absolute;
             top: 0;
             bottom: 0;
             left: 0;
             right: 0;
             margin: auto;
+            border: thick double #32a1ce;
+        }
+
+        div#nameAndGame input,
+        div#nameAndGame select {
+            width: 120px;
+            padding: 3px;
+        }
+
+        div#nameAndGame #games {
+            padding-top: 20px;
+        }
+
+        div#nameAndGame #games input {
+            width: 100px
+        }
+
+        div#nameAndGame #games th {
+            text-align: left;
+        }
+
+        div#nameAndGame #games .region,
+        div#nameAndGame #games .start-button {
+            width: 80px;
+        }
+
+        div#nameAndGame #games .num-players {
+            width: 120px;
+        }
+
+        div#nameAndGame #games .game-name {
+            width: 170px
         }
 
         #ctf-info {
@@ -175,7 +207,8 @@
             height: calc(100% - 270px - 200px - 20px);
             left: 10px;
             bottom: 250p;
-            overflow: hidden;
+            overflow-y: hidden;
+            overflow-x: hidden;
             color: white;
         }
 
@@ -191,12 +224,28 @@
             color: #f66;
         }
 
+        #player-list td.playerlist-pos {
+            width: 40px;
+        }
+
+        #player-list td.playerlist-flag {
+            width: 30px;
+        }
+
+        #player-list td.playerlist-flag {
+            width: 30px;
+        }
+
         #player-list td.playerlist-name {
             width: 200px;
             max-width: 200px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+
+        #player-list td.playerlist-score {
+            width: 120px;
         }
     </style>
 </head>
@@ -290,15 +339,11 @@
                 <td><input id="playerName"></td>
             </tr>
             <tr>
-                <td>Game</td>
-                <td><select id="gameSelect"></select> </td>
-            </tr>
-            <tr>
                 <td>Style</td>
                 <td>
                     <select id="styleSelect">
-                        <option value="1">Ugly</option>
-                        <option value="2">No bitmaps (even more ugly)</option>
+                        <option value="1">Default</option>
+                        <option value="2">No bitmaps</option>
                     </select>
                 </td>
             </tr>
@@ -306,6 +351,7 @@
                 <td>Zoom</td>
                 <td>
                     <select id="zoomSelect">
+                        <option value="0.4">0.4</option>
                         <option value="0.6">0.6</option>
                         <option value="0.8" selected="selected">0.8</option>
                         <option value="1">No zoom</option>
@@ -313,13 +359,13 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2">
-                    <input type="button" id="start" value="  Start  " />
+                <td colspan="2" id="games">
+
                 </td>
             </tr>
         </table>
     </div>
-    <script src="browser-pack.js?v16"></script>
+    <script src="browser-pack.js?v17"></script>
 </body>
 
 </html>

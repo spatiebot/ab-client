@@ -1,4 +1,4 @@
-import { KEY_CODES, KEY_NAMES } from "../../ab-protocol/src/lib";
+import { KEY_CODES } from "../../ab-protocol/src/lib";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
 import { IKeyboardArgs } from "../../events/event-args/ikeyboard-args";
@@ -16,8 +16,10 @@ export class KeyboardInput {
 
         document.addEventListener("keydown", (e) => this.onKey(e, true));
         document.addEventListener("keyup", (e) => this.onKey(e, false));
-        document.addEventListener("mousedown", (e) => this.onMouse(e, true));
-        document.addEventListener("mouseup", (e) => this.onMouse(e, false));
+
+        const canvas = document.getElementById("canvas");
+        canvas.addEventListener("mousedown", (e) => this.onMouse(e, true));
+        canvas.addEventListener("mouseup", (e) => this.onMouse(e, false));
     }
 
     private onMouse(e: MouseEvent, isButtonDown: boolean) {

@@ -4,6 +4,7 @@
     },
     "dependencies": {
         "axios": "^0.19.0",
+        "js-cookie": "^2.2.1",
         "pino": "^5.14.0",
         "pino-pretty": "^3.4.0",
         "ws": "^7.2.0"
