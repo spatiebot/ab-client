@@ -16,6 +16,17 @@ export class KeyboardInput {
 
         document.addEventListener("keydown", (e) => this.onKey(e, true));
         document.addEventListener("keyup", (e) => this.onKey(e, false));
+        document.addEventListener("mousedown", (e) => this.onMouse(e, true));
+        document.addEventListener("mouseup", (e) => this.onMouse(e, false));
+    }
+
+    private onMouse(e: MouseEvent, isButtonDown: boolean) {
+        // if the landing page is still shown, do nothing here
+        if (!this.context.isActive) {
+            return;
+        }
+
+        this.context.eventQueue.pub(Events.KEYBOARD, { key: KEY_CODES.FIRE, state: isButtonDown } as IKeyboardArgs);
     }
 
     private onKey(e: KeyboardEvent, isKeyDown: boolean) {
@@ -44,6 +55,7 @@ export class KeyboardInput {
         let preventDefault = false;
         let keyToSend: KEY_CODES;
         switch (e.keyCode) {
+            case 16: // Shift
             case 17: // Control
                 keyToSend = KEY_CODES.SPECIAL;
                 break;
@@ -52,21 +64,25 @@ export class KeyboardInput {
                 keyToSend = KEY_CODES.FIRE;
                 break;
 
+            case 65: // A
             case 37: // Left
                 preventDefault = true;
                 keyToSend = KEY_CODES.LEFT;
                 break;
 
+            case 87: // W
             case 38: // Up
                 preventDefault = true;
                 keyToSend = KEY_CODES.UP;
                 break;
 
+            case 68: // D
             case 39: // Right
                 preventDefault = true;
                 keyToSend = KEY_CODES.RIGHT;
                 break;
 
+            case 83: // S
             case 40: // Down
                 preventDefault = true;
                 keyToSend = KEY_CODES.DOWN;
