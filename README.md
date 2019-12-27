@@ -1,7 +1,7 @@
 # ab-client
 A hybrid nodejs and browser client for airmash.
 
-It's in a very premature state. For example: it looks terrible, CTF doesn't work, etc. Todolist on [Trello](https://trello.com/b/PFLmPiJ2/ab-client)
+It's in a playable state, but there is still work to do. See the Issues list.
 
 # building
 
@@ -26,4 +26,10 @@ will result in dist/app.js with a nodejs client that only logs chat messages.
 
 - Flags from https://github.com/gosquared/flags, except for the jolly and rainbow flag, which are from Wikipedia.  
 - The map is a slightly distorted version of the Miller projection. SVG file from Wikipedia https://commons.wikimedia.org/wiki/File:World_map_(Miller_cylindrical_projection,_blank).svg  
-- The aircrafts are handdrawn with Inkscape, but may resemble the Airmash aircrafts too much: the author of Airmash, Tony, owns the copyright of the original aircraft artwork.
+- The aircrafts are handdrawn with Inkscape from the shapes of real aircrafts:
+  - F16 for the raptor
+  - B2 for the goliath
+  - Mirage for the tornado
+  - Apache for the mohawk
+  - F19 for the prowler
+  
