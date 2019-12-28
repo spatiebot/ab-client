@@ -106,7 +106,7 @@ export class LandingPage {
 
                 const cellNumPlayers = document.createElement("td");
                 row.append(cellNumPlayers);
-                cellNumPlayers.innerText = game.players.toString();
+                cellNumPlayers.innerText = game.players || game.players === 0 ? game.players.toString() : "?";
                 cellNumPlayers.className = "num-players";
 
                 const cellButton = document.createElement("td");

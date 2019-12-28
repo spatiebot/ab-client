@@ -1,4 +1,5 @@
 import { CTF_TEAMS, MOB_TYPES } from "../ab-protocol/src/lib";
+import { CloudVisual } from "../models/cloud-visual";
 import { CtfTeam } from "../models/ctf-team";
 import { ExplosionVisual } from "../models/explosion-visual";
 import { KillVisual } from "../models/kill-visual";
@@ -32,6 +33,7 @@ export class State {
     private teams = {};
     private explosions: ExplosionVisual[] = [];
     private kills: KillVisual[] = [];
+    private rocketTrailClouds: CloudVisual[] = [];
 
     constructor() {
         this.teams[CTF_TEAMS.BLUE] = new CtfTeam();
@@ -126,6 +128,16 @@ export class State {
         const activeKills = this.kills.filter((e) => !e.isFinished);
         this.kills = activeKills;
         return activeKills;
+    }
+
+    public addRocketTrailCloud(cloud: CloudVisual) {
+        this.rocketTrailClouds.push(cloud);
+    }
+
+    public getActiveRocketTrailClouds(): CloudVisual[] {
+        const activeClouds = this.rocketTrailClouds.filter((e) => !e.isFinished);
+        this.rocketTrailClouds = activeClouds;
+        return activeClouds;
     }
 
 }
