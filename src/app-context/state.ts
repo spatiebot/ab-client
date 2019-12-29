@@ -108,6 +108,14 @@ export class State {
         return this.teams[otherTeam];
     }
 
+    public purgeAfterPanic(): void {
+        // purge any fancy stuff, so the panic doesn't get worse: this prevents
+        // rendering explosions from long ago.
+        this.explosions.splice(0);
+        this.kills.splice(0);
+        this.rocketTrailClouds.splice(0);
+    }
+
     public addExplosion(expl: ExplosionVisual) {
         this.explosions.push(expl);
     }

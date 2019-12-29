@@ -1,5 +1,5 @@
 import { PLAYERS_POSITION } from "../../ab-assets/map-constants";
-import { SHIPS_SPECS, SHIPS_TYPES } from "../../ab-assets/ships-constants";
+import { SHIPS_SPECS } from "../../ab-assets/ships-constants";
 import { UPGRADES_SPECS } from "../../ab-assets/upgrade-constants";
 import { PLAYER_STATUS } from "../../ab-protocol/src/lib";
 import { IContext } from "../../app-context/icontext";

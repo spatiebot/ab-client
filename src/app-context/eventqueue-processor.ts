@@ -82,7 +82,6 @@ export class EventQueueProcessor {
         }
 
         if (this.skippedFrames > SKIPPED_FRAMES_PANIC_THRESHOLD) {
-            this.context.logger.warn(`Panic, dropping ${this.skippedFrames} skipped frames`);
             this.stopwatch = null; // just drop all bookkeeping and start over
         } else if (this.skippedFrames > 0 || tooEarly) {
             this.context.tm.setTimeout(() => this.tick(), 1);

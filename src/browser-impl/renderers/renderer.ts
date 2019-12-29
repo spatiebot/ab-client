@@ -124,7 +124,13 @@ export class Renderer {
         this.playerListRenderer.render();
     }
 
-    public renderGame(): void {
+    public renderGame(isFirstTick: boolean): void {
+        if (isFirstTick) {
+            // this may be the first tick after a panic,
+            // purge any unnecessary stuff to keep up.
+            this.context.state.purgeAfterPanic();
+        }
+
         if (!this.context.state.getMe()) {
             return;
         }
