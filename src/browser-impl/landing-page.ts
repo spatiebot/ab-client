@@ -63,7 +63,7 @@ export class LandingPage {
         this.context.settings.horizonX = window.innerWidth / 2;
         this.context.settings.horizonY = window.innerHeight / 2;
 
-        Cookies.set("settings", JSON.stringify(this.context.settings));
+        Cookies.set("settings", JSON.stringify(this.context.settings), { expires: 365 });
 
         document.getElementById("nameAndGame").style.display = "none";
         document.getElementById("chat").style.display = "block";
@@ -82,7 +82,9 @@ export class LandingPage {
 
     private async populateServerList() {
         const serverInfo = await this.serverGamesRepository.getServerInfo();
-        this.context.settings.flag = serverInfo.country;
+
+        const flag = Cookies.get("flag") || serverInfo.country;
+        this.context.settings.flag = flag;
 
         const gamesContainer = document.getElementById("games");
         const table = document.createElement("table");

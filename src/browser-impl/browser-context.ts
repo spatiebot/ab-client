@@ -10,6 +10,7 @@ import { TimerManager } from "../app-context/timer-manager";
 import { Connection } from "../connectivity/connection";
 import { EventQueue } from "../events/event-queue";
 import { ExplosionVisualizationHandler } from "../handlers/explosion-visualization-handler";
+import { FlagCookieHandler } from "../handlers/flag-cookie-handler";
 import { IMessageHandler } from "../handlers/imessage-handler";
 import { KillVisualizationHandler } from "../handlers/kill-visualization-handler";
 import { ChatRenderHandler } from "../handlers/render/chat-render-handler";
@@ -68,6 +69,7 @@ export class BrowserContext implements IContext {
             new ServerAnnouncementRenderHandler(this),
             new CtfGameOverRenderHandler(this),
             new KillRenderHandler(this),
+            new FlagCookieHandler(),
         ];
     }
 

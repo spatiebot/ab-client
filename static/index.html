@@ -251,121 +251,125 @@
 </head>
 
 <body style="overflow: hidden;">
-    <!-- background map -->
-    <img src="map-miller.png" id="map" style="display: none;" />
-    <img src="tintin-rocket.png" id="missile" style="display: none;" />
-    <img src="blue-flag.png" id="blue-flag" style="display: none;" />
-    <img src="red-flag.png" id="red-flag" style="display: none;" />
-    <!-- aircraft images used for rendering -->
-    <img src="f16.png" id="raptor" style="display: none" /><br />
-    <img src="b2.png" id="spirit" style="display: none" /><br />
-    <img src="apache.png" id="mohawk" style="display: none" /><br />
-    <img src="mirage.png" id="tornado" style="display: none" /><br />
-    <img src="f19.png" id="prowler" style="display: none" /><br />
+    <div id="root" style="width: 100%; height: 100%">
+        <!-- background map -->
+        <img src="map-miller.png" id="map" style="display: none;" />
+        <img src="tintin-rocket.png" id="missile" style="display: none;" />
+        <img src="blue-flag.png" id="blue-flag" style="display: none;" />
+        <img src="red-flag.png" id="red-flag" style="display: none;" />
+        <!-- aircraft images used for rendering -->
+        <img src="f16.png" id="raptor" style="display: none" /><br />
+        <img src="b2.png" id="spirit" style="display: none" /><br />
+        <img src="apache.png" id="mohawk" style="display: none" /><br />
+        <img src="mirage.png" id="tornado" style="display: none" /><br />
+        <img src="f19.png" id="prowler" style="display: none" /><br />
 
-    <!-- canvas on which rendering takes place -->
-    <canvas id="canvas" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+        <!-- canvas on which rendering takes place -->
+        <canvas id="canvas" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
 
-    <!-- chat box -->
-    <div id="chat-input" style="display: none;">
-        <span class="contrast-with-background" style="position: absolute;">Type &lt;Enter&gt; to chat</span>
-        <input type="text" style="width: 100%; position: absolute;" id="chat-input-textbox" />
-    </div>
-    <div id="chat" style="display: none;">
-    </div>
-    <!-- player list -->
-    <table id="player-list" style="display: none;">
-
-    </table>
-    <!-- minimap -->
-    <div id="minimap" style="display: none">
-        <img src="minimap-miller.png" style="position: absolute; width: 100%; height: 100%;" />
-        <canvas id="minimap-canvas" style="position: absolute; width: 100%; height: 100%"></canvas>
-    </div>
-
-    <!-- CTF and server info -->
-    <div id="ctf-info" style="display: none;">
-        <span class="team-blue">Blue: </span>
-        <span class="team-blue" id="blue-score">0</span>
-        -
-        <span class="team-red">Red: </span>
-        <span class="team-red" id="red-score">0</span>
-        <br />
-        <span class="team-blue">Blue flag: </span>
-        <span class="team-blue" id="blue-flag-location">home</span>
-        -
-        <span class="team-red">Red flag: </span>
-        <span class="team-red" id="red-flag-location">home</span>
-    </div>
-    <div id="server-message" style="display: none">
-    </div>
-
-    <!-- aircraft selection -->
-    <div id="aircraftSelection" class="block-right" style="width: 50px; padding: 5px; top: 10; display: none;">
-        <img src="f16.png" id="select-raptor" title="F1" /><br />
-        <img src="b2.png" id="select-spirit" title="F2" /><br />
-        <img src="apache.png" id="select-mohawk" title="F3" /><br />
-        <img src="mirage.png" id="select-tornado" title="F4" /><br />
-        <img src="f19.png" id="select-prowler" title="F5" /><br />
-    </div>
-    <!-- stats -->
-    <div id="stats" class="contrast-with-background block-right" style="padding: 5px; top: 300px; display: none">
-        Score: <span id="stats-score">0</span><br />
-        Upgrades: <span id="stats-upgrades">0</span><br />
-        Kills: <span id="stats-kills">0</span><br />
-        Deaths: <span id="stats-deaths">0</span><br />
-        Ping: <span id="stats-ping">100</span><br />
-    </div>
-    <!-- upgrade selection -->
-    <div id="upgradeSelection" class="contrast-with-background block-right"
-        style="width: 50px; padding: 5px; top: 440px; display: none">
-        <div id="select-speed" class="with-border" title="Speed upgrade (1)">S: <span id="stats-speed">0</span></div>
-        <div id="select-defense" class="with-border" title="Defense upgrade (2)">D: <span id="stats-defense">0</span>
+        <!-- chat box -->
+        <div id="chat-input" style="display: none;">
+            <span class="contrast-with-background" style="position: absolute;">Type &lt;Enter&gt; to chat</span>
+            <input type="text" style="width: 100%; position: absolute;" id="chat-input-textbox" />
         </div>
-        <div id="select-energy" class="with-border" title="Energy regeneration upgrade (3)">E: <span
-                id="stats-energy">0</span></div>
-        <div id="select-missile" class="with-border" title="Missile speed upgrade (4)">M: <span
-                id="stats-missile">0</span></div>
-        <div id="drop-upgrade" class="with-border" title="Drop 1 upgrade (x)">
-            <img src="drop-upgrades.png" />
+        <div id="chat" style="display: none;">
         </div>
-    </div>
+        <!-- player list -->
+        <table id="player-list" style="display: none;">
 
-    <!-- game and name selection -->
-    <div id="nameAndGame">
-        <table>
-            <tr>
-                <td>Name</td>
-                <td><input id="playerName"></td>
-            </tr>
-            <tr>
-                <td>Style</td>
-                <td>
-                    <select id="styleSelect">
-                        <option value="1">Default</option>
-                        <option value="2">No bitmaps</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Zoom</td>
-                <td>
-                    <select id="zoomSelect">
-                        <option value="0.4">0.4</option>
-                        <option value="0.6">0.6</option>
-                        <option value="0.8" selected="selected">0.8</option>
-                        <option value="1">No zoom</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" id="games">
-
-                </td>
-            </tr>
         </table>
+        <!-- minimap -->
+        <div id="minimap" style="display: none">
+            <img src="minimap-miller.png" style="position: absolute; width: 100%; height: 100%;" />
+            <canvas id="minimap-canvas" style="position: absolute; width: 100%; height: 100%"></canvas>
+        </div>
+
+        <!-- CTF and server info -->
+        <div id="ctf-info" style="display: none;">
+            <span class="team-blue">Blue: </span>
+            <span class="team-blue" id="blue-score">0</span>
+            -
+            <span class="team-red">Red: </span>
+            <span class="team-red" id="red-score">0</span>
+            <br />
+            <span class="team-blue">Blue flag: </span>
+            <span class="team-blue" id="blue-flag-location">home</span>
+            -
+            <span class="team-red">Red flag: </span>
+            <span class="team-red" id="red-flag-location">home</span>
+        </div>
+        <div id="server-message" style="display: none">
+        </div>
+
+        <!-- aircraft selection -->
+        <div id="aircraftSelection" class="block-right" style="width: 50px; padding: 5px; top: 10; display: none;">
+            <img src="f16.png" id="select-raptor" title="F1" /><br />
+            <img src="b2.png" id="select-spirit" title="F2" /><br />
+            <img src="apache.png" id="select-mohawk" title="F3" /><br />
+            <img src="mirage.png" id="select-tornado" title="F4" /><br />
+            <img src="f19.png" id="select-prowler" title="F5" /><br />
+        </div>
+        <!-- stats -->
+        <div id="stats" class="contrast-with-background block-right" style="padding: 5px; top: 300px; display: none">
+            Score: <span id="stats-score">0</span><br />
+            Upgrades: <span id="stats-upgrades">0</span><br />
+            Kills: <span id="stats-kills">0</span><br />
+            Deaths: <span id="stats-deaths">0</span><br />
+            Ping: <span id="stats-ping">100</span><br />
+        </div>
+        <!-- upgrade selection -->
+        <div id="upgradeSelection" class="contrast-with-background block-right"
+            style="width: 50px; padding: 5px; top: 440px; display: none">
+            <div id="select-speed" class="with-border" title="Speed upgrade (1)">S: <span id="stats-speed">0</span>
+            </div>
+            <div id="select-defense" class="with-border" title="Defense upgrade (2)">D: <span
+                    id="stats-defense">0</span>
+            </div>
+            <div id="select-energy" class="with-border" title="Energy regeneration upgrade (3)">E: <span
+                    id="stats-energy">0</span></div>
+            <div id="select-missile" class="with-border" title="Missile speed upgrade (4)">M: <span
+                    id="stats-missile">0</span></div>
+            <div id="drop-upgrade" class="with-border" title="Drop 1 upgrade (x)">
+                <img src="drop-upgrades.png" />
+            </div>
+        </div>
+
+        <!-- game and name selection -->
+        <div id="nameAndGame">
+            <table>
+                <tr>
+                    <td>Name</td>
+                    <td><input id="playerName"></td>
+                </tr>
+                <tr>
+                    <td>Style</td>
+                    <td>
+                        <select id="styleSelect">
+                            <option value="1">Default</option>
+                            <option value="2">No bitmaps</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Zoom</td>
+                    <td>
+                        <select id="zoomSelect">
+                            <option value="0.4">0.4</option>
+                            <option value="0.6">0.6</option>
+                            <option value="0.8" selected="selected">0.8</option>
+                            <option value="1">No zoom</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" id="games">
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <script src="browser-pack.js?v20"></script>
     </div>
-    <script src="browser-pack.js?v19"></script>
 </body>
 
 </html>
