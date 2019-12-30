@@ -3,6 +3,8 @@ A hybrid nodejs and browser client for airmash.
 
 It's in a playable state, but there is still work to do. See the Issues list.
 
+The latest build of the browser client is hosted at https://spatiebot.github.io.
+
 # building
 
 You'll need Node v12 or more, and the gulp-cli.
