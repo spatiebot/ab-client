@@ -1,6 +1,7 @@
-import { SHIPS_SPECS } from "../../ab-assets/ships-constants";
+import { SHIPS_SPECS, SHIPS_TYPES } from "../../ab-assets/ships-constants";
 import { COUNTRY_NAMES, CTF_TEAMS, FLAGS_CODE_TO_ISO, PLAYER_STATUS } from "../../ab-protocol/src/lib";
 import { IContext } from "../../app-context/icontext";
+import { Random } from "../../helpers/random";
 import { StopWatch } from "../../helpers/stopwatch";
 import { Player } from "../../models/player";
 import { Pos } from "../../models/pos";
@@ -28,6 +29,11 @@ const HEALTH_DANGER = "red";
 const ENERGY = "silver";
 const HEALTH_ENERGY_BARS_RADIUS = 75;
 const HEALTH_ENERGY_BARS_WIDTH = 8;
+
+const SHIELD_INFERNO_RADIUS = HEALTH_ENERGY_BARS_RADIUS - HEALTH_ENERGY_BARS_WIDTH;
+
+const SHIELD = "white";
+const INFERNO = "red";
 
 const FLAG_WIDTH = 24;
 const FLAG_MARGIN_LEFT = 10;
@@ -195,6 +201,17 @@ export class PlayersRenderer {
         context.arc(0, 0, r, 0, Math.PI * 2 - Math.PI * energy / 2, true);
         context.stroke();
 
+        if (player.powerUps.inferno || player.powerUps.shield) {
+            context.strokeStyle = player.powerUps.shield ? SHIELD : INFERNO;
+            context.beginPath();
+            const duration = !player.shieldOrInfernoTimer ? 1 :
+                Math.max(0.01, 1 - player.shieldOrInfernoTimer.timeoutFraction);
+
+            const shieldR = this.clip.scale(SHIELD_INFERNO_RADIUS);
+            context.arc(0, 0, shieldR, Math.PI, Math.PI + (Math.PI * duration));
+            context.stroke();
+        }
+
         context.globalAlpha = 1;
     }
 
@@ -209,12 +226,15 @@ export class PlayersRenderer {
             const targetHeight = this.clip.scale(image.height * imageScale);
             const actionX = targetWidth / 2;
             const actionY = targetHeight / 2;
+
             if (player.stealthed) {
                 // make prowler a ghost if stealthed
                 context.globalAlpha = 0.4;
             }
             context.drawImage(image, 0, 0, image.width, image.height, -actionX, -actionY, targetWidth, targetHeight);
+
             context.globalAlpha = 1;
+
         } else {
             if (player.team === CTF_TEAMS.BLUE) {
                 context.fillStyle = player.stealthed ? COLOR_BLUE_TEAM_PROWLER : COLOR_BLUE_TEAM;

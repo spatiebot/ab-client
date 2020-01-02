@@ -1,0 +1,349 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 10pt;
+}
+
+.contrast-with-background {
+    color: white;
+}
+
+.block-right {
+    position: absolute;
+    right: 10px;
+    text-align: right;
+}
+
+.block-left {
+    position: absolute;
+    left: 10px;
+}
+
+#stats,
+#upgradeSelection {
+    font-size: 14pt;
+}
+
+#upgradeSelection div {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 50px;
+    user-select: none;
+}
+
+#drop-upgrade {
+    margin-top: 20px;
+
+    img {
+        margin-top: 7px;
+        width: 30px;
+        height: auto;
+    }
+}
+
+.with-border {
+    border: 1px solid darkslategray;
+    background-color: rgba(100, 100, 150, 0.3);
+}
+
+div#nameAndGame {
+    width: 600px;
+    height: 400px;
+    background-color: Silver;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border: thick double #32a1ce;
+
+    input,
+    select {
+        width: 120px;
+        padding: 3px;
+    }
+
+    #games {
+        padding-top: 20px;
+
+        input {
+            width: 100px
+        }
+
+        th {
+            text-align: left;
+        }
+
+        .region,
+        .start-button {
+            width: 80px;
+        }
+
+        .num-players {
+            width: 120px;
+        }
+
+        .game-name {
+            width: 170px
+        }
+    }
+}
+
+#ctf-info {
+    position: absolute;
+    width: 600px;
+    left: 0;
+    right: 0;
+    top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 14pt;
+    color: white;
+
+
+    .team-blue {
+        color: #80bfff;
+    }
+
+    .team-red {
+        color: #f66;
+    }
+}
+
+#server-message {
+    position: absolute;
+    width: 600px;
+    left: 0;
+    right: 0;
+    top: 230px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 20pt;
+    font-weight: bold;
+    color: white;
+}
+
+#aircraftSelection {
+    img {
+        transform: rotate(-30deg);
+        width: 40px;
+        height: auto;
+        cursor: pointer;
+    }
+
+    img#select-spirit {
+        width: 110px;
+        margin-left: -35px;
+    }
+
+    img#select-tornado {
+        width: 42px;
+    }
+
+    img#select-prowler {
+        width: 46px;
+    }
+}
+
+#chat-input {
+    top: 10;
+    width: 350px;
+    height: 60px;
+    position: absolute;
+    left: 10px;
+}
+
+#chat {
+    position: absolute;
+    left: 10px;
+    width: 350px;
+    height: 200px;
+    padding: 5px;
+    overflow: auto;
+    top: 30px;
+    color: white;
+    border: 1px solid darkslategray;
+    background-color: rgba(100, 100, 150, 0.3);
+}
+
+.chat-team {
+    background-color: green;
+}
+
+.chat-whisper {
+    background-color: purple;
+}
+
+.chat-warning {
+    background-color: darkred;
+}
+
+#minimap {
+    position: absolute;
+    width: 400px;
+    height: 200px;
+    bottom: 0px;
+    left: 0px;
+
+    img {
+        opacity: 0.5;
+    }
+}
+
+
+#player-list {
+    position: absolute;
+    top: 270px;
+    width: 350px;
+    /* height minus my top and minus minimap height and minus a margin of 20px*/
+    height: calc(100% - 270px - 200px - 20px);
+    left: 10px;
+    bottom: 250p;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    color: white;
+
+
+    tr.playerlist-player-inactive td {
+        text-decoration: line-through;
+    }
+
+    tr.playerlist-team-blue td {
+        color: #80bfff;
+    }
+
+    tr.playerlist-team-red td {
+        color: #f66;
+    }
+
+    td.playerlist-pos {
+        width: 40px;
+    }
+
+    td.playerlist-flag {
+        width: 30px;
+    }
+
+    td.playerlist-flag {
+        width: 30px;
+    }
+
+    td.playerlist-name {
+        width: 200px;
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    td.playerlist-score {
+        width: 120px;
+    }
+}
+
+canvas.shake-hit {
+    animation: shake-hit 0.3s;
+}
+
+canvas.shake-kill {
+    animation: shake-kill 0.5s;
+}
+
+@keyframes shake-hit {
+    0% {
+        transform: translate(1px, 1px) rotate(0deg);
+    }
+
+    10% {
+        transform: translate(-1px, -2px) rotate(-1deg);
+    }
+
+    20% {
+        transform: translate(-3px, 0px) rotate(1deg);
+    }
+
+    30% {
+        transform: translate(3px, 2px) rotate(0deg);
+    }
+
+    40% {
+        transform: translate(1px, -1px) rotate(1deg);
+    }
+
+    50% {
+        transform: translate(-1px, 2px) rotate(-1deg);
+    }
+
+    60% {
+        transform: translate(-3px, 1px) rotate(0deg);
+    }
+
+    70% {
+        transform: translate(3px, 1px) rotate(-1deg);
+    }
+
+    80% {
+        transform: translate(-1px, -1px) rotate(1deg);
+    }
+
+    90% {
+        transform: translate(1px, 2px) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(1px, -2px) rotate(-1deg);
+    }
+}
+
+
+@keyframes shake-kill {
+    0% {
+        transform: translate(2px, 2px) rotate(0deg);
+    }
+
+    10% {
+        transform: translate(-2px, -4px) rotate(-1deg);
+    }
+
+    20% {
+        transform: translate(-6px, 0px) rotate(1deg);
+    }
+
+    30% {
+        transform: translate(6px, 4px) rotate(0deg);
+    }
+
+    40% {
+        transform: translate(4px, -4px) rotate(1deg);
+    }
+
+    50% {
+        transform: translate(-2px, 4px) rotate(-1deg);
+    }
+
+    60% {
+        transform: translate(-4px, 2px) rotate(0deg);
+    }
+
+    70% {
+        transform: translate(4px, 2px) rotate(-1deg);
+    }
+
+    80% {
+        transform: translate(-2px, -2px) rotate(1deg);
+    }
+
+    90% {
+        transform: translate(2px, 4px) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(2px, -4px) rotate(-1deg);
+    }
+}

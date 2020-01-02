@@ -27,7 +27,7 @@ export class Player extends Mob {
     public powerUps: PowerUps;
     public hasShield: boolean;
     public hasInferno: boolean;
-    public shieldOrInfernoDuration: number;
+    public shieldOrInfernoTimer: StopWatch;
 
     public health: number = 1;
     public healthRegen: number;

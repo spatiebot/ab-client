@@ -37,6 +37,8 @@ export class Renderer {
     private flagRenderer: FlagRenderer;
     private statsRenderer: StatsRenderer;
 
+    private shakeTimeout: any;
+
     private periodicLogger: PeriodicLogger;
 
     constructor(private context: IContext) {
@@ -124,6 +126,16 @@ export class Renderer {
         this.playerListRenderer.render();
     }
 
+    public renderHit() {
+        this.canvas.className = "shake-hit";
+        this.stopShaking();
+    }
+
+    public renderKill() {
+        this.canvas.className = "shake-kill";
+        this.stopShaking();
+    }
+
     public renderGame(isFirstTick: boolean): void {
         if (isFirstTick) {
             // this may be the first tick after a panic,
@@ -164,4 +176,12 @@ export class Renderer {
         this.serverMessage = document.getElementById("server-message") as HTMLDivElement;
         this.pingElement = document.getElementById("stats-ping") as HTMLSpanElement;
     }
+
+    private stopShaking() {
+        if (this.shakeTimeout) {
+            this.context.tm.clearTimeout(this.shakeTimeout);
+        }
+        this.shakeTimeout = this.context.tm.setTimeout(() => this.canvas.className = "", 1000);
+    }
+
 }

@@ -26,6 +26,7 @@ export class KillRenderHandler implements IMessageHandler {
             text = `You have destroyed ${this.context.state.getPlayerName(msg.id)}`;
         } else if (msg.id === this.context.state.id) {
             text = `Destroyed by ${this.context.state.getPlayerName(msg.killer)}`;
+            this.context.renderer.renderKill();
         }
 
         if (text) {

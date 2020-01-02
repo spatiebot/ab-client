@@ -13,6 +13,7 @@
         "@types/node": "^12.12.14",
         "gulp": "4.0.0",
         "gulp-tslint": "8.1.4",
+        "gulp-less": "4.0.1",
         "gulp-typescript": "6.0.0-alpha.1",
         "webpack-stream": "5.2.1",
         "tslint": "5.20.1",

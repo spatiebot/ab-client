@@ -27,4 +27,11 @@ export class StopWatch {
         }
         return this.elapsedMs > this.timeoutMs;
     }
+
+    get timeoutFraction(): number {
+        if (!this.timeoutMs) {
+            return 0;
+        }
+        return this.elapsedMs / this.timeoutMs;
+    }
 }

@@ -1,6 +1,10 @@
 import { IContext } from "../app-context/icontext";
 import { Pos } from "../models/pos";
 
+const SHAKE_MARGIN = 20;
+const SHAKE_MARGIN_CSS = `-${SHAKE_MARGIN}px`;
+const SHAKE_MARGIN_DOUBLE = SHAKE_MARGIN * 2;
+
 export class ClippedView {
 
     private clipRectangle: Pos[];
@@ -12,15 +16,25 @@ export class ClippedView {
     }
 
     public setClip(canvas: HTMLCanvasElement): void {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+
+        // add margin of 25 on each side to allow for shaking
+        canvas.width = window.innerWidth + SHAKE_MARGIN_DOUBLE;
+        canvas.height = window.innerHeight + SHAKE_MARGIN_DOUBLE;
+        canvas.style.left = SHAKE_MARGIN_CSS;
+        canvas.style.top = SHAKE_MARGIN_CSS;
 
         const zoom = this.context.settings.zoom;
 
         if (this.lastWidth !== canvas.width || this.lastHeight !== canvas.height) {
-            this.context.connection.sendScreenSize(canvas.width / zoom, canvas.height / zoom);
+            const screenSizeX = canvas.width / zoom;
+            const screenSizeY = canvas.height / zoom;
+            this.context.connection.sendScreenSize(screenSizeX, screenSizeY);
             this.lastWidth = canvas.width;
             this.lastHeight = canvas.height;
+
+            // this is for sending the correct initial values
+            this.context.settings.horizonX = screenSizeX / 2;
+            this.context.settings.horizonY = screenSizeY / 2;
         }
 
         const myPos = this.context.state.getMe().pos;

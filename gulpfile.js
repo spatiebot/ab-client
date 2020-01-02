@@ -1,6 +1,8 @@
 var gulp = require('gulp');
 var ts = require('gulp-typescript');
 var tslint = require('gulp-tslint');
+var less = require('gulp-less');
+var path = require('path');
 var tsProject = ts.createProject('tsconfig.json');
 var gulpWebpack = require('webpack-stream');
 
@@ -16,7 +18,15 @@ gulp.task('lint', function () {
         .pipe(tslint.report())
 });
 
-gulp.task('webpack', function() {
+gulp.task('less', function () {
+    return gulp.src('./less/**/*.less')
+        .pipe(less({
+            paths: [path.join(__dirname, 'less', 'includes')]
+        }))
+        .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('webpack', function () {
     return gulp.src('build/browser-app.js')
         .pipe(gulpWebpack({
             output: {
@@ -28,7 +38,7 @@ gulp.task('webpack', function() {
 });
 
 
-gulp.task('webpack-prod', function() {
+gulp.task('webpack-prod', function () {
     return gulp.src('build/browser-app.js')
         .pipe(gulpWebpack({
             output: {
@@ -45,6 +55,7 @@ gulp.task('copy-data', function () {
 });
 
 gulp.task('default', gulp.parallel('copy-data', gulp.series('compile', 'lint')));
-gulp.task('browser', gulp.series('default', 'webpack'));
-gulp.task('browser-prod', gulp.series('default', 'webpack-prod'));
+gulp.task('browser-default', gulp.parallel('less', 'default'));
+gulp.task('browser', gulp.series('browser-default', 'webpack'));
+gulp.task('browser-prod', gulp.series('browser-default', 'webpack-prod'));
 gulp.task('node', gulp.series('default'));

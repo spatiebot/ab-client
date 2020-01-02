@@ -17,6 +17,7 @@ import { ChatRenderHandler } from "../handlers/render/chat-render-handler";
 import { CtfGameOverRenderHandler } from "../handlers/render/ctf-game-over-render-handler";
 import { EachSecondRenderHandler } from "../handlers/render/each-second-render-handler";
 import { GameRenderHandler } from "../handlers/render/game-render-handler";
+import { HitRenderHandler } from "../handlers/render/hit-render-handler";
 import { KillRenderHandler } from "../handlers/render/kill-render-handler";
 import { ServerAnnouncementRenderHandler } from "../handlers/render/server-announcement-render-handler";
 import { BrowserLogger } from "./browser-logger";
@@ -69,6 +70,7 @@ export class BrowserContext implements IContext {
             new ServerAnnouncementRenderHandler(this),
             new CtfGameOverRenderHandler(this),
             new KillRenderHandler(this),
+            new HitRenderHandler(this),
             new FlagCookieHandler(),
         ];
     }
