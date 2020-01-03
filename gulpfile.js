@@ -3,6 +3,7 @@ var ts = require('gulp-typescript');
 var tslint = require('gulp-tslint');
 var less = require('gulp-less');
 var path = require('path');
+var template = require('gulp-template');
 var tsProject = ts.createProject('tsconfig.json');
 var gulpWebpack = require('webpack-stream');
 
@@ -54,7 +55,16 @@ gulp.task('copy-data', function () {
         .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('default', gulp.parallel('copy-data', gulp.series('compile', 'lint')));
+gulp.task('inject-timestamp', function () {
+    return gulp.src('./dist/index.html')
+        .pipe(template({
+            timestamp: Date.now()
+        }))
+        .pipe(gulp.dest('./dist/'));
+});
+
+
+gulp.task('default', gulp.parallel(gulp.series('copy-data', 'inject-timestamp'), gulp.series('compile', 'lint')));
 gulp.task('browser-default', gulp.parallel('less', 'default'));
 gulp.task('browser', gulp.series('browser-default', 'webpack'));
 gulp.task('browser-prod', gulp.series('browser-default', 'webpack-prod'));
