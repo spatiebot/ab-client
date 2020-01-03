@@ -1,6 +1,9 @@
+@sea-color: #36529e;
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 10pt;
+    background-color: @sea-color;
 }
 
 .contrast-with-background {
@@ -127,6 +130,22 @@ div#nameAndGame {
     font-size: 20pt;
     font-weight: bold;
     color: white;
+
+    .flag {
+        display: inline-block;
+        width: 40px;
+        height: 45px;
+        margin-top: 20px;
+        margin-right: 5px;
+    }
+    .redflag {
+        .flag();
+        background-image: url(red-flag.png);
+    }
+    .blueflag {
+        .flag();
+        background-image: url(blue-flag.png);
+    }
 }
 
 #aircraftSelection {

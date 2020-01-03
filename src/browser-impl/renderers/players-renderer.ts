@@ -29,8 +29,11 @@ const HEALTH_DANGER = "red";
 const ENERGY = "silver";
 const HEALTH_ENERGY_BARS_RADIUS = 75;
 const HEALTH_ENERGY_BARS_WIDTH = 8;
+const SHIELD_INFERNO_BARS_WIDTH = 2 * HEALTH_ENERGY_BARS_WIDTH;
 
-const SHIELD_INFERNO_RADIUS = HEALTH_ENERGY_BARS_RADIUS - HEALTH_ENERGY_BARS_WIDTH;
+const SHIELD_INFERNO_RADIUS = HEALTH_ENERGY_BARS_RADIUS
+    - (HEALTH_ENERGY_BARS_WIDTH / 2)
+    - (SHIELD_INFERNO_BARS_WIDTH / 2);
 
 const SHIELD = "white";
 const INFERNO = "red";
@@ -129,10 +132,11 @@ export class PlayersRenderer {
                 const sayLeft = textWidth / 2;
                 const sayTop = -this.clip.scale(SAY_DISTANCE_FROM_AIRCRAFT);
                 const sayMargin = this.clip.scale(SAY_MARGIN);
-                context.fillRect(sayLeft - sayMargin, sayTop - sayMargin,
-                    textWidth + sayMargin * 2, this.clip.scale(SAY_HEIGHT));
+                const sayHeight = this.clip.scale(SAY_HEIGHT);
+                context.fillRect(-sayLeft - sayMargin, sayTop - sayMargin,
+                    textWidth + sayMargin * 2, sayHeight);
                 context.fillStyle = "white";
-                context.fillText(say.msg, sayLeft, sayTop);
+                context.fillText(say.msg, -sayLeft, sayTop);
             }
         }
         this.saysToSay = this.saysToSay.filter((x) => x.sw.elapsedSeconds < SAY_DURATION_SECONDS);
@@ -207,6 +211,7 @@ export class PlayersRenderer {
             const duration = !player.shieldOrInfernoTimer ? 1 :
                 Math.max(0.01, 1 - player.shieldOrInfernoTimer.timeoutFraction);
 
+            context.lineWidth = this.clip.scale(SHIELD_INFERNO_BARS_WIDTH);
             const shieldR = this.clip.scale(SHIELD_INFERNO_RADIUS);
             context.arc(0, 0, shieldR, Math.PI, Math.PI + (Math.PI * duration));
             context.stroke();

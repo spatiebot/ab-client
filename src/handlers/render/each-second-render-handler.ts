@@ -13,6 +13,9 @@ export class EachSecondRenderHandler implements IMessageHandler {
     }
 
     public exec(ev: EventMessage): void {
+        if (!this.context.isBrowserVisible) {
+            return;
+        }
         this.context.renderer.renderMinimap();
         this.context.renderer.renderPlayerList();
         this.context.renderer.showPing();

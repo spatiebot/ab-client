@@ -7,7 +7,7 @@ import { IMessageHandler } from "../imessage-handler";
 
 const KILL_MSG_DURATION_MS = 1000;
 
-export class KillRenderHandler implements IMessageHandler {
+export class ShakeAndShowMessageOnKillHandler implements IMessageHandler {
     public handles = [Events.PLAYER_KILLED];
 
     constructor(private context: BrowserContext) {

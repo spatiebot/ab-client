@@ -9,17 +9,20 @@ import { State } from "../app-context/state";
 import { TimerManager } from "../app-context/timer-manager";
 import { Connection } from "../connectivity/connection";
 import { EventQueue } from "../events/event-queue";
-import { ExplosionVisualizationHandler } from "../handlers/explosion-visualization-handler";
+import { BrowserVisibilityHandler } from "../handlers/browser-visibility-handler";
 import { FlagCookieHandler } from "../handlers/flag-cookie-handler";
 import { IMessageHandler } from "../handlers/imessage-handler";
 import { KillVisualizationHandler } from "../handlers/kill-visualization-handler";
 import { ChatRenderHandler } from "../handlers/render/chat-render-handler";
 import { CtfGameOverRenderHandler } from "../handlers/render/ctf-game-over-render-handler";
 import { EachSecondRenderHandler } from "../handlers/render/each-second-render-handler";
+import { ExplosionVisualizationHandler } from "../handlers/render/explosion-visualization-handler";
 import { GameRenderHandler } from "../handlers/render/game-render-handler";
-import { HitRenderHandler } from "../handlers/render/hit-render-handler";
-import { KillRenderHandler } from "../handlers/render/kill-render-handler";
+import { MissileChemtrailHandler } from "../handlers/render/missile-chemtrail-handler";
 import { ServerAnnouncementRenderHandler } from "../handlers/render/server-announcement-render-handler";
+import { ShakeAndShowMessageOnKillHandler } from "../handlers/render/shake-and-show-message-on-kill-handler";
+import { ShakeOnHitHandler } from "../handlers/render/shake-on-hit-handler";
+import { BrowserInitialization } from "./browser-initialization";
 import { BrowserLogger } from "./browser-logger";
 import { BrowserWebSocketFactory } from "./browser-websocket-factory";
 import { Renderer } from "./renderers/renderer";
@@ -42,13 +45,19 @@ export class BrowserContext implements IContext {
     public isActive: boolean;
 
     // browser-only:
+    public isBrowserVisible: boolean;
     public renderer = new Renderer(this);
     private chatInput = new ChatInput(this);
     private aircraftSelection = new AircraftSelection(this);
     private upgradeSelection = new ApplyUpgrades(this);
+    private browserInitialization = new BrowserInitialization(this);
     private keyboardInput = new KeyboardInput(this, this.chatInput, this.upgradeSelection, this.aircraftSelection);
+    private browserVisibilityHandler = new BrowserVisibilityHandler(this);
 
     constructor() {
+
+        this.browserInitialization.detectVisibilityChange();
+        this.browserInitialization.throttleZoom();
 
         this.logger = new BrowserLogger();
         this.webSocketFactory = new BrowserWebSocketFactory();
@@ -69,9 +78,10 @@ export class BrowserContext implements IContext {
             new EachSecondRenderHandler(this),
             new ServerAnnouncementRenderHandler(this),
             new CtfGameOverRenderHandler(this),
-            new KillRenderHandler(this),
-            new HitRenderHandler(this),
+            new ShakeAndShowMessageOnKillHandler(this),
+            new ShakeOnHitHandler(this),
             new FlagCookieHandler(),
+            new MissileChemtrailHandler(this),
         ];
     }
 
@@ -82,5 +92,12 @@ export class BrowserContext implements IContext {
         await this.connection.init();
         this.isActive = true;
         this.logger.info("Initialization finished");
+    }
+
+    public setBrowserVisibility(isVisible: boolean) {
+        this.isBrowserVisible = isVisible;
+        if (!isVisible) {
+            this.browserVisibilityHandler.clearKeys();
+        }
     }
 }

@@ -4,9 +4,6 @@ import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
 import { ITickArgs } from "../../events/event-args/itick-args";
 import { EventMessage } from "../../events/event-message";
-import { CloudVisual } from "../../models/cloud-visual";
-import { CloudVisualSpec } from "../../models/cloud-visual-spec";
-import { Pos } from "../../models/pos";
 import { IMessageHandler } from "../imessage-handler";
 
 export class MissileMaintenanceHandler implements IMessageHandler {
@@ -52,20 +49,6 @@ export class MissileMaintenanceHandler implements IMessageHandler {
                 missile.distance >= missileParams.distance
             ) {
                 this.context.state.removeMob(missile.id);
-            }
-
-            const cloudVisualSpec = CloudVisualSpec.getFor(missile.mobType);
-
-            if (tick.frame % cloudVisualSpec.spawnFreq === 0) {
-                const cloud = new CloudVisual(cloudVisualSpec);
-                cloud.pos = new Pos(missile.pos);
-
-                const maxSpeed = PROJECTILES_SPECS[missile.mobType].maxSpeed;
-                const jumpX = missile.speed.y / maxSpeed * cloudVisualSpec.distribBandwidth;
-                const jumpY = missile.speed.x / maxSpeed * cloudVisualSpec.distribBandwidth;
-                cloud.pos.x += tick.frame % (cloudVisualSpec.spawnFreq * 2) === 0 ? -jumpX : jumpX;
-                cloud.pos.y += tick.frame % (cloudVisualSpec.spawnFreq * 2) === 0 ? jumpY : -jumpY;
-                this.context.state.addRocketTrailCloud(cloud);
             }
         }
     }

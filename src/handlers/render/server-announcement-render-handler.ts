@@ -81,6 +81,9 @@ export class ServerAnnouncementRenderHandler implements IMessageHandler {
         this.context.renderer.showServerMessage(msg.type, msg.duration, msg.text);
 
         // also show server messages in the chat.
-        this.context.renderer.addChat(null, "Server", CHAT_TYPE.WHISPER, msg.text, null);
+        const div = document.createElement("div");
+        div.innerHTML = msg.text;
+        msg.text = div.innerText; // remove html elements
+        this.context.renderer.addChat(null, "Server", CHAT_TYPE.CHAT, msg.text, null);
     }
 }

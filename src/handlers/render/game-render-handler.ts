@@ -12,6 +12,10 @@ export class GameRenderHandler implements IMessageHandler {
     }
 
     public exec(ev: EventMessage): void {
+        if (!this.context.isBrowserVisible) {
+            return;
+        }
+
         const msg = ev.args as ITickArgs;
         const isFirstTick = msg.frame === 1;
 

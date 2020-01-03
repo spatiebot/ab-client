@@ -4,9 +4,7 @@ import { Events } from "../../events/constants";
 import { EventMessage } from "../../events/event-message";
 import { IMessageHandler } from "../imessage-handler";
 
-const KILL_MSG_DURATION_MS = 1000;
-
-export class HitRenderHandler implements IMessageHandler {
+export class ShakeOnHitHandler implements IMessageHandler {
     public handles = [Events.PLAYER_HIT];
 
     constructor(private context: BrowserContext) {
