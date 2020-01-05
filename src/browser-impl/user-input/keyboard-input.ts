@@ -44,6 +44,10 @@ export class KeyboardInput {
         let preventDefault = false;
         let keyToSend: KEY_CODES;
         switch (e.keyCode) {
+            case 16: // Shift
+                keyToSend = KEY_CODES.SPECIAL;
+                break;
+
             case 17: // Control
                 keyToSend = KEY_CODES.SPECIAL;
                 break;
