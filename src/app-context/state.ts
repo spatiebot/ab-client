@@ -2,6 +2,7 @@ import { CTF_TEAMS, MOB_TYPES } from "../ab-protocol/src/lib";
 import { CloudVisual } from "../models/cloud-visual";
 import { CtfTeam } from "../models/ctf-team";
 import { ExplosionVisual } from "../models/explosion-visual";
+import { GoliFartVisual } from "../models/golifart-visual";
 import { KillVisual } from "../models/kill-visual";
 import { Mob } from "../models/mob";
 import { Player } from "../models/player";
@@ -32,6 +33,7 @@ export class State {
     private mobs = {};
     private teams = {};
     private explosions: ExplosionVisual[] = [];
+    private farts: GoliFartVisual[] = [];
     private kills: KillVisual[] = [];
     private rocketTrailClouds: CloudVisual[] = [];
 
@@ -136,6 +138,17 @@ export class State {
         const activeKills = this.kills.filter((e) => !e.isFinished);
         this.kills = activeKills;
         return activeKills;
+    }
+
+    public addFart(fart: GoliFartVisual) {
+        this.farts.push(fart);
+    }
+
+    // get only active fart visuals, also purges the collection of inactive farts
+    public getActiveFarts(): GoliFartVisual[] {
+        const activeFarts = this.farts.filter((e) => !e.isFinished);
+        this.farts = activeFarts;
+        return activeFarts;
     }
 
     public addRocketTrailCloud(cloud: CloudVisual) {

@@ -12,12 +12,13 @@ import { EventQueue } from "../events/event-queue";
 import { BrowserVisibilityHandler } from "../handlers/browser-visibility-handler";
 import { FlagCookieHandler } from "../handlers/flag-cookie-handler";
 import { IMessageHandler } from "../handlers/imessage-handler";
-import { KillVisualizationHandler } from "../handlers/kill-visualization-handler";
 import { ChatRenderHandler } from "../handlers/render/chat-render-handler";
 import { CtfGameOverRenderHandler } from "../handlers/render/ctf-game-over-render-handler";
 import { EachSecondRenderHandler } from "../handlers/render/each-second-render-handler";
 import { ExplosionVisualizationHandler } from "../handlers/render/explosion-visualization-handler";
 import { GameRenderHandler } from "../handlers/render/game-render-handler";
+import { GoliFartVisualizationHandler } from "../handlers/render/golifart-visualization-handler";
+import { KillVisualizationHandler } from "../handlers/render/kill-visualization-handler";
 import { MissileChemtrailHandler } from "../handlers/render/missile-chemtrail-handler";
 import { ServerAnnouncementRenderHandler } from "../handlers/render/server-announcement-render-handler";
 import { ShakeAndShowMessageOnKillHandler } from "../handlers/render/shake-and-show-message-on-kill-handler";
@@ -73,6 +74,7 @@ export class BrowserContext implements IContext {
             ...HandlerCollections.getDefaultHandlers(this),
             new ExplosionVisualizationHandler(this),
             new KillVisualizationHandler(this),
+            new GoliFartVisualizationHandler(this),
             new GameRenderHandler(this),
             new ChatRenderHandler(this),
             new EachSecondRenderHandler(this),
@@ -80,7 +82,7 @@ export class BrowserContext implements IContext {
             new CtfGameOverRenderHandler(this),
             new ShakeAndShowMessageOnKillHandler(this),
             new ShakeOnHitHandler(this),
-            new FlagCookieHandler(),
+            new FlagCookieHandler(this),
             new MissileChemtrailHandler(this),
         ];
     }

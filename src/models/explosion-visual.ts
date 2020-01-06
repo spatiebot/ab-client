@@ -4,6 +4,7 @@ import { Pos } from "./pos";
 
 const EXPLOSION_TIMEOUT_MS = 500;
 const EXPLOSION_MAX_SIZE = 60;
+const EXPLOSION_GROW_PER_MS =  EXPLOSION_MAX_SIZE / EXPLOSION_TIMEOUT_MS;
 
 export class ExplosionVisual {
     public pos: Pos;
@@ -16,6 +17,6 @@ export class ExplosionVisual {
     }
 
     public get size(): number {
-        return this.stopwatch.elapsedMs * EXPLOSION_MAX_SIZE / EXPLOSION_TIMEOUT_MS;
+        return this.stopwatch.elapsedMs * EXPLOSION_GROW_PER_MS;
     }
 }
