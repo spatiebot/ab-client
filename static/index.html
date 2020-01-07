@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>ΛIMISH</title>
-    <link rel="stylesheet" type="text/css" href="styles.css?v=<%= timestamp %>"/>
+    <link rel="stylesheet" type="text/css" href="styles.css?v=<%= timestamp %>" />
 </head>
 
 <body style="overflow: hidden;">
@@ -35,7 +35,7 @@
 
         <!-- chat box -->
         <div id="chat-input" style="display: none;">
-            <span class="contrast-with-background" style="position: absolute;">Type &lt;Enter&gt; to chat</span>
+            <span style="position: absolute;" id="input-instruction">Click here or type &lt;Enter&gt; to chat</span>
             <input type="text" style="width: 100%; position: absolute;" id="chat-input-textbox" />
         </div>
         <div id="chat" style="display: none;">
@@ -44,6 +44,17 @@
         <table id="player-list" style="display: none;">
 
         </table>
+        <!-- player context menu -->
+        <div id="player-context-menu" style="display: none;">
+            <div class="menu-item" id="menu-title">Player</div>
+            <div class="menu-item" id="menu-whisper">Send private message</div>
+            <div class="menu-item" id="menu-locate">Locate on minimap</div>
+            <div class="menu-item" id="menu-flag">Copy flag</div>
+            <div class="menu-item" id="menu-ignore">Ignore</div>
+            <div class="menu-item" id="menu-unignore">Unignore</div>
+            <div class="menu-item" id="menu-votemute">Vote mute</div>
+        </div>
+
         <!-- minimap -->
         <div id="minimap" style="display: none">
             <img src="minimap-miller.png" style="position: absolute; width: 100%; height: 100%;" />
@@ -68,7 +79,7 @@
         </div>
 
         <!-- aircraft selection -->
-        <div id="aircraftSelection" class="block-right" style="width: 50px; padding: 5px; top: 10; display: none;">
+        <div id="aircraftSelection" style="display: none;">
             <img src="f16.png" id="select-raptor" title="F1" /><br />
             <img src="b2.png" id="select-spirit" title="F2" /><br />
             <img src="apache.png" id="select-mohawk" title="F3" /><br />
@@ -76,7 +87,7 @@
             <img src="f19.png" id="select-prowler" title="F5" /><br />
         </div>
         <!-- stats -->
-        <div id="stats" class="contrast-with-background block-right" style="padding: 5px; top: 300px; display: none">
+        <div id="stats" style="display: none">
             Score: <span id="stats-score">0</span><br />
             Upgrades: <span id="stats-upgrades">0</span><br />
             Kills: <span id="stats-kills">0</span><br />
@@ -84,18 +95,17 @@
             Ping: <span id="stats-ping">100</span><br />
         </div>
         <!-- upgrade selection -->
-        <div id="upgradeSelection" class="contrast-with-background block-right"
-            style="width: 50px; padding: 5px; top: 440px; display: none">
-            <div id="select-speed" class="with-border" title="Speed upgrade (1)">S: <span id="stats-speed">0</span>
+        <div id="upgradeSelection" style="display: none">
+            <div id="select-speed" title="Speed upgrade (1)">S: <span id="stats-speed">0</span>
             </div>
-            <div id="select-defense" class="with-border" title="Defense upgrade (2)">D: <span
+            <div id="select-defense" title="Defense upgrade (2)">D: <span
                     id="stats-defense">0</span>
             </div>
-            <div id="select-energy" class="with-border" title="Energy regeneration upgrade (3)">E: <span
+            <div id="select-energy" title="Energy regeneration upgrade (3)">E: <span
                     id="stats-energy">0</span></div>
-            <div id="select-missile" class="with-border" title="Missile speed upgrade (4)">M: <span
+            <div id="select-missile" title="Missile speed upgrade (4)">M: <span
                     id="stats-missile">0</span></div>
-            <div id="drop-upgrade" class="with-border" title="Drop 1 upgrade (x)">
+            <div id="drop-upgrade" title="Drop 1 upgrade (x)">
                 <img src="drop-upgrades.png" />
             </div>
         </div>

@@ -4,6 +4,7 @@ import * as marshaling from "../ab-protocol/src/marshaling";
 import { ProtocolPacket } from "../ab-protocol/src/packets";
 import CLIENT_PACKETS from "../ab-protocol/src/packets/client";
 import SERVER_PACKETS from "../ab-protocol/src/packets/server";
+import { Backup, Chat, Command, Horizon, Key, Votemute } from "../ab-protocol/src/types/packets-client";
 import { Login, Ping, PingResult } from "../ab-protocol/src/types/packets-server";
 import * as unmarshaling from "../ab-protocol/src/unmarshaling";
 import { IContext } from "../app-context/icontext";
@@ -34,7 +35,7 @@ export class Connection {
             key,
             seq: this.keySequenceNumber,
             state,
-        };
+        } as Key;
         this.send(msg);
         if (this.backupClientIsConnected) {
             this.send(msg, true);
@@ -46,7 +47,15 @@ export class Connection {
             c: CLIENT_PACKETS.COMMAND,
             com: command,
             data: params,
-        };
+        } as Command;
+        this.send(msg);
+    }
+
+    public voteMute(playerId: number) {
+        const msg = {
+            c: CLIENT_PACKETS.VOTEMUTE,
+            id: playerId,
+        } as Votemute;
         this.send(msg);
     }
 
@@ -75,7 +84,7 @@ export class Connection {
             c,
             id: targetPlayerID,
             text,
-        };
+        } as Chat;
 
         this.send(msg);
     }
@@ -85,7 +94,7 @@ export class Connection {
             c: CLIENT_PACKETS.HORIZON,
             horizonX: Math.ceil(width / 2),
             horizonY: Math.ceil(height / 2),
-        });
+        } as Horizon);
     }
 
     private onInitPrimary(): Promise<any> {
@@ -136,7 +145,7 @@ export class Connection {
         this.send({
             c: CLIENT_PACKETS.BACKUP,
             token,
-        }, true);
+        } as Backup, true);
     }
 
     private initWebSocket(isPrimary: boolean): Promise<WebSocket> {

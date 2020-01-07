@@ -46,7 +46,7 @@ export class PlayerListRenderer {
                 cellFlag = row.insertCell();
                 cellFlag.className = "playerlist-flag";
                 cellName = row.insertCell();
-                cellName.className = "playerlist-name";
+                cellName.className = "playerlist-name player-name";
                 cellScore = row.insertCell();
                 cellScore.className = "playerlist-score";
 
@@ -72,6 +72,8 @@ export class PlayerListRenderer {
             flagImage.src = "flags/" + flag + ".png";
 
             cellName.innerText = player.name;
+            cellName.dataset.name = encodeURI(player.name);
+            cellName.dataset.id = player.id.toString();
             cellScore.innerText = `${player.score}`;
 
             rowCount++;

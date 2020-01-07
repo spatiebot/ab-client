@@ -15,6 +15,9 @@ export class ChatInput {
         this.input = document.getElementById("chat-input-textbox") as HTMLInputElement;
         this.input.addEventListener("blur", () => this.hide());
         this.hide();
+
+        const instructionSpan = document.getElementById("input-instruction");
+        instructionSpan.addEventListener("click", () => this.showAndFocus());
     }
 
     public showAndFocus() {
@@ -24,6 +27,11 @@ export class ChatInput {
 
     public hide() {
         this.input.style.display = "none";
+    }
+
+    public startChat(suggestedText: string) {
+        this.showAndFocus();
+        this.input.value = suggestedText;
     }
 
     public isChatInputFocused() {

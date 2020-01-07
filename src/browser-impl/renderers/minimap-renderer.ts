@@ -16,6 +16,9 @@ const RED_TEAM_COLOR = "darkred";
 const CTF_BASE_SIZE = 4;
 const CTF_FLAG_SIZE = 10;
 
+const HIGHLIGH_SIZE = 2 * MARKER_SIZE;
+const HIGHLIGHT_COLOR = "white";
+
 export class MinimapRenderer {
 
     private canvas: HTMLCanvasElement;
@@ -23,11 +26,17 @@ export class MinimapRenderer {
     private readonly blueFlag: HTMLImageElement;
     private readonly redFlag: HTMLImageElement;
 
+    private playerToHighlight: number;
+
     constructor(private context: IContext) {
         this.canvas = document.getElementById("minimap-canvas") as HTMLCanvasElement;
         this.canvasContext = this.canvas.getContext("2d");
         this.blueFlag = document.getElementById("blue-flag") as HTMLImageElement;
         this.redFlag = document.getElementById("red-flag") as HTMLImageElement;
+    }
+
+    public highlight(playerId: number) {
+        this.playerToHighlight = playerId;
     }
 
     public render(): void {
@@ -73,6 +82,13 @@ export class MinimapRenderer {
                 this.canvasContext.beginPath();
                 this.canvasContext.arc(pos.x, pos.y, MARKER_SIZE, 0, 2 * Math.PI);
                 this.canvasContext.fill();
+
+                if (player.id === this.playerToHighlight) {
+                    this.canvasContext.strokeStyle = HIGHLIGHT_COLOR;
+                    this.canvasContext.beginPath();
+                    this.canvasContext.arc(pos.x, pos.y, HIGHLIGH_SIZE, 0, 2 * Math.PI);
+                    this.canvasContext.stroke();
+                }
             }
         }
 

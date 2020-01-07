@@ -39,6 +39,7 @@ export class Renderer {
 
     private shakeTimeout: any;
 
+    private ignoredPlayers: number[] = [];
     private periodicLogger: PeriodicLogger;
 
     constructor(private context: IContext) {
@@ -67,6 +68,10 @@ export class Renderer {
     }
 
     public addChat(playerId: number, playerName: string, chatType: CHAT_TYPE, msg: string, to: number) {
+        if (this.ignoredPlayers.indexOf(playerId) !== -1) {
+            return;
+        }
+
         playerName = playerName.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         msg = msg.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
@@ -88,7 +93,11 @@ export class Renderer {
                 }
             }
 
-            this.chatBox.innerHTML += `<div class="chat ${type}"><strong>${playerName}${typeLabel}</strong>: ${msg}</div>`;
+            const safePlayerName = encodeURI(playerName);
+
+            this.chatBox.innerHTML += `<div class="chat ${type}"><strong class="player-name" ` +
+                `data-name="${safePlayerName}" data-id="${playerId}">` +
+                `${playerName}${typeLabel}</strong>: ${msg}</div>`;
             this.chatBox.scrollTop = this.chatBox.scrollHeight;
         }
 
@@ -116,6 +125,20 @@ export class Renderer {
 
     public showPing() {
         this.pingElement.innerText = "" + this.context.state.ping + " ms";
+    }
+
+    public highlightPlayerOnMinimap(playerId: number) {
+        this.minimapRenderer.highlight(playerId);
+    }
+
+    public ignorePlayer(playerId: number) {
+        if (this.ignoredPlayers.indexOf(playerId) === -1 && playerId !== this.context.state.id) {
+            this.ignoredPlayers.push(playerId);
+        }
+    }
+
+    public unignorePlayer(playerId: number) {
+        this.ignoredPlayers = this.ignoredPlayers.filter((x) => x !== playerId);
     }
 
     public renderMinimap() {

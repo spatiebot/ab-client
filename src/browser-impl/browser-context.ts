@@ -30,7 +30,8 @@ import { Renderer } from "./renderers/renderer";
 import { AircraftSelection } from "./user-input/aircraft-selection";
 import { ApplyUpgrades } from "./user-input/apply-upgrades";
 import { ChatInput } from "./user-input/chat-input";
-import { KeyboardInput } from "./user-input/keyboard-input";
+import { KeyboardAndMouseInput } from "./user-input/keyboard-and-mouse-input";
+import { PlayerDropDownMenu } from "./user-input/player-dropdownmenu";
 
 export class BrowserContext implements IContext {
     public gameType: GAME_TYPES;
@@ -51,9 +52,16 @@ export class BrowserContext implements IContext {
     private chatInput = new ChatInput(this);
     private aircraftSelection = new AircraftSelection(this);
     private upgradeSelection = new ApplyUpgrades(this);
+    private playerDropdownMenu = new PlayerDropDownMenu(this, this.chatInput, this.renderer);
     private browserInitialization = new BrowserInitialization(this);
-    private keyboardInput = new KeyboardInput(this, this.chatInput, this.upgradeSelection, this.aircraftSelection);
     private browserVisibilityHandler = new BrowserVisibilityHandler(this);
+
+    private keyboardInput = new KeyboardAndMouseInput(
+        this,
+        this.chatInput,
+        this.upgradeSelection,
+        this.aircraftSelection,
+        this.playerDropdownMenu);
 
     constructor() {
 
