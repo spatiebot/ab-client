@@ -1,7 +1,6 @@
-import { SHIPS_SPECS, SHIPS_TYPES } from "../../ab-assets/ships-constants";
+import { SHIPS_SPECS } from "../../ab-assets/ships-constants";
 import { COUNTRY_NAMES, CTF_TEAMS, FLAGS_CODE_TO_ISO, PLAYER_STATUS } from "../../ab-protocol/src/lib";
 import { IContext } from "../../app-context/icontext";
-import { Random } from "../../helpers/random";
 import { StopWatch } from "../../helpers/stopwatch";
 import { Player } from "../../models/player";
 import { Pos } from "../../models/pos";
@@ -17,7 +16,7 @@ const COLOR_RED_TEAM_PROWLER = "rgba(153, 60, 60, 0.6)";
 
 // name colors
 const NAME_COLOR_REGULAR = "white";
-const NAME_COLOR_NO_BITMAP = "black";
+const NAME_COLOR_NO_BITMAP = "white";
 const NAME_COLOR_RED = "#f66";
 const NAME_COLOR_BLUE = "#80bfff";
 const STATS_COLOR = "silver";
@@ -47,6 +46,8 @@ const SAY_MARGIN = 20;
 const SAY_HEIGHT = 40;
 const SAY_DURATION_SECONDS = 5;
 const SAY_DISTANCE_FROM_AIRCRAFT = 80;
+const SAY_BACKGROUND_COLOR = "black";
+const SAY_FOREGROUND_COLOR = "white";
 
 export class PlayersRenderer {
 
@@ -127,7 +128,7 @@ export class PlayersRenderer {
     private renderTextBubble(player: Player, context: CanvasRenderingContext2D) {
         for (const say of this.saysToSay) {
             if (say.playerId === player.id) {
-                context.fillStyle = "black";
+                context.fillStyle = SAY_BACKGROUND_COLOR;
                 const textWidth = context.measureText(say.msg).width;
                 const sayLeft = textWidth / 2;
                 const sayTop = -this.clip.scale(SAY_DISTANCE_FROM_AIRCRAFT);
@@ -135,7 +136,7 @@ export class PlayersRenderer {
                 const sayHeight = this.clip.scale(SAY_HEIGHT);
                 context.fillRect(-sayLeft - sayMargin, sayTop - sayMargin,
                     textWidth + sayMargin * 2, sayHeight);
-                context.fillStyle = "white";
+                context.fillStyle = SAY_FOREGROUND_COLOR;
                 context.fillText(say.msg, -sayLeft, sayTop);
             }
         }

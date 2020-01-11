@@ -1,4 +1,5 @@
 import { abWalls } from "../../ab-assets/walls";
+import { IContext } from "../../app-context/icontext";
 import { Pos } from "../../models/pos";
 import { ClippedView } from "../clipped-view";
 
@@ -10,13 +11,15 @@ const MIN_RADIUS_FOR_REGULAR = 108;
 const MIN_RADIUS_FOR_SMALL = 84;
 const MIN_RADIUS_FOR_SMALLER = 60;
 
+const wallColor = "darkgreen";
+
 export class WallsRenderer {
 
     private wallImages: {
         [wallNum: number]: HTMLImageElement,
     };
 
-    constructor(private clip: ClippedView) {
+    constructor(private clip: ClippedView, private context: IContext) {
         const medium = document.getElementById("mountain-medium") as HTMLImageElement;
         const large = document.getElementById("mountain-large") as HTMLImageElement;
 
@@ -68,13 +71,23 @@ export class WallsRenderer {
             if (this.clip.isVisible(topLeft) || this.clip.isVisible(bottRight)) {
 
                 const clipPos = this.clip.translate(pos);
-                const scaledRadius = this.clip.scale(radius) * MOUNTAIN_BITMAP_SCALE;
-                const wallNum = wall[3];
 
-                const img = this.wallImages[wallNum];
-                context.drawImage(img, 0, 0, img.width, img.height,
-                    clipPos.x - scaledRadius, clipPos.y - scaledRadius, scaledRadius * 2, scaledRadius * 2);
+                if (this.context.settings.useBitmaps) {
+                    const scaledRadius = this.clip.scale(radius) * MOUNTAIN_BITMAP_SCALE;
+                    const wallNum = wall[3];
 
+                    const img = this.wallImages[wallNum];
+                    context.drawImage(img, 0, 0, img.width, img.height,
+                        clipPos.x - scaledRadius, clipPos.y - scaledRadius, scaledRadius * 2, scaledRadius * 2);
+
+                } else {
+                    const scaledradius = this.clip.scale(radius);
+                    context.fillStyle = wallColor;
+                    context.beginPath();
+
+                    context.arc(clipPos.x, clipPos.y, scaledradius, 0, 2 * Math.PI);
+                    context.fill();
+                }
             }
         }
     }

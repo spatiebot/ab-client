@@ -4,6 +4,7 @@ import { ClippedView } from "../clipped-view";
 const EXPLOSION_COLOR = "rgba(255, 255, 0, 0.7)";
 const KILL_COLOR = "rgba(200, 0, 0, 0.7)";
 const FART_COLOR = "rgba(150, 120, 100, 0.5)";
+const MISSILE_BASE_COLOR = "240, 240, 240";
 
 export class ExplosionsRenderer {
     constructor(private context: IContext, private clip: ClippedView) {
@@ -70,7 +71,7 @@ export class ExplosionsRenderer {
                 if (opacity === 0) {
                     continue;
                 }
-                context.fillStyle = `rgba(240, 240, 240, ${opacity})`;
+                context.fillStyle = `rgba(${MISSILE_BASE_COLOR}, ${opacity})`;
                 const clipPos = this.clip.translate(pos);
                 context.beginPath();
                 const cloudSize = this.clip.scale(cloud.size);

@@ -7,11 +7,12 @@ const GRID_DISTANCE = 100;
 // the background image is 4x too small for performance reasons
 const MAP_SCALE = .25;
 
+const GRID_COLOR = "white";
+
 export class BackgroundRenderer {
     private backgroundImage: HTMLImageElement;
     constructor(private clip: ClippedView, private context: IContext) {
         this.backgroundImage = document.getElementById("map") as HTMLImageElement;
-
     }
 
     public renderBackground(context: CanvasRenderingContext2D): void {
@@ -28,7 +29,7 @@ export class BackgroundRenderer {
         }
 
         // draw a grid
-        context.fillStyle = this.context.settings.useBitmaps ? "silver" : "black";
+        context.fillStyle = GRID_COLOR;
         const gridDistance = this.clip.scale(GRID_DISTANCE);
         for (let y = clipRect[0].y - (clipRect[0].y % gridDistance); y < clipRect[1].y; y += gridDistance) {
             for (let x = clipRect[0].x - (clipRect[0].x % gridDistance); x < clipRect[1].x; x += gridDistance) {
