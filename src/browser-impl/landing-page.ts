@@ -3,17 +3,21 @@ import Cookies from "js-cookie";
 import { COUNTRY_NAMES } from "../ab-protocol/src/lib";
 import { Settings } from "../app-context/settings";
 import { ServerGamesRepository } from "../helpers/games-repository";
+import { StylesRepository } from "../helpers/styles-repository";
 import { BrowserContext } from "./browser-context";
 
 export class LandingPage {
 
     private serverGamesRepository: ServerGamesRepository;
+    private stylesRepository: StylesRepository;
     private nameInput: HTMLInputElement;
     private styleSelect: HTMLSelectElement;
     private zoomSelect: HTMLSelectElement;
+    private loadConstantsPromise: Promise<any>;
 
     constructor(private context: BrowserContext) {
         this.serverGamesRepository = new ServerGamesRepository();
+        this.stylesRepository = new StylesRepository();
 
         this.nameInput = document.getElementById("playerName") as HTMLInputElement;
         this.styleSelect = document.getElementById("styleSelect") as HTMLSelectElement;
@@ -27,6 +31,14 @@ export class LandingPage {
 
         this.loadAllFlags();
         this.fillInPrevSettings();
+
+        this.loadConstantsPromise = this.stylesRepository.loadStyle("styles/default/");
+
+        this.styleSelect.addEventListener("change", () => {
+            if (this.styleSelect.value !== "no-bitmaps") {
+                this.loadConstantsPromise = this.stylesRepository.loadStyle(this.styleSelect.value);
+            }
+        });
     }
 
     private fillInPrevSettings() {
@@ -54,12 +66,12 @@ export class LandingPage {
         }
     }
 
-    private startGame(websocketUrl: string) {
+    private async startGame(websocketUrl: string) {
 
         this.context.settings.playerName = this.nameInput.value || "Unknown";
         this.context.settings.websocketUrl = websocketUrl;
         this.context.settings.zoom = Number(this.zoomSelect.value) || 1;
-        this.context.settings.useBitmaps = this.styleSelect.value !== "2";
+        this.context.settings.useBitmaps = this.styleSelect.value !== "no-bitmaps";
         this.context.settings.horizonX = window.innerWidth / 2;
         this.context.settings.horizonY = window.innerHeight / 2;
 
@@ -74,6 +86,8 @@ export class LandingPage {
         document.getElementById("minimap").style.display = "block";
         document.getElementById("player-list").style.display = "block";
         document.getElementById("server-message").style.display = "block";
+
+        await this.loadConstantsPromise;
 
         // ctf-block will be shown later
         window.document.body.style.backgroundImage = "inherit";

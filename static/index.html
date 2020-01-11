@@ -3,32 +3,32 @@
 <head>
     <meta charset="utf-8" />
     <title>ΛIMISH</title>
-    <link rel="stylesheet" type="text/css" href="styles.css?v=<%= timestamp %>" />
+    <link id="ui-styling" rel="stylesheet" type="text/css" href="styles/default/style.css?v=<%= timestamp %>" />
 </head>
 
 <body style="overflow: hidden;">
     <div id="root" style="width: 100%; height: 100%">
         <!-- background map -->
-        <img src="map-miller.png" id="map" style="display: none;" />
-        <img src="tintin-rocket.png" id="missile" style="display: none;" />
-        <img src="blue-flag.png" id="blue-flag" style="display: none;" />
-        <img src="red-flag.png" id="red-flag" style="display: none;" />
+        <img src="styles/default/map.png" id="map" style="display: none;" />
+        <img src="styles/default/rocket.png" id="missile" style="display: none;" />
+        <img src="styles/default/blue-flag.png" id="blue-flag" style="display: none;" />
+        <img src="styles/default/red-flag.png" id="red-flag" style="display: none;" />
         <!-- aircraft images used for rendering -->
-        <img src="f16.png" id="raptor" style="display: none" />
-        <img src="b2.png" id="spirit" style="display: none" />
-        <img src="apache.png" id="mohawk" style="display: none" />
-        <img src="mirage.png" id="tornado" style="display: none" />
-        <img src="f19.png" id="prowler" style="display: none" />
+        <img src="styles/default/raptor.png" id="raptor" style="display: none" />
+        <img src="styles/default/spirit.png" id="spirit" style="display: none" />
+        <img src="styles/default/mohawk.png" id="mohawk" style="display: none" />
+        <img src="styles/default/tornado.png" id="tornado" style="display: none" />
+        <img src="styles/default/prowler.png" id="prowler" style="display: none" />
 
         <!-- images to render walls to mountains -->
-        <img src="mountain-large.png" id="mountain-large" style="display: none;" />
-        <img src="mountain-medium.png" id="mountain-medium" style="display: none;" />
-        <img src="mountain-regular-a.png" id="mountain-regular-a" style="display: none;" />
-        <img src="mountain-regular-b.png" id="mountain-regular-b" style="display: none;" />
-        <img src="mountain-regular-c.png" id="mountain-regular-c" style="display: none;" />
-        <img src="mountain-small.png" id="mountain-small" style="display: none;" />
-        <img src="mountain-smaller.png" id="mountain-smaller" style="display: none;" />
-        <img src="mountain-mini.png" id="mountain-mini" style="display: none;" />
+        <img src="styles/default/mountain-large.png" id="mountain-large" style="display: none;" />
+        <img src="styles/default/mountain-medium.png" id="mountain-medium" style="display: none;" />
+        <img src="styles/default/mountain-regular-a.png" id="mountain-regular-a" style="display: none;" />
+        <img src="styles/default/mountain-regular-b.png" id="mountain-regular-b" style="display: none;" />
+        <img src="styles/default/mountain-regular-c.png" id="mountain-regular-c" style="display: none;" />
+        <img src="styles/default/mountain-small.png" id="mountain-small" style="display: none;" />
+        <img src="styles/default/mountain-smaller.png" id="mountain-smaller" style="display: none;" />
+        <img src="styles/default/mountain-mini.png" id="mountain-mini" style="display: none;" />
 
         <!-- canvas on which rendering takes place -->
         <canvas id="canvas" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
@@ -58,7 +58,7 @@
 
         <!-- minimap -->
         <div id="minimap" style="display: none">
-            <img src="minimap-miller.png" style="position: absolute; width: 100%; height: 100%;" />
+            <img src="styles/default/minimap.png" style="position: absolute; width: 100%; height: 100%;" />
             <canvas id="minimap-canvas" style="position: absolute; width: 100%; height: 100%"></canvas>
         </div>
 
@@ -81,11 +81,11 @@
 
         <!-- aircraft selection -->
         <div id="aircraftSelection" style="display: none;">
-            <img src="f16.png" id="select-raptor" title="F1" /><br />
-            <img src="b2.png" id="select-spirit" title="F2" /><br />
-            <img src="apache.png" id="select-mohawk" title="F3" /><br />
-            <img src="mirage.png" id="select-tornado" title="F4" /><br />
-            <img src="f19.png" id="select-prowler" title="F5" /><br />
+            <img src="styles/default/raptor.png" id="select-raptor" title="F1" /><br />
+            <img src="styles/default/spirit.png" id="select-spirit" title="F2" /><br />
+            <img src="styles/default/mohawk.png" id="select-mohawk" title="F3" /><br />
+            <img src="styles/default/tornado.png" id="select-tornado" title="F4" /><br />
+            <img src="styles/default/prowler.png" id="select-prowler" title="F5" /><br />
         </div>
         <!-- stats -->
         <div id="stats" style="display: none">
@@ -107,7 +107,7 @@
             <div id="select-missile" title="Missile speed upgrade (4)">M: <span
                     id="stats-missile">0</span></div>
             <div id="drop-upgrade" title="Drop 1 upgrade (x)">
-                <img src="drop-upgrades.png" />
+                <img src="styles/default/drop-upgrades.png" />
             </div>
         </div>
 
@@ -122,8 +122,8 @@
                     <td>Style</td>
                     <td>
                         <select id="styleSelect">
-                            <option value="1">Default</option>
-                            <option value="2">No bitmaps</option>
+                            <option value="no-bitmaps">No bitmaps</option>
+                            <option value="styles/default/" selected>Default</option>
                         </select>
                     </td>
                 </tr>

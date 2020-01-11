@@ -1,7 +1,6 @@
 import { CHAT_TYPE } from "../../ab-assets/chat-constants";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
-import { IChatArgs } from "../../events/event-args/chat-args";
 import { IChatSendArgs } from "../../events/event-args/ichat-send-args";
 import { IMessageToPlayerArgs } from "../../events/event-args/message-to-player-args";
 import { Player } from "../../models/player";

@@ -11,7 +11,7 @@ const MIN_RADIUS_FOR_REGULAR = 108;
 const MIN_RADIUS_FOR_SMALL = 84;
 const MIN_RADIUS_FOR_SMALLER = 60;
 
-const wallColor = "darkgreen";
+declare const constants: any;
 
 export class WallsRenderer {
 
@@ -82,7 +82,7 @@ export class WallsRenderer {
 
                 } else {
                     const scaledradius = this.clip.scale(radius);
-                    context.fillStyle = wallColor;
+                    context.fillStyle = constants.WALLS_NOBITMAP_COLOR;
                     context.beginPath();
 
                     context.arc(clipPos.x, clipPos.y, scaledradius, 0, 2 * Math.PI);

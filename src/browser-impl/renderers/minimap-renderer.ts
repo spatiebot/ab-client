@@ -11,17 +11,12 @@ const MY_RECT_HEIGHT = 10;
 const HALF_MAP_WIDTH = MAP_SIZE.WIDTH / 2;
 const HALF_MAP_HEIGHT = MAP_SIZE.HEIGHT / 2;
 
-const BLUE_TEAM_COLOR = "navy";
-const RED_TEAM_COLOR = "darkred";
 const CTF_BASE_SIZE = 4;
 const CTF_FLAG_SIZE = 10;
 
 const HIGHLIGH_SIZE = 2 * MARKER_SIZE;
-const HIGHLIGHT_COLOR = "white";
 
-const PLAYER_1_COLOR = "yellow";
-const PLAYER_2_COLOR = "silver";
-const PLAYER_3_COLOR = "orange";
+declare const constants: any;
 
 export class MinimapRenderer {
 
@@ -61,24 +56,26 @@ export class MinimapRenderer {
                 (player.mostReliablePos.y + HALF_MAP_HEIGHT) * scaleY);
 
             if (player.id === myId) {
-                this.canvasContext.strokeStyle = HIGHLIGHT_COLOR;
+                this.canvasContext.strokeStyle = constants.MINIMAP_HIGHLIGHT_COLOR;
                 this.canvasContext.strokeRect(
                     pos.x - MY_RECT_WIDTH / 2, pos.y - MY_RECT_HEIGHT / 2,
                     MY_RECT_WIDTH, MY_RECT_HEIGHT);
             } else {
-                let fillStyle = RED_TEAM_COLOR; // and the color of all players in FFA
+                let fillStyle = constants.MINIMAP_FFA_PLAYER_COLOR;
                 if (player.team === CTF_TEAMS.BLUE) {
-                    fillStyle = BLUE_TEAM_COLOR;
+                    fillStyle = constants.CTF_BLUE_TEAM_COLOR;
+                } else if (player.team === CTF_TEAMS.RED) {
+                    fillStyle = constants.CTF_RED_TEAM_COLOR;
                 }
                 switch (player.ranking) {
                     case 1:
-                        fillStyle = PLAYER_1_COLOR;
+                        fillStyle = constants.MINIMAP_PLAYER_1_COLOR;
                         break;
                     case 2:
-                        fillStyle = PLAYER_2_COLOR;
+                        fillStyle = constants.MINIMAP_PLAYER_2_COLOR;
                         break;
                     case 3:
-                        fillStyle = PLAYER_3_COLOR;
+                        fillStyle = constants.MINIMAP_PLAYER_3_COLOR;
                         break;
                 }
 
@@ -88,7 +85,7 @@ export class MinimapRenderer {
                 this.canvasContext.fill();
 
                 if (player.id === this.playerToHighlight) {
-                    this.canvasContext.strokeStyle = HIGHLIGHT_COLOR;
+                    this.canvasContext.strokeStyle = constants.MINIMAP_HIGHLIGHT_COLOR;
                     this.canvasContext.beginPath();
                     this.canvasContext.arc(pos.x, pos.y, HIGHLIGH_SIZE, 0, 2 * Math.PI);
                     this.canvasContext.stroke();
@@ -101,8 +98,10 @@ export class MinimapRenderer {
             const redTeam = this.context.state.getCtfTeam(CTF_TEAMS.RED);
             const blueTeam = this.context.state.getCtfTeam(CTF_TEAMS.BLUE);
 
-            this.renderFlag(redTeam, this.redFlag, this.canvasContext, FLAG_DEFAULT_POSITION.red, RED_TEAM_COLOR);
-            this.renderFlag(blueTeam, this.blueFlag, this.canvasContext, FLAG_DEFAULT_POSITION.blue, BLUE_TEAM_COLOR);
+            this.renderFlag(redTeam, this.redFlag, this.canvasContext,
+                FLAG_DEFAULT_POSITION.red, constants.CTF_RED_TEAM_COLOR);
+            this.renderFlag(blueTeam, this.blueFlag, this.canvasContext,
+                FLAG_DEFAULT_POSITION.blue, constants.CTF_BLUE_TEAM_COLOR);
         }
     }
 

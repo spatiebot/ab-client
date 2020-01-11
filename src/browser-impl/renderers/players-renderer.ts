@@ -6,26 +6,7 @@ import { Player } from "../../models/player";
 import { Pos } from "../../models/pos";
 import { ClippedView } from "../clipped-view";
 
-// colors in no-bitmap mode
-const COLOR_GREENISH = "rgba(0, 153, 102)";
-const COLOR_GREENISH_PROWLER = "rgba(0, 153, 102, 0.6)";
-const COLOR_BLUE_TEAM = "rgba(0, 102, 153)";
-const COLOR_BLUE_TEAM_PROWLER = "rgba(0, 102, 153, 0.6)";
-const COLOR_RED_TEAM = "rgba(153, 60, 60)";
-const COLOR_RED_TEAM_PROWLER = "rgba(153, 60, 60, 0.6)";
-
-// name colors
-const NAME_COLOR_REGULAR = "white";
-const NAME_COLOR_NO_BITMAP = "white";
-const NAME_COLOR_RED = "#f66";
-const NAME_COLOR_BLUE = "#80bfff";
-const STATS_COLOR = "silver";
-
 // health/energy colors
-const HEALTH_OK = "green";
-const HEALTH_WARN = "orange";
-const HEALTH_DANGER = "red";
-const ENERGY = "silver";
 const HEALTH_ENERGY_BARS_RADIUS = 75;
 const HEALTH_ENERGY_BARS_WIDTH = 8;
 const SHIELD_INFERNO_BARS_WIDTH = 2 * HEALTH_ENERGY_BARS_WIDTH;
@@ -33,9 +14,6 @@ const SHIELD_INFERNO_BARS_WIDTH = 2 * HEALTH_ENERGY_BARS_WIDTH;
 const SHIELD_INFERNO_RADIUS = HEALTH_ENERGY_BARS_RADIUS
     - (HEALTH_ENERGY_BARS_WIDTH / 2)
     - (SHIELD_INFERNO_BARS_WIDTH / 2);
-
-const SHIELD = "white";
-const INFERNO = "red";
 
 const FLAG_WIDTH = 24;
 const FLAG_MARGIN_LEFT = 10;
@@ -46,8 +24,8 @@ const SAY_MARGIN = 20;
 const SAY_HEIGHT = 40;
 const SAY_DURATION_SECONDS = 5;
 const SAY_DISTANCE_FROM_AIRCRAFT = 80;
-const SAY_BACKGROUND_COLOR = "black";
-const SAY_FOREGROUND_COLOR = "white";
+
+declare const constants: any;
 
 export class PlayersRenderer {
 
@@ -128,7 +106,7 @@ export class PlayersRenderer {
     private renderTextBubble(player: Player, context: CanvasRenderingContext2D) {
         for (const say of this.saysToSay) {
             if (say.playerId === player.id) {
-                context.fillStyle = SAY_BACKGROUND_COLOR;
+                context.fillStyle = constants.PLAYER_SAY_BACKGROUND_COLOR;
                 const textWidth = context.measureText(say.msg).width;
                 const sayLeft = textWidth / 2;
                 const sayTop = -this.clip.scale(SAY_DISTANCE_FROM_AIRCRAFT);
@@ -136,7 +114,7 @@ export class PlayersRenderer {
                 const sayHeight = this.clip.scale(SAY_HEIGHT);
                 context.fillRect(-sayLeft - sayMargin, sayTop - sayMargin,
                     textWidth + sayMargin * 2, sayHeight);
-                context.fillStyle = SAY_FOREGROUND_COLOR;
+                context.fillStyle = constants.PLAYER_SAY_FOREGROUND_COLOR;
                 context.fillText(say.msg, -sayLeft, sayTop);
             }
         }
@@ -151,11 +129,12 @@ export class PlayersRenderer {
         scaledFontSize: number,
         scaledFlagPaddingTop: number) {
 
-        let nameColor = this.context.settings.useBitmaps ? NAME_COLOR_REGULAR : NAME_COLOR_NO_BITMAP;
+        let nameColor = this.context.settings.useBitmaps ?
+            constants.PLAYER_NAME_COLOR : constants.PLAYER_NAME_NOBITMAP_COLOR;
         if (player.team === CTF_TEAMS.BLUE) {
-            nameColor = NAME_COLOR_BLUE;
+            nameColor = constants.PLAYER_NAME_BLUE_TEAM_COLOR;
         } else if (player.team === CTF_TEAMS.RED) {
-            nameColor = NAME_COLOR_RED;
+            nameColor = constants.PLAYER_NAME_RED_TEAM_COLOR;
         }
         context.fillStyle = nameColor;
 
@@ -177,18 +156,18 @@ export class PlayersRenderer {
 
         // draw stats
         const lineHeight = this.clip.scale(20);
-        context.fillStyle = STATS_COLOR;
+        context.fillStyle = constants.PLAYER_STATS_COLOR;
         const stats2 = `Score: ${player.score}; ping: ${player.ping || "?"} ms`;
         context.fillText(stats2, left, top + lineHeight);
     }
 
     private renderBars(context: CanvasRenderingContext2D, player: Player) {
 
-        context.strokeStyle = HEALTH_OK;
+        context.strokeStyle = constants.PLAYER_HEALTH_OK_COLOR;
         if (player.health < 0.3) {
-            context.strokeStyle = HEALTH_DANGER;
+            context.strokeStyle = constants.PLAYER_HEALTH_DANGER_COLOR;
         } else if (player.health < 0.6) {
-            context.strokeStyle = HEALTH_WARN;
+            context.strokeStyle = constants.PLAYER_HEALTH_WARN_COLOR;
         }
 
         const r = this.clip.scale(HEALTH_ENERGY_BARS_RADIUS);
@@ -200,14 +179,15 @@ export class PlayersRenderer {
         context.arc(0, 0, r, Math.PI, Math.PI + (Math.PI * player.health / 2));
         context.stroke();
 
-        context.strokeStyle = ENERGY;
+        context.strokeStyle = constants.PLAYER_ENERGY_COLOR;
         context.beginPath();
         const energy = Math.max(0.01, player.energy);
         context.arc(0, 0, r, 0, Math.PI * 2 - Math.PI * energy / 2, true);
         context.stroke();
 
         if (player.powerUps.inferno || player.powerUps.shield) {
-            context.strokeStyle = player.powerUps.shield ? SHIELD : INFERNO;
+            context.strokeStyle = player.powerUps.shield ?
+                constants.PLAYER_SHIELD_COLOR : constants.PLAYER_INFERNO_COLOR;
             context.beginPath();
             const duration = !player.shieldOrInfernoTimer ? 1 :
                 Math.max(0.01, 1 - player.shieldOrInfernoTimer.timeoutFraction);
@@ -243,11 +223,14 @@ export class PlayersRenderer {
 
         } else {
             if (player.team === CTF_TEAMS.BLUE) {
-                context.fillStyle = player.stealthed ? COLOR_BLUE_TEAM_PROWLER : COLOR_BLUE_TEAM;
+                context.fillStyle = player.stealthed ?
+                    constants.PLAYER_NOBITMAP_BLUE_TEAM_PROWLER_COLOR : constants.PLAYER_NOBITMAP_BLUE_TEAM_COLOR;
             } else if (player.team === CTF_TEAMS.RED) {
-                context.fillStyle = player.stealthed ? COLOR_RED_TEAM_PROWLER : COLOR_RED_TEAM;
+                context.fillStyle = player.stealthed ?
+                    constants.PLAYER_NOBITMAP_RED_TEAM_PROWLER_COLOR : constants.PLAYER_NOBITMAP_RED_TEAM_COLOR;
             } else {
-                context.fillStyle = player.stealthed ? COLOR_GREENISH_PROWLER : COLOR_GREENISH;
+                context.fillStyle = player.stealthed ?
+                    constants.PLAYER_NOBITMAP_PROWLER_COLOR : constants.PLAYER_NOBITMAP_COLOR;
             }
             const hitCircles = aircraftSpecs.collisions;
             for (const hitCircle of hitCircles) {

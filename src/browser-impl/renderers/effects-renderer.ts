@@ -1,18 +1,15 @@
 import { IContext } from "../../app-context/icontext";
 import { ClippedView } from "../clipped-view";
 
-const EXPLOSION_COLOR = "rgba(255, 255, 0, 0.7)";
-const KILL_COLOR = "rgba(200, 0, 0, 0.7)";
-const FART_COLOR = "rgba(150, 120, 100, 0.5)";
-const MISSILE_BASE_COLOR = "240, 240, 240";
+declare const constants: any;
 
-export class ExplosionsRenderer {
+export class EffectsRenderer {
     constructor(private context: IContext, private clip: ClippedView) {
 
     }
 
     public renderExplosions(context: CanvasRenderingContext2D) {
-        context.fillStyle = EXPLOSION_COLOR;
+        context.fillStyle = constants.EFFECTS_EXPLOSION_COLOR;
         for (const explosion of this.context.state.getActiveExplosions()) {
             const pos = explosion.pos;
             if (!pos) {
@@ -27,7 +24,7 @@ export class ExplosionsRenderer {
         }
 
         // kills
-        context.fillStyle = KILL_COLOR;
+        context.fillStyle = constants.EFFECTS_KILL_COLOR;
         for (const kill of this.context.state.getActiveKills()) {
             const pos = kill.pos;
             if (!pos) {
@@ -42,7 +39,7 @@ export class ExplosionsRenderer {
         }
 
         // farts
-        context.fillStyle = FART_COLOR;
+        context.fillStyle = constants.EFFECTS_FART_COLOR;
         for (const fart of this.context.state.getActiveFarts()) {
             if (!fart.player) {
                 continue;
@@ -71,7 +68,7 @@ export class ExplosionsRenderer {
                 if (opacity === 0) {
                     continue;
                 }
-                context.fillStyle = `rgba(${MISSILE_BASE_COLOR}, ${opacity})`;
+                context.fillStyle = `rgba(${constants.EFFECTS_MISSILE_BASE_COLOR}, ${opacity})`;
                 const clipPos = this.clip.translate(pos);
                 context.beginPath();
                 const cloudSize = this.clip.scale(cloud.size);

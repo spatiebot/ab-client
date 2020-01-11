@@ -5,7 +5,7 @@ import { PeriodicLogger } from "../../helpers/periodic-logger";
 import { StopWatch } from "../../helpers/stopwatch";
 import { ClippedView } from "../clipped-view";
 import { BackgroundRenderer } from "./background-renderer";
-import { ExplosionsRenderer } from "./explosions-renderer";
+import { EffectsRenderer } from "./effects-renderer";
 import { FlagRenderer } from "./flag-renderer";
 import { MinimapRenderer } from "./minimap-renderer";
 import { MissilesRenderer } from "./missiles-renderer";
@@ -29,7 +29,7 @@ export class Renderer {
     private playersRenderer: PlayersRenderer;
     private wallsRenderer: WallsRenderer;
     private missilesRenderer: MissilesRenderer;
-    private explosionsRenderer: ExplosionsRenderer;
+    private explosionsRenderer: EffectsRenderer;
     private upcratesRenderer: UpcratesRenderer;
     private backgroundRenderer: BackgroundRenderer;
     private minimapRenderer: MinimapRenderer;
@@ -55,7 +55,7 @@ export class Renderer {
         this.upcratesRenderer = new UpcratesRenderer(context, this.clip);
         this.playersRenderer = new PlayersRenderer(context, this.clip);
         this.missilesRenderer = new MissilesRenderer(context, this.clip);
-        this.explosionsRenderer = new ExplosionsRenderer(context, this.clip);
+        this.explosionsRenderer = new EffectsRenderer(context, this.clip);
 
         this.minimapRenderer = new MinimapRenderer(context);
         this.playerListRenderer = new PlayerListRenderer(context);

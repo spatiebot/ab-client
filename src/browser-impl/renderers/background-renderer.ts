@@ -3,11 +3,11 @@ import { IContext } from "../../app-context/icontext";
 import { Pos } from "../../models/pos";
 import { ClippedView } from "../clipped-view";
 
+declare const constants: any;
+
 const GRID_DISTANCE = 100;
 // the background image is 4x too small for performance reasons
 const MAP_SCALE = .25;
-
-const GRID_COLOR = "white";
 
 export class BackgroundRenderer {
     private backgroundImage: HTMLImageElement;
@@ -29,7 +29,7 @@ export class BackgroundRenderer {
         }
 
         // draw a grid
-        context.fillStyle = GRID_COLOR;
+        context.fillStyle = constants.BACKGROUND_GRID_COLOR;
         const gridDistance = this.clip.scale(GRID_DISTANCE);
         for (let y = clipRect[0].y - (clipRect[0].y % gridDistance); y < clipRect[1].y; y += gridDistance) {
             for (let x = clipRect[0].x - (clipRect[0].x % gridDistance); x < clipRect[1].x; x += gridDistance) {

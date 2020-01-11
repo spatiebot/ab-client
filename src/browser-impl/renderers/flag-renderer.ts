@@ -5,11 +5,11 @@ import { CtfTeam } from "../../models/ctf-team";
 import { Pos } from "../../models/pos";
 import { ClippedView } from "../clipped-view";
 
-const BLUE_TEAM_COLOR = "navy";
-const RED_TEAM_COLOR = "darkred";
 const CTF_BASE_SIZE = 120;
 const CTF_BASE_HALF_SIZE = CTF_BASE_SIZE / 2;
 const CTF_BASE_LINE_WIDTH = 8;
+
+declare const constants: any;
 
 export class FlagRenderer {
     private readonly blueFlag: HTMLImageElement;
@@ -28,8 +28,8 @@ export class FlagRenderer {
         this.renderFlag(redTeam, this.redFlag, ctx);
         this.renderFlag(blueTeam, this.blueFlag, ctx);
 
-        this.renderBase(ctx, FLAG_DEFAULT_POSITION.blue, BLUE_TEAM_COLOR);
-        this.renderBase(ctx, FLAG_DEFAULT_POSITION.red, RED_TEAM_COLOR);
+        this.renderBase(ctx, FLAG_DEFAULT_POSITION.blue, constants.CTF_BLUE_TEAM_COLOR);
+        this.renderBase(ctx, FLAG_DEFAULT_POSITION.red, constants.CTF_RED_TEAM_COLOR);
     }
 
     private renderBase(ctx: CanvasRenderingContext2D, pos: Pos, color: string) {

@@ -5,7 +5,7 @@ import { ClippedView } from "../clipped-view";
 
 const MISSILE_IMAGE_BASE_SCALE = 1;
 
-const MISSILE_COLOR = "red";
+declare const constants: any;
 
 export class MissilesRenderer {
 
@@ -16,7 +16,7 @@ export class MissilesRenderer {
     }
 
     public renderMissiles(context: CanvasRenderingContext2D) {
-        context.fillStyle = MISSILE_COLOR;
+        context.fillStyle = constants.MISSILE_COLOR;
         for (const missile of this.context.state.getMissiles()) {
             const pos = missile.pos;
             if (!pos) {

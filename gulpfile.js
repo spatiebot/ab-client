@@ -2,7 +2,6 @@ var gulp = require('gulp');
 var ts = require('gulp-typescript');
 var tslint = require('gulp-tslint');
 var less = require('gulp-less');
-var path = require('path');
 var template = require('gulp-template');
 var tsProject = ts.createProject('tsconfig.json');
 var gulpWebpack = require('webpack-stream');
@@ -20,11 +19,9 @@ gulp.task('lint', function () {
 });
 
 gulp.task('less', function () {
-    return gulp.src('./less/**/*.less')
-        .pipe(less({
-            paths: [path.join(__dirname, 'less', 'includes')]
-        }))
-        .pipe(gulp.dest('./dist'));
+    return gulp.src('./src/_less/**/*.less')
+        .pipe(less())
+        .pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('webpack', function () {

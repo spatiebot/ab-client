@@ -3,13 +3,11 @@ import { IContext } from "../../app-context/icontext";
 import { PeriodicLogger } from "../../helpers/periodic-logger";
 import { ClippedView } from "../clipped-view";
 
-const rampageCrateColor = "rgba(150, 0, 0, 0.8)";
-const shieldCrateColor = "white";
-const upgradeCrateColor = "rgba(196, 188, 114, 0.8)";
-const borderColor = "gray";
 const CRATE_HALF_SIZE = 12;
 const CRATE_SIZE = CRATE_HALF_SIZE * 2;
 const CRATE_ROTATION = Math.PI / 4;
+
+declare const constants: any;
 
 export class UpcratesRenderer {
 
@@ -28,13 +26,13 @@ export class UpcratesRenderer {
                 continue;
             }
 
-            let fillColor = upgradeCrateColor;
+            let fillColor = constants.UPCRATES_UPGRADE_CRATE_COLOR;
             switch (crate.mobType) {
                 case MOB_TYPES.INFERNO:
-                    fillColor = rampageCrateColor;
+                    fillColor = constants.UPCRATES_RAMPAGE_CRATE_COLOR;
                     break;
                 case MOB_TYPES.SHIELD:
-                    fillColor = shieldCrateColor;
+                    fillColor = constants.UPCRATES_SHIELD_CRATE_COLOR;
                     break;
             }
 
@@ -49,7 +47,7 @@ export class UpcratesRenderer {
             const size = this.clip.scale(CRATE_SIZE);
             context.rect(-halfSize, -halfSize, size, size);
             context.fill();
-            context.fillStyle = borderColor;
+            context.fillStyle = constants.UPCRATES_BORDER_COLOR;
             context.stroke();
 
             context.rotate(-CRATE_ROTATION);

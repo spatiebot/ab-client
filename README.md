@@ -5,6 +5,14 @@ It's in a playable state, but there is still work to do. See the Issues list.
 
 The latest build of the browser client is hosted at https://spatiebot.github.io.
 
+# styling
+
+A lot of the assets and styling are configurable.
+
+- `/src/_less/styles/<stylename>/style.less` contains all CSS for the UI. 
+- `/static/styles/<stylename>/*.png` are all images that are used for this style.
+- `/static/styles/<stylename>/constants.json` defines the colors that are used while drawing the game on the canvas. A new style can ignore the NO_BITMAPS colors: those are only used for the special bare-bones no-bitmap style.
+
 # building
 
 You'll need Node v12 or more, and the gulp-cli.
@@ -18,7 +26,8 @@ to create a browser client:
 or
 - `gulp browser-prod`
 
-will result in dist/index.html with a *very* premature browser client. The "prod" variant will be minified.
+will result in dist/index.html with the browser client. The "prod" variant will be minified.  
+To play the game, you need to start an HTTP server in the dist directory, for example using the nmp module "http-server".
 
 - `gulp`
 
