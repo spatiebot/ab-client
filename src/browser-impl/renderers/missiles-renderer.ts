@@ -5,6 +5,8 @@ import { ClippedView } from "../clipped-view";
 
 const MISSILE_IMAGE_BASE_SCALE = 1;
 
+const MISSILE_COLOR = "red";
+
 export class MissilesRenderer {
 
     private readonly missileImage: HTMLImageElement;
@@ -14,7 +16,7 @@ export class MissilesRenderer {
     }
 
     public renderMissiles(context: CanvasRenderingContext2D) {
-        context.fillStyle = "red";
+        context.fillStyle = MISSILE_COLOR;
         for (const missile of this.context.state.getMissiles()) {
             const pos = missile.pos;
             if (!pos) {
@@ -26,6 +28,7 @@ export class MissilesRenderer {
             }
 
             const clipPos = this.clip.translate(pos);
+            const missileScale = 1 + (PROJECTILES_SPECS[missile.mobType].damage as number - 0.3) / 1.8;
 
             if (this.context.settings.useBitmaps) {
                 context.translate(clipPos.x, clipPos.y);
@@ -40,11 +43,10 @@ export class MissilesRenderer {
                     }
                 }
 
-                const imageScale = 1 + (PROJECTILES_SPECS[missile.mobType].damage as number - 0.3) / 1.8;
                 const targetWidth = this.clip.scale(this.missileImage.width *
-                    imageScale * MISSILE_IMAGE_BASE_SCALE);
+                    missileScale * MISSILE_IMAGE_BASE_SCALE);
                 const targetHeight = this.clip.scale(this.missileImage.height *
-                    imageScale * MISSILE_IMAGE_BASE_SCALE);
+                    missileScale * MISSILE_IMAGE_BASE_SCALE);
 
                 context.drawImage(this.missileImage, 0, 0, this.missileImage.width, this.missileImage.height,
                     -targetWidth / 2, -targetHeight / 2, targetWidth, targetHeight);
@@ -57,7 +59,7 @@ export class MissilesRenderer {
                 context.translate(-clipPos.x, -clipPos.y);
             } else {
                 context.beginPath();
-                context.arc(clipPos.x, clipPos.y, 4, 0, 2 * Math.PI);
+                context.arc(clipPos.x, clipPos.y, this.clip.scale(4 *  missileScale), 0, 2 * Math.PI);
                 context.fill();
             }
         }

@@ -1,4 +1,8 @@
 @sea-color: #36529e;
+@text-color: white;
+
+@context-menu-text-color: white;
+@context-menu-bg-color: black;
 @context-menu-additional-color: #222;
 
 @right-blocks-width: 350px;
@@ -6,11 +10,19 @@
 @chat-input-top: 10px;
 @chat-input-height: 20px;
 @chat-padding: 5px;
-
 @chat-top: calc(@chat-input-top + @chat-input-height);
 @chat-height: 200px;
+@chat-team-color: green;
+@chat-whisper-color: purple;
+@chat-warning-color: darkred;
 
 @mini-map-height: 200px;
+
+@bordered-textbox-border-color: darkslategray;
+@bordered-textbox-bg-color: rgba(100, 100, 150, 0.3);
+
+@blue-team-text-color: #80bfff;
+@red-team-text-color: #f66;
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -18,115 +30,7 @@ body {
     background-color: @sea-color;
 }
 
-.contrast-with-background {
-    color: white;
-}
-
-.block-right {
-    position: absolute;
-    right: 10px;
-}
-
-.block-left {
-    position: absolute;
-    left: 10px;
-}
-
-.block-center {
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
-
-.with-border {
-    border: 1px solid darkslategray;
-    background-color: rgba(100, 100, 150, 0.3);
-}
-
-.player-name {
-    cursor: pointer;
-}
-
-#player-context-menu {
-    position: absolute;
-    background-color: black;
-    color: white;
-    z-index: 100;
-
-    #menu-title,
-    .menu-item {
-        padding-left: 20px;
-        padding-right: 20px;
-        border-bottom: 1px solid @context-menu-additional-color;
-        height: 24;
-        padding-top: 5px;
-    }
-
-    .menu-item {
-        cursor: pointer;
-
-        &:last-child {
-            border-bottom: none;
-        }
-
-        &:hover {
-            background-color: @context-menu-additional-color;
-        }
-    }
-
-    #menu-title {
-        background-color: @context-menu-additional-color;
-        cursor: default;
-        font-weight: bold;
-    }
-
-
-
-
-}
-
-#stats {
-    .contrast-with-background();
-    .block-left();
-    font-size: 14pt;
-
-    padding: 5px;
-    top: 300px;
-}
-
-#upgradeSelection {
-    .block-left();
-    font-size: 14pt;
-
-    width: 50px;
-    padding: 5px;
-    top: 440px;
-
-    div {
-        .with-border();
-        width: 50px;
-        height: 50px;
-        margin-bottom: 5px;
-        cursor: pointer;
-        text-align: center;
-        line-height: 50px;
-        user-select: none;
-    }
-
-    #drop-upgrade {
-        margin-top: 20px;
-
-        img {
-            margin-top: 7px;
-            width: 30px;
-            height: auto;
-        }
-    }
-}
-
+/* this is for the landing page */
 div#nameAndGame {
     width: 600px;
     height: 400px;
@@ -172,19 +76,129 @@ div#nameAndGame {
     }
 }
 
+/* the rest are game styles */
+.block-right {
+    position: absolute;
+    right: 10px;
+}
+
+.block-left {
+    position: absolute;
+    left: 10px;
+}
+
+.block-center {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.player-name {
+    cursor: pointer;
+}
+
+#player-context-menu {
+    position: absolute;
+    background-color: @context-menu-bg-color;
+    color: @context-menu-text-color;
+
+    z-index: 100;
+
+    #menu-title,
+    .menu-item {
+        padding-left: 20px;
+        padding-right: 20px;
+        border-bottom: 1px solid @context-menu-additional-color;
+        height: 24;
+        padding-top: 5px;
+    }
+
+    .menu-item {
+        cursor: pointer;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        &:hover {
+            background-color: @context-menu-additional-color;
+        }
+    }
+
+    #menu-title, #menu {
+        background-color: @context-menu-additional-color;
+        cursor: default;
+        font-weight: bold;
+    }
+
+    #menu-stats {
+        height: auto;
+        color: Silver;
+        padding-left: 40px;
+        cursor: default;
+        &:hover { // no hover effect
+            background-color: @context-menu-bg-color;
+        }
+    }
+}
+
+#stats {
+    .block-left();
+    font-size: 14pt;
+    color: @text-color;
+
+    padding: 5px;
+    top: 300px;
+}
+
+#upgradeSelection {
+    .block-left();
+    font-size: 14pt;
+
+    width: 50px;
+    padding: 5px;
+    top: 440px;
+
+    div {
+        border: 1px solid @bordered-textbox-border-color;
+        background-color: @bordered-textbox-bg-color;
+        color: @text-color;
+        width: 50px;
+        height: 50px;
+        margin-bottom: 5px;
+        cursor: pointer;
+        text-align: center;
+        line-height: 50px;
+        user-select: none;
+    }
+
+    #drop-upgrade {
+        margin-top: 20px;
+
+        img {
+            margin-top: 7px;
+            width: 30px;
+            height: auto;
+        }
+    }
+}
+
 #ctf-info {
     .block-center();
     width: 600px;
     top: 30px;
     font-size: 14pt;
-    color: white;
+    color: @text-color;
 
     .team-blue {
-        color: #80bfff;
+        color: @blue-team-text-color;
     }
 
     .team-red {
-        color: #f66;
+        color: @red-team-text-color;
     }
 }
 
@@ -196,7 +210,7 @@ div#nameAndGame {
 
     font-size: 20pt;
     font-weight: bold;
-    color: white;
+    color: @text-color;
 
     .flag {
         display: inline-block;
@@ -257,7 +271,7 @@ div#nameAndGame {
     height: @chat-input-height;
 
     span {
-        .contrast-with-background();
+        color: @text-color;
     }
 }
 
@@ -270,20 +284,20 @@ div#nameAndGame {
 
     padding: @chat-padding;
     overflow: auto;
-    color: white;
-    border: 1px solid darkslategray;
-    background-color: rgba(100, 100, 150, 0.3);
+    color: @text-color;
+    border: 1px solid @bordered-textbox-border-color;
+    background-color: @bordered-textbox-bg-color;
 
     .chat-team {
-        background-color: green;
+        background-color: @chat-team-color;
     }
 
     .chat-whisper {
-        background-color: purple;
+        background-color: @chat-whisper-color;
     }
 
     .chat-warning {
-        background-color: darkred;
+        background-color: @chat-warning-color;
     }
 }
 
@@ -316,18 +330,18 @@ div#nameAndGame {
 
     overflow-y: auto;
     overflow-x: hidden;
-    color: white;
+    color: @text-color;
 
     tr.playerlist-player-inactive td {
         text-decoration: line-through;
     }
 
     tr.playerlist-team-blue td {
-        color: #80bfff;
+        color: @blue-team-text-color;
     }
 
     tr.playerlist-team-red td {
-        color: #f66;
+        color: @red-team-text-color;
     }
 
     td.playerlist-pos {

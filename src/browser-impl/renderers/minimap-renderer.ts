@@ -19,6 +19,10 @@ const CTF_FLAG_SIZE = 10;
 const HIGHLIGH_SIZE = 2 * MARKER_SIZE;
 const HIGHLIGHT_COLOR = "white";
 
+const PLAYER_1_COLOR = "yellow";
+const PLAYER_2_COLOR = "silver";
+const PLAYER_3_COLOR = "orange";
+
 export class MinimapRenderer {
 
     private canvas: HTMLCanvasElement;
@@ -57,7 +61,7 @@ export class MinimapRenderer {
                 (player.mostReliablePos.y + HALF_MAP_HEIGHT) * scaleY);
 
             if (player.id === myId) {
-                this.canvasContext.strokeStyle = "white";
+                this.canvasContext.strokeStyle = HIGHLIGHT_COLOR;
                 this.canvasContext.strokeRect(
                     pos.x - MY_RECT_WIDTH / 2, pos.y - MY_RECT_HEIGHT / 2,
                     MY_RECT_WIDTH, MY_RECT_HEIGHT);
@@ -68,13 +72,13 @@ export class MinimapRenderer {
                 }
                 switch (player.ranking) {
                     case 1:
-                        fillStyle = "yellow";
+                        fillStyle = PLAYER_1_COLOR;
                         break;
                     case 2:
-                        fillStyle = "silver";
+                        fillStyle = PLAYER_2_COLOR;
                         break;
                     case 3:
-                        fillStyle = "orange";
+                        fillStyle = PLAYER_3_COLOR;
                         break;
                 }
 

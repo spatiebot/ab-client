@@ -50,7 +50,7 @@ export class Renderer {
         this.clip = new ClippedView(context);
 
         this.backgroundRenderer = new BackgroundRenderer(this.clip, context);
-        this.wallsRenderer = new WallsRenderer(this.clip);
+        this.wallsRenderer = new WallsRenderer(this.clip, context);
         this.flagRenderer = new FlagRenderer(context, this.clip);
         this.upcratesRenderer = new UpcratesRenderer(context, this.clip);
         this.playersRenderer = new PlayersRenderer(context, this.clip);

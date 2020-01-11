@@ -1,4 +1,4 @@
-import { FLAGS_CODE_TO_ISO } from "../../ab-protocol/src/lib";
+import { FLAGS_CODE_TO_ISO, GAME_TYPES } from "../../ab-protocol/src/lib";
 import { BrowserContext } from "../browser-context";
 import { Renderer } from "../renderers/renderer";
 import { ChatInput } from "./chat-input";
@@ -6,6 +6,7 @@ import { ChatInput } from "./chat-input";
 export class PlayerDropDownMenu {
     private readonly menu: HTMLDivElement;
     private readonly menuTitle: HTMLDivElement;
+    private readonly menuStats: HTMLDivElement;
 
     private currentId: number;
     private currentName: string;
@@ -13,6 +14,7 @@ export class PlayerDropDownMenu {
     constructor(private context: BrowserContext, private chatInput: ChatInput, private renderer: Renderer) {
         this.menu = document.getElementById("player-context-menu") as HTMLDivElement;
         this.menuTitle = document.getElementById("menu-title") as HTMLDivElement;
+        this.menuStats = document.getElementById("menu-stats") as HTMLDivElement;
 
         // add handlers
         const items = this.menu.getElementsByClassName("menu-item");
@@ -26,9 +28,16 @@ export class PlayerDropDownMenu {
         this.menu.style.top = y + "px";
         this.menu.style.display = "block";
 
-        this.menuTitle.innerText = decodeURI(name);
         this.currentId = Number(id);
-        this.currentName = name;
+        this.currentName = decodeURI(name);
+
+        const player = this.context.state.getPlayerById(Number(id));
+
+        this.menuTitle.innerText = this.currentName;
+        this.menuStats.innerText =
+            "Kills: " + player.kills + "; Deaths: " + player.deaths + "\n" +
+            "Damage: " + player.damage + "; Ping: " + player.ping +
+            (this.context.gameType === GAME_TYPES.CTF ? "\nCaptures: " + (player.captures ?? 0) : "");
     }
 
     public hide() {
