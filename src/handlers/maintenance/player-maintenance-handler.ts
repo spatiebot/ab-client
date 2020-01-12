@@ -40,8 +40,10 @@ export class PlayerMaintenanceHandler implements IMessageHandler {
 
         const boostFactor = player.boost ? aircraftSpecs.boostFactor : 1;
 
+        const frameFactor = tick.frameFactor;
+
         if (!isNaN(player.energyRegen)) {
-            const energyDiff = player.energyRegen * tick.frameFactor;
+            const energyDiff = player.energyRegen * frameFactor;
 
             player.energy += energyDiff;
             if (player.energy > 1) {
@@ -53,7 +55,7 @@ export class PlayerMaintenanceHandler implements IMessageHandler {
             }
         }
 
-        player.health += tick.frameFactor * aircraftSpecs.healthRegen;
+        player.health += frameFactor * aircraftSpecs.healthRegen;
         if (player.health > 1) {
             player.health = 1;
         } else if (player.health < 0) {
@@ -83,11 +85,11 @@ export class PlayerMaintenanceHandler implements IMessageHandler {
         } else if (player.keystate.LEFT || player.keystate.RIGHT) {
 
             if (player.keystate.LEFT) {
-                player.rot -= tick.frameFactor * aircraftSpecs.turnFactor;
+                player.rot -= frameFactor * aircraftSpecs.turnFactor;
             }
 
             if (player.keystate.RIGHT) {
-                player.rot += tick.frameFactor * aircraftSpecs.turnFactor;
+                player.rot += frameFactor * aircraftSpecs.turnFactor;
             }
 
             player.rot = ((player.rot % PI_X2) + PI_X2) % PI_X2;
@@ -124,9 +126,9 @@ export class PlayerMaintenanceHandler implements IMessageHandler {
 
             if (flightDirection !== -999) {
                 player.speed.x +=
-                    Math.sin(flightDirection) * aircraftSpecs.accelFactor * boostFactor * tick.frameFactor;
+                    Math.sin(flightDirection) * aircraftSpecs.accelFactor * boostFactor * frameFactor;
                 player.speed.y -=
-                    Math.cos(flightDirection) * aircraftSpecs.accelFactor * boostFactor * tick.frameFactor;
+                    Math.cos(flightDirection) * aircraftSpecs.accelFactor * boostFactor * frameFactor;
             }
 
             speedValue = Math.hypot(player.speed.x, player.speed.y);
@@ -151,8 +153,8 @@ export class PlayerMaintenanceHandler implements IMessageHandler {
                 player.speed.y > aircraftSpecs.minSpeed ||
                 player.speed.y < -aircraftSpecs.minSpeed
             ) {
-                player.speed.x *= 1 - aircraftSpecs.brakeFactor * tick.frameFactor;
-                player.speed.y *= 1 - aircraftSpecs.brakeFactor * tick.frameFactor;
+                player.speed.x *= 1 - aircraftSpecs.brakeFactor * frameFactor;
+                player.speed.y *= 1 - aircraftSpecs.brakeFactor * frameFactor;
             } else {
                 player.speed.x = 0;
                 player.speed.y = 0;
@@ -161,10 +163,10 @@ export class PlayerMaintenanceHandler implements IMessageHandler {
             /**
              * Update player position.
              */
-            player.pos.x += tick.frameFactor * startSpeedX +
-                0.5 * (player.speed.x - startSpeedX) * tick.frameFactor * tick.frameFactor;
-            player.pos.y += tick.frameFactor * startSpeedY +
-                0.5 * (player.speed.y - startSpeedY) * tick.frameFactor * tick.frameFactor;
+            player.pos.x += frameFactor * startSpeedX +
+                0.5 * (player.speed.x - startSpeedX) * frameFactor * frameFactor;
+            player.pos.y += frameFactor * startSpeedY +
+                0.5 * (player.speed.y - startSpeedY) * frameFactor * frameFactor;
         }
 
         /**

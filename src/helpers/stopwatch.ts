@@ -6,11 +6,11 @@ export class StopWatch {
     }
 
     public start(): void {
-        this.startTime = Date.now();
+        this.startTime = performance.now();
     }
 
     get elapsedMs(): number {
-        return Date.now() - this.startTime;
+        return performance.now() - this.startTime;
     }
 
     get elapsedSeconds(): number {

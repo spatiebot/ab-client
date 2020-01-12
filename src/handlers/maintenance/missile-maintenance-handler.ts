@@ -23,8 +23,10 @@ export class MissileMaintenanceHandler implements IMessageHandler {
             const prevSpeedX = missile.speed.x;
             const prevSpeedY = missile.speed.y;
 
-            missile.speed.x += missile.accel.x * tick.frameFactor;
-            missile.speed.y += missile.accel.y * tick.frameFactor;
+            const frameFactor = tick.frameFactor;
+
+            missile.speed.x += missile.accel.x * frameFactor;
+            missile.speed.y += missile.accel.y * frameFactor;
 
             const speed = Math.hypot(missile.speed.x, missile.speed.y);
 
@@ -36,8 +38,8 @@ export class MissileMaintenanceHandler implements IMessageHandler {
                 missile.speed.length = speed;
             }
 
-            missile.pos.x += (prevSpeedX + 0.5 * (missile.speed.x - prevSpeedX)) * tick.frameFactor;
-            missile.pos.y += (prevSpeedY + 0.5 * (missile.speed.y - prevSpeedY)) * tick.frameFactor;
+            missile.pos.x += (prevSpeedX + 0.5 * (missile.speed.x - prevSpeedX)) * frameFactor;
+            missile.pos.y += (prevSpeedY + 0.5 * (missile.speed.y - prevSpeedY)) * frameFactor;
 
             missile.distance = (missile.distance || 0) + Math.hypot(missile.speed.x, missile.speed.y);
 

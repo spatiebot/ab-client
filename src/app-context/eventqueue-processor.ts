@@ -51,13 +51,19 @@ export class EventQueueProcessor {
             if (this.skippedFrames > 0) {
                 this.context.logger.debug("Skipped frames " + this.skippedFrames);
             }
-            const frameFactor = this.skippedFrames + diffTime / (TICK_MS * this.tickCounter);
+
+            // framefactor = the exact number of frames that should now be processed after the last processed frame.
+            // for example "1" if it is exactly the time to process the next frame,
+            //   or 1.2 if this tick is .2 of a frame to late, or 10 if we missed a few frames, etc.
+            const lag = this.context.connection.getLagMs();
+            const frameFactor = this.skippedFrames + (diffTime + lag) / (TICK_MS * this.tickCounter);
 
             // enqueue the tick message which will be processed last
             this.context.eventQueue.pub(Events.TICK, {
                 frame: this.tickCounter,
                 frameFactor,
                 skippedFrames: this.skippedFrames,
+                time: performance.now(),
                 timeFromStart: diffTime,
             } as ITickArgs);
 

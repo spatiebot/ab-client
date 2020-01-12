@@ -9,6 +9,12 @@ import { Login, Ping, PingResult } from "../ab-protocol/src/types/packets-server
 import * as unmarshaling from "../ab-protocol/src/unmarshaling";
 import { IContext } from "../app-context/icontext";
 import { Events } from "../events/constants";
+import { PeriodicLogger } from "../helpers/periodic-logger";
+import { StopWatch } from "../helpers/stopwatch";
+
+const FPS = 60;
+const MS_PER_SEC = 1000;
+const TICK_MS = MS_PER_SEC / FPS;
 
 export class Connection {
 
@@ -20,7 +26,16 @@ export class Connection {
     private keySequenceNumber: number = 0;
     private loginPromiseResolver: (value?: any) => void;
 
+    private serverClockCalibrationTime: number;
+    private serverClockCalbirationTimeResetStopwatch: StopWatch;
+    private lagMs = 0;
+    private lastReceivedMessages: { [key: string]: StopWatch } = {};
+    private lastReceivedMessagesGcStopwatch = new StopWatch();
+
+    private logger: PeriodicLogger;
+
     constructor(private context: IContext) {
+        this.logger = new PeriodicLogger(context, 2);
     }
 
     public async init(): Promise<any> {
@@ -97,6 +112,10 @@ export class Connection {
         } as Horizon);
     }
 
+    public getLagMs() {
+        return this.lagMs;
+    }
+
     private onInitPrimary(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.loginPromiseResolver = resolve;
@@ -139,6 +158,12 @@ export class Connection {
         this.loginPromiseResolver();
     }
 
+    private resetCalibration(newTime: number) {
+        this.serverClockCalbirationTimeResetStopwatch = new StopWatch();
+        this.serverClockCalibrationTime = newTime;
+        this.lagMs = 0;
+    }
+
     private onInitBackup(token: any) {
         this.context.logger.debug("Backup socket connecting");
         this.backupClientIsConnected = true;
@@ -159,6 +184,13 @@ export class Connection {
                     const result = unmarshaling.unmarshalServerMessage(msg.data);
                     if (!result) {
                         this.context.logger.warn("no result", msg);
+                        return;
+                    }
+
+                    this.calibrateTime(result);
+
+                    if (this.shouldDropMessage(result)) {
+                        return;
                     }
 
                     // handle a few meta messages directly
@@ -195,6 +227,49 @@ export class Connection {
             };
             return ws;
         });
+    }
+
+    private calibrateTime(msg: ProtocolPacket) {
+        if (!msg.clock) {
+            return;
+        }
+
+        const currentServerClock = msg.clock as number / 100;
+
+        if (!this.serverClockCalbirationTimeResetStopwatch ||
+            this.serverClockCalbirationTimeResetStopwatch.elapsedMinutes > 5) {
+            this.resetCalibration(currentServerClock);
+        }
+
+        const elapsedOnServer = currentServerClock - this.serverClockCalibrationTime;
+        const elapsedHere = this.serverClockCalbirationTimeResetStopwatch.elapsedMs;
+        const diffInMs = elapsedOnServer - elapsedHere;
+
+        this.lagMs = diffInMs;
+    }
+
+    private shouldDropMessage(msg: ProtocolPacket): boolean {
+        if (!msg.id || !msg.clock || msg.id !== this.context.state.id) {
+            return false;
+        }
+
+        // do GC
+        if (this.lastReceivedMessagesGcStopwatch.elapsedSeconds > 5) {
+            for (const existingKey of Object.keys(this.lastReceivedMessages)) {
+                if (this.lastReceivedMessages[existingKey].elapsedSeconds > 1) {
+                    delete this.lastReceivedMessages[existingKey];
+                }
+            }
+        }
+
+        const key = `${msg.c}_${msg.clock}`;
+
+        if (this.lastReceivedMessages[key]) {
+            return true;
+        }
+
+        this.lastReceivedMessages[key] = new StopWatch();
+        return false;
     }
 
     private send(msg: ProtocolPacket, sendToBackup = false) {
