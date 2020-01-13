@@ -63,7 +63,6 @@ export class EventQueueProcessor {
                 frame: this.tickCounter,
                 frameFactor,
                 skippedFrames: this.skippedFrames,
-                time: performance.now(),
                 timeFromStart: diffTime,
             } as ITickArgs);
 

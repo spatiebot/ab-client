@@ -1,4 +1,8 @@
 export class StopWatch {
+
+    // this is overwritten in the nodejs case
+    public static performanceNow: () => number = () => performance.now();
+
     private startTime: number;
 
     constructor(private timeoutMs: number = null) {
@@ -6,11 +10,11 @@ export class StopWatch {
     }
 
     public start(): void {
-        this.startTime = performance.now();
+        this.startTime = StopWatch.performanceNow();
     }
 
     get elapsedMs(): number {
-        return performance.now() - this.startTime;
+        return  StopWatch.performanceNow() - this.startTime;
     }
 
     get elapsedSeconds(): number {

@@ -3,5 +3,4 @@ export interface ITickArgs {
     frameFactor: number;
     skippedFrames: number;
     timeFromStart: number;
-    time: number;
 }
