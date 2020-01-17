@@ -1,4 +1,5 @@
 import { GAME_TYPES } from "../ab-protocol/src/lib";
+import { AuthData } from "../app-context/auth-data";
 import { EventQueueProcessor } from "../app-context/eventqueue-processor";
 import { HandlerCollections } from "../app-context/handler-collections";
 import { IContext } from "../app-context/icontext";
@@ -45,6 +46,7 @@ export class BrowserContext implements IContext {
     public webSocketFactory: IWebSocketFactory;
     public connection: Connection;
     public isActive: boolean;
+    public auth: AuthData;
 
     // browser-only:
     public isBrowserVisible: boolean;

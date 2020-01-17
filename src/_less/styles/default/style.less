@@ -30,53 +30,8 @@ body {
     background-color: @sea-color;
 }
 
-/* this is for the landing page */
-div#nameAndGame {
-    width: 600px;
-    height: 400px;
-    background-color: Silver;
-    padding: 20px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    border: thick double #32a1ce;
+@import "landing-page.less";
 
-    input,
-    select {
-        width: 120px;
-        padding: 3px;
-    }
-
-    #games {
-        padding-top: 20px;
-
-        input {
-            width: 100px
-        }
-
-        th {
-            text-align: left;
-        }
-
-        .region,
-        .start-button {
-            width: 80px;
-        }
-
-        .num-players {
-            width: 120px;
-        }
-
-        .game-name {
-            width: 170px
-        }
-    }
-}
-
-/* the rest are game styles */
 .block-right {
     position: absolute;
     right: 10px;

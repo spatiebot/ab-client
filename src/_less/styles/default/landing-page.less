@@ -1,0 +1,201 @@
+/* this is for the landing page */
+div#nameAndGame {
+    width: 600px;
+    height: 600px;
+    background-color: Silver;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border: thick double #32a1ce;
+
+    input,
+    select {
+        width: 120px;
+        padding: 3px;
+    }
+
+    #externalLogin {
+        padding-top: 20px;
+    }
+
+    #games {
+        padding-top: 20px;
+
+        input {
+            width: 100px
+        }
+
+        th {
+            text-align: left;
+        }
+
+        .region,
+        .start-button {
+            width: 80px;
+        }
+
+        .num-players {
+            width: 120px;
+        }
+
+        .game-name {
+            width: 170px
+        }
+    }
+}
+
+#overlay {
+    background-color: black;
+    opacity: 0.3;
+
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+#loginselector {
+    width: 270px;
+    height: 420px;
+    background-color: Silver;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border: thick double #32a1ce;
+
+    .signinwith {
+        text-align: center;
+        margin-top: 8px;
+        margin-bottom: 10px
+    }
+
+    .buttons {
+        text-align: center;
+
+        .button {
+            position: relative;
+            width: 120px;
+            display: inline-block;
+            vertical-align: top;
+            padding: 9px 18px 7px 48px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #fff;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+        }
+
+        .button {
+            .icon {
+                display: block;
+                position: absolute;
+                left: 10px;
+                top: 8px;
+                width: 20px;
+                height: 20px;
+                background-repeat: no-repeat;
+                background-size: 20px 20px
+            }
+
+            .spacer {
+                position: absolute;
+                left: 40px;
+                top: 6px;
+                width: 0;
+                height: 24px;
+                border-left: 1px solid rgba(0, 0, 0, 0.15);
+                border-right: 1px solid rgba(255, 255, 255, 0.1)
+            }
+
+            &.microsoft {
+                background-color: #308c30;
+
+                .icon {
+                    background-image: url("data:image/svg+xml;charset=utf-8,%3C?xml version=%221.0%22 encoding=%22UTF-8%22 standalone=%22no%22?%3E %3C!DOCTYPE svg PUBLIC %22-//W3C//DTD SVG 1.1//EN%22 %22http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd%22%3E %3Csvg width=%22100%%22 height=%22100%%22 viewBox=%22-5 -5 105 105%22 version=%221.1%22 xmlns=%22http://www.w3.org/2000/svg%22 xmlns:xlink=%22http://www.w3.org/1999/xlink%22 xml:space=%22preserve%22%3E %3Cg%3E %3Cpath d=%22M2.5,2.5L2.5,47.5L47.5,47.5L47.5,2.5Z M2.5,52.5L47.5,52.5L47.5,97.5L2.5,97.5Z M52.5,52.5L97.5,52.5L97.5,97.5L52.5,97.5Z M52.5,2.5L97.5,2.5L97.5,47.5L52.5,47.5Z%22 style=%22fill:white;fill-rule:nonzero;%22/%3E %3C/g%3E %3C/svg%3E")
+                }
+
+                &:hover {
+                    background-color: #42a042
+                }
+            }
+
+            &.google {
+                background-color: #d45541;
+
+
+                .icon {
+                    background-image: url("data:image/svg+xml;charset=utf-8,%3C?xml version=%221.0%22 encoding=%22UTF-8%22 standalone=%22no%22?%3E %3C!DOCTYPE svg PUBLIC %22-//W3C//DTD SVG 1.1//EN%22 %22http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd%22%3E %3Csvg width=%22100%25%22 height=%22100%25%22 viewBox=%220 0 20 20%22 version=%221.1%22 xmlns=%22http://www.w3.org/2000/svg%22 xmlns:xlink=%22http://www.w3.org/1999/xlink%22 xml:space=%22preserve%22 style=%22fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;%22%3E %3Cg transform=%22matrix(0.0390625,0,0,0.0390625,0,0)%22%3E %3Cpath d=%22M28.638,138.268L28.624,138.268C71.23,56.123 157.06,0 256,0C318.115,0 375.068,22.126 419.404,58.936L336.471,126.832C313.136,112.246 285.552,103.82 256,103.82C189.271,103.82 132.571,146.777 112.035,206.544L112.033,206.543L112.034,206.544C106.717,222.045 103.819,238.685 103.819,256C103.821,274.792 107.225,292.797 113.47,309.408L113.47,309.409L113.47,309.409C135.089,367.107 190.748,408.18 256,408.18C284.047,408.18 310.323,400.598 332.87,387.362L332.872,387.364L332.872,387.362C362.804,369.808 386.196,342.337 398.518,309.451L261.628,309.451L261.628,208.176L507.527,208.176C510.467,223.662 512,239.655 512,256C512,274.328 510.073,292.206 506.402,309.451C493.94,368.134 461.377,419.376 416.268,455.638L416.254,455.624L416.253,455.624L416.267,455.638C372.396,490.901 316.666,512 256,512C158.509,512 73.748,457.509 30.509,377.319L30.51,377.318L30.509,377.318C11.042,341.211 0,299.9 0,256C0,213.549 10.324,173.517 28.624,138.268L28.638,138.268Z%22 style=%22fill:white;%22/%3E %3C/g%3E %3C/svg%3E")
+                }
+
+                &:hover {
+                    background-color: #d6624f
+                }
+            }
+
+            &.twitter {
+                background-color: #55acef;
+
+                .icon {
+                    background-image: url("data:image/svg+xml;charset=utf-8,%3C?xml version=%221.0%22 encoding=%22UTF-8%22 standalone=%22no%22?%3E %3C!DOCTYPE svg PUBLIC %22-//W3C//DTD SVG 1.1//EN%22 %22http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd%22%3E %3Csvg width=%22100%25%22 height=%22100%25%22 viewBox=%220 0 20 20%22 version=%221.1%22 xmlns=%22http://www.w3.org/2000/svg%22 xmlns:xlink=%22http://www.w3.org/1999/xlink%22 xml:space=%22preserve%22 style=%22fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;%22%3E %3Cg transform=%22matrix(0.0326797,0,0,0.0326797,0,0)%22%3E %3Cpath d=%22M612,116.258C589.475,126.239 565.306,133.008 539.912,136.03C565.841,120.503 585.689,95.875 595.096,66.619C570.774,80.998 543.927,91.439 515.321,97.099C492.414,72.662 459.831,57.441 423.691,57.441C354.357,57.441 298.14,113.658 298.14,182.954C298.14,192.782 299.249,202.381 301.391,211.56C197.065,206.32 104.556,156.337 42.641,80.386C31.818,98.896 25.661,120.464 25.661,143.487C25.661,187.046 47.842,225.48 81.496,247.966C60.921,247.278 41.57,241.618 24.629,232.21L24.629,233.778C24.629,294.584 67.92,345.332 125.322,356.882C114.805,359.712 103.715,361.28 92.242,361.28C84.135,361.28 76.295,360.477 68.608,358.947C84.593,408.854 130.944,445.146 185.861,446.141C142.914,479.795 88.762,499.796 29.945,499.796C19.811,499.796 9.829,499.184 0.001,498.075C55.568,533.756 121.537,554.56 192.439,554.56C423.387,554.56 549.627,363.269 549.627,197.372L549.206,181.119C573.872,163.526 595.211,141.422 612,116.258Z%22 style=%22fill:white;fill-rule:nonzero;%22/%3E %3C/g%3E %3C/svg%3E")
+                }
+
+                &:hover {
+                    background-color: #74b9ef
+                }
+            }
+
+            &.reddit {
+                background-color: #848484;
+
+                .icon {
+                    background-image: url("data:image/svg+xml;charset=utf-8,%3C?xml version=%221.0%22 encoding=%22UTF-8%22 standalone=%22no%22?%3E %3C!DOCTYPE svg PUBLIC %22-//W3C//DTD SVG 1.1//EN%22 %22http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd%22%3E %3Csvg width=%22100%25%22 height=%22100%25%22 viewBox=%220 0 20 20%22 version=%221.1%22 xmlns=%22http://www.w3.org/2000/svg%22 xmlns:xlink=%22http://www.w3.org/1999/xlink%22 xml:space=%22preserve%22 style=%22fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;%22%3E %3Cg transform=%22matrix(0.0111607,0,0,0.0111607,0,0.558036)%22%3E %3Cpath d=%22M1792,846C1792,884.667 1782.17,919.833 1762.5,951.5C1742.83,983.167 1716.33,1007.33 1683,1024C1691,1054.67 1695,1086.67 1695,1120C1695,1223.33 1659.5,1319 1588.5,1407C1517.5,1495 1420.67,1564.5 1298,1615.5C1175.33,1666.5 1042,1692 898,1692C754,1692 620.833,1666.5 498.5,1615.5C376.167,1564.5 279.5,1495 208.5,1407C137.5,1319 102,1223.33 102,1120C102,1088.67 105.667,1057.33 113,1026C79,1009.33 51.667,984.833 31,952.5C10.333,920.167 0,884.667 0,846C0,791.333 19.333,744.5 58,705.5C96.667,666.5 143.667,647 199,647C255.667,647 304,668 344,710C489.333,608.667 661,554.667 859,548L975,27C977,18.333 982,11.333 990,6C998,0.667 1006.67,-1 1016,1L1385,82C1397,57.333 1415,37.5 1439,22.5C1463,7.5 1489.33,0 1518,0C1559.33,0 1594.67,14.5 1624,43.5C1653.33,72.5 1668,107.667 1668,149C1668,190.333 1653.33,225.667 1624,255C1594.67,284.333 1559.33,299 1518,299C1476.67,299 1441.5,284.5 1412.5,255.5C1383.5,226.5 1369,191.333 1369,150L1035,76L931,548C1131,554 1304,607.333 1450,708C1488.67,667.333 1536.33,647 1593,647C1648.33,647 1695.33,666.5 1734,705.5C1772.67,744.5 1792,791.333 1792,846ZM418,1045C418,1086.33 432.5,1121.67 461.5,1151C490.5,1180.33 525.667,1195 567,1195C608.333,1195 643.667,1180.33 673,1151C702.333,1121.67 717,1086.33 717,1045C717,1003.67 702.333,968.5 673,939.5C643.667,910.5 608.333,896 567,896C526.333,896 491.333,910.667 462,940C432.667,969.333 418,1004.33 418,1045ZM1228,1400C1235.33,1392.67 1239,1384 1239,1374C1239,1364 1235.33,1355.33 1228,1348C1221.33,1341.33 1213,1338 1203,1338C1193,1338 1184.33,1341.33 1177,1348C1149.67,1376 1109.33,1396.67 1056,1410C1002.67,1423.33 949.333,1430 896,1430C842.667,1430 789.333,1423.33 736,1410C682.667,1396.67 642.333,1376 615,1348C607.667,1341.33 599,1338 589,1338C579,1338 570.667,1341.33 564,1348C556.667,1354.67 553,1363.17 553,1373.5C553,1383.83 556.667,1392.67 564,1400C592.667,1428.67 632.167,1451.33 682.5,1468C732.833,1484.67 773.667,1494.5 805,1497.5C836.333,1500.5 866.667,1502 896,1502C925.333,1502 955.667,1500.5 987,1497.5C1018.33,1494.5 1059.17,1484.67 1109.5,1468C1159.83,1451.33 1199.33,1428.67 1228,1400ZM1225,1195C1266.33,1195 1301.5,1180.33 1330.5,1151C1359.5,1121.67 1374,1086.33 1374,1045C1374,1004.33 1359.33,969.333 1330,940C1300.67,910.667 1265.67,896 1225,896C1183.67,896 1148.33,910.5 1119,939.5C1089.67,968.5 1075,1003.67 1075,1045C1075,1086.33 1089.67,1121.67 1119,1151C1148.33,1180.33 1183.67,1195 1225,1195Z%22 style=%22fill:white;fill-rule:nonzero;%22/%3E %3C/g%3E %3C/svg%3E")
+                }
+
+                &:hover {
+                    background-color: #9a9a9a
+                }
+            }
+
+            &.twitch {
+                background-color: #8f73dc;
+
+                .icon {
+                    background-image: url("data:image/svg+xml;charset=utf-8,%3C?xml version=%221.0%22 encoding=%22UTF-8%22 standalone=%22no%22?%3E %3C!DOCTYPE svg PUBLIC %22-//W3C//DTD SVG 1.1//EN%22 %22http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd%22%3E %3Csvg width=%22100%25%22 height=%22100%25%22 viewBox=%220 0 20 20%22 version=%221.1%22 xmlns=%22http://www.w3.org/2000/svg%22 xmlns:xlink=%22http://www.w3.org/1999/xlink%22 xml:space=%22preserve%22 xmlns:serif=%22http://www.serif.com/%22 style=%22fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;%22%3E %3Cg id=%22surface1%22 transform=%22matrix(0.0666667,0,0,0.0666667,0,0)%22%3E %3Cpath d=%22M26.117,0L6.551,52.176L6.551,260.852L78.258,260.852L78.258,300L117.402,300L156.512,260.852L215.191,260.852L293.449,182.621L293.449,0L26.117,0ZM52.184,26.07L267.371,26.07L267.371,169.551L221.715,215.211L150,215.211L110.902,254.309L110.902,215.211L52.184,215.211L52.184,26.07Z%22 style=%22fill:rgb(254,254,254);fill-rule:nonzero;%22/%3E %3Cpath d=%22M123.914,156.527L150,156.527L150,78.273L123.914,78.273L123.914,156.527ZM195.637,156.527L221.715,156.527L221.715,78.273L195.637,78.273L195.637,156.527Z%22 style=%22fill:rgb(254,254,254);fill-rule:nonzero;%22/%3E %3C/g%3E %3C/svg%3E")
+                }
+
+                &:hover {
+                    background-color: #9c83e0
+                }
+            }
+
+            &:hover {
+                box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3)
+            }
+
+            &:active {
+                border-bottom: none;
+                border-top: 2px solid rgba(0, 0, 0, 0.3)
+            }
+        }
+    }
+
+    .disclaimer {
+        padding: 12px 0 16px 0
+    }
+}

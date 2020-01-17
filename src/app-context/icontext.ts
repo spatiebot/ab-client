@@ -2,6 +2,7 @@ import { GAME_TYPES } from "../ab-protocol/src/lib";
 import { Connection } from "../connectivity/connection";
 import { EventQueue } from "../events/event-queue";
 import { IMessageHandler } from "../handlers/imessage-handler";
+import { AuthData } from "./auth-data";
 import { EventQueueProcessor } from "./eventqueue-processor";
 import { ILogger } from "./ilogger";
 import { IWebSocketFactory } from "./iwebsocket-factory";
@@ -19,6 +20,7 @@ export interface IContext {
     state: State;
     webSocketFactory: IWebSocketFactory;
     connection: Connection;
+    auth: AuthData;
 
     handlers: IMessageHandler[];
 

@@ -120,6 +120,12 @@ export class Connection {
         return new Promise((resolve, reject) => {
             this.loginPromiseResolver = resolve;
             this.context.logger.debug("Primary socket connecting");
+
+            let thirdPartyLogin = "none";
+            if (this.context.auth) {
+                thirdPartyLogin = JSON.stringify({token: this.context.auth.tokens.game});
+            }
+
             this.send({
                 c: CLIENT_PACKETS.LOGIN,
                 flag: this.context.settings.flag,
@@ -127,7 +133,7 @@ export class Connection {
                 horizonY: Math.ceil(this.context.settings.horizonY),
                 name: this.context.settings.playerName,
                 protocol: 5,
-                session: "none",
+                session: thirdPartyLogin,
             });
         });
     }

@@ -7,6 +7,7 @@ import { StylesRepository } from "../helpers/styles-repository";
 import { GameEndpoint } from "../models/game-endpoint";
 import { ServerRegion } from "../models/server-region";
 import { BrowserContext } from "./browser-context";
+import { ThirdPartyLogin } from "./thirdparty-login";
 
 export class LandingPage {
 
@@ -17,6 +18,8 @@ export class LandingPage {
     private zoomSelect: HTMLSelectElement;
     private loadConstantsPromise: Promise<any>;
 
+    private thirdPartyLogin: ThirdPartyLogin;
+
     constructor(private context: BrowserContext) {
         this.serverGamesRepository = new ServerGamesRepository();
         this.stylesRepository = new StylesRepository();
@@ -24,6 +27,8 @@ export class LandingPage {
         this.nameInput = document.getElementById("playerName") as HTMLInputElement;
         this.styleSelect = document.getElementById("styleSelect") as HTMLSelectElement;
         this.zoomSelect = document.getElementById("zoomSelect") as HTMLSelectElement;
+
+        this.thirdPartyLogin = new ThirdPartyLogin(context);
     }
 
     public async run(): Promise<void> {

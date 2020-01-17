@@ -140,7 +140,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">Login to save your progress:<br/><input type="button" value="Login" /></td>
+                    <td colspan="2" id="externalLogin">Login to save your progress: <input type="button" value="Login" id="loginButton" /></td>
+                    
                 </tr>
                 <tr>
                     <td colspan="2" id="games">
@@ -148,9 +149,54 @@
                     </td>
                 </tr>
             </table>
-
-           
         </div>
+        <!-- overlay for making the login stuff modal-->
+        <div id="overlay" style="display: none;"></div>
+        <!-- login to external services-->
+        <div id="loginselector" style="display: none;">
+            <div class="desc">
+                Use any of the following services to sign in<br>
+                to save your account progress and<br>
+                achievements.
+            </div>
+            <div class="signinwith">
+                Sign in with
+            </div>
+            <div class="buttons">
+                <span class="loginbutton button microsoft" id="login-microsoft" data-provider="1">
+                    Microsoft
+                    <div class="icon"></div>
+                    <div class="spacer"></div>
+                </span>
+                <span class="loginbutton button google" id="login-google" data-provider="2">
+                    Google
+                    <div class="icon"></div>
+                    <div class="spacer"></div>
+                </span>
+                <span class="loginbutton button twitter" id="login-twitter" data-provider="3">
+                    Twitter
+                    <div class="icon"></div>
+                    <div class="spacer"></div>
+                </span>
+                <span class="loginbutton button reddit" id="login-reddit" data-provider="4">
+                    Reddit
+                    <div class="icon"></div>
+                    <div class="spacer"></div>
+                </span>
+                <span class="loginbutton button twitch" id="login-twitch" data-provider="5">
+                    Twitch
+                    <div class="icon"></div>
+                    <div class="spacer"></div>
+                </span>
+            </div>
+            <div class="disclaimer">
+                We only require the absolute minimum<br>
+                permission set that each platform provides.<br>
+                See our <a href='/privacy' target='_blank' rel=
+                'noopener'>Privacy Policy</a> for more.
+            </div>
+        </div>
+
         <script src="browser-pack.js?v=<%= timestamp %>"></script>
     </div>
 </body>

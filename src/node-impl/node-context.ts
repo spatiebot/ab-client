@@ -1,4 +1,5 @@
 import { GAME_TYPES } from "../ab-protocol/src/lib";
+import { AuthData } from "../app-context/auth-data";
 import { EventQueueProcessor } from "../app-context/eventqueue-processor";
 import { HandlerCollections } from "../app-context/handler-collections";
 import { IContext } from "../app-context/icontext";
@@ -27,6 +28,7 @@ export class NodeContext implements IContext {
     public webSocketFactory: IWebSocketFactory = new NodeWebSocketFactory();
     public connection: Connection = new Connection(this);
     public isActive: boolean;
+    public auth: AuthData; // never set in node implementation
 
     constructor() {
         this.handlers = [
