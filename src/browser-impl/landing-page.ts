@@ -4,6 +4,8 @@ import { COUNTRY_NAMES } from "../ab-protocol/src/lib";
 import { Settings } from "../app-context/settings";
 import { ServerGamesRepository } from "../helpers/games-repository";
 import { StylesRepository } from "../helpers/styles-repository";
+import { GameEndpoint } from "../models/game-endpoint";
+import { ServerRegion } from "../models/server-region";
 import { BrowserContext } from "./browser-context";
 
 export class LandingPage {
@@ -105,6 +107,23 @@ export class LandingPage {
         table.innerHTML = "<tr><th>Region</th><th>Game</th><th>Players online</th><th></th></tr>";
         gamesContainer.append(table);
 
+        if (location.href.indexOf("127.0.0.1") > -1) {
+            // running locally; add the local server url to connect to
+            serverInfo.data.unshift({
+                games: [{
+                    host: "127.0.0.1:3501",
+                    id: "local",
+                    name: "Local",
+                    nameShort: "local",
+                    path: "ffa", // this doesn't matter if running locally
+                    players: 0,
+                    type: 0, // this probably doesnt matter too, use it as an http indicator
+                } as GameEndpoint],
+                id: "local",
+                name: "Local",
+            } as ServerRegion);
+        }
+
         for (const server of serverInfo.data) {
             for (const game of server.games) {
                 const row = document.createElement("tr");
@@ -133,7 +152,11 @@ export class LandingPage {
                 button.type = "button";
                 button.value = "Start";
 
-                const url = "wss://" + game.host + "/" + game.path;
+                let protocol = "wss";
+                if (game.type === 0) {
+                    protocol = "ws"; // no https
+                }
+                const url = `${protocol}://${game.host}/${game.path}`;
                 button.onclick = () => this.startGame(url);
             }
         }
