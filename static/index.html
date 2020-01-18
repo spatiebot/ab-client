@@ -99,13 +99,10 @@
         <div id="upgradeSelection" style="display: none">
             <div id="select-speed" title="Speed upgrade (1)">S: <span id="stats-speed">0</span>
             </div>
-            <div id="select-defense" title="Defense upgrade (2)">D: <span
-                    id="stats-defense">0</span>
+            <div id="select-defense" title="Defense upgrade (2)">D: <span id="stats-defense">0</span>
             </div>
-            <div id="select-energy" title="Energy regeneration upgrade (3)">E: <span
-                    id="stats-energy">0</span></div>
-            <div id="select-missile" title="Missile speed upgrade (4)">M: <span
-                    id="stats-missile">0</span></div>
+            <div id="select-energy" title="Energy regeneration upgrade (3)">E: <span id="stats-energy">0</span></div>
+            <div id="select-missile" title="Missile speed upgrade (4)">M: <span id="stats-missile">0</span></div>
             <div id="drop-upgrade" title="Drop 1 upgrade (x)">
                 <img src="styles/default/drop-upgrades.png" />
             </div>
@@ -140,8 +137,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" id="externalLogin">Login to save your progress: <input type="button" value="Login" id="loginButton" /></td>
-                    
+                    <td colspan="2" id="externalLogin">
+                        <span id="loginMessage">Login to save your progress: </span><input type="button" value="Login"
+                            id="loginButton" /></td>
+
                 </tr>
                 <tr>
                     <td colspan="2" id="games">
@@ -192,8 +191,7 @@
             <div class="disclaimer">
                 We only require the absolute minimum<br>
                 permission set that each platform provides.<br>
-                See our <a href='/privacy' target='_blank' rel=
-                'noopener'>Privacy Policy</a> for more.
+                See our <a href='/privacy' target='_blank' rel='noopener'>Privacy Policy</a> for more.
             </div>
         </div>
 

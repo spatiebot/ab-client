@@ -44,6 +44,7 @@ export class LoginHandler implements IMessageHandler {
             p.ranking = ranking;
             p.health = 1;
             p.energy = 1;
+            p.level = loginPlayer.level;
 
             p.powerUps = Decoder.upgradesToPowerUps(loginPlayer.upgrades) || new PowerUps();
 

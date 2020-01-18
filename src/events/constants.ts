@@ -25,6 +25,7 @@ export enum Events {
     PLAYER_HIT,
     PLAYER_KILLED,
     PLAYER_LEAVE,
+    PLAYER_LEVEL,
     PLAYER_NEW,
     PLAYER_POWERUP,
     PLAYER_REPEL,

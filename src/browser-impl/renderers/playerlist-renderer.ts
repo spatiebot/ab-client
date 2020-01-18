@@ -71,7 +71,11 @@ export class PlayerListRenderer {
 
             flagImage.src = "flags/" + flag + ".png";
 
-            cellName.innerText = player.name;
+            if (player.level) {
+                cellName.innerText = `${player.name} [${player.level}]`;
+            } else {
+                cellName.innerText = player.name;
+            }
             cellName.dataset.name = encodeURI(player.name);
             cellName.dataset.id = player.id.toString();
             cellScore.innerText = `${player.score}`;

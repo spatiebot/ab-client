@@ -1,9 +1,7 @@
-import axios from "axios";
 import { AuthData } from "../app-context/auth-data";
 import { BrowserContext } from "./browser-context";
 
 const LOGIN_URL = "https://login.airmash.online";
-const SETTINGS_URL = "https://data.airmash.online/settings";
 const AUTH_DATA_KEY = "auth-data";
 
 export class ThirdPartyLogin {
@@ -11,19 +9,34 @@ export class ThirdPartyLogin {
     private loginButton: HTMLButtonElement;
     private loginSelector: HTMLDivElement;
     private overlay: HTMLDivElement;
+    private loginMessage: HTMLSpanElement;
 
     private loginToken: string;
     private usedProvider: number;
+
+    private orgLoginMessageText: string;
+    private orgLoginButtonText: string;
 
     constructor(private context: BrowserContext) {
 
         this.loginButton = document.getElementById("loginButton") as HTMLButtonElement;
         this.loginSelector = document.getElementById("loginselector") as HTMLDivElement;
         this.overlay = document.getElementById("overlay") as HTMLDivElement;
+        this.loginMessage = document.getElementById("loginMessage") as HTMLSpanElement;
+
+        this.orgLoginMessageText = this.loginMessage.innerHTML;
+        this.orgLoginButtonText = this.loginButton.value;
 
         this.loginButton.addEventListener("click", () => {
-            this.overlay.style.display = "block";
-            this.loginSelector.style.display = "block";
+            const isLoggedIn = !!this.context.auth;
+
+            if (isLoggedIn) {
+                this.logout();
+            } else {
+                // show login stuff
+                this.overlay.style.display = "block";
+                this.loginSelector.style.display = "block";
+            }
         });
 
         this.overlay.addEventListener("click", () => this.finish());
@@ -41,18 +54,26 @@ export class ThirdPartyLogin {
     private async loadPreviousLoginData() {
         try {
             const raw = localStorage.getItem(AUTH_DATA_KEY);
-            const data = JSON.parse(raw) as AuthData;
-            this.context.auth = data;
-
-            const config = {
-                headers: { Authorization: `Bearer ${this.context.auth.tokens.settings}` },
-            };
-            const response = await axios.get(SETTINGS_URL, config);
-            const settings = response.data;
-
-            this.context.logger.warn("Logged in with settings", settings);
+            if (raw) {
+                const data = JSON.parse(raw) as AuthData;
+                this.context.auth = data;
+            }
         } catch (error) {
             this.context.logger.error("Auth data could not be loaded", error);
+        }
+
+        this.toggleLoginMessage();
+    }
+
+    private toggleLoginMessage() {
+        const isLoggedIn = !!this.context.auth;
+
+        if (isLoggedIn) {
+            this.loginButton.value = "Log out";
+            this.loginMessage.innerHTML = `Logged in as ${this.context.auth.loginName}`;
+        } else {
+            this.loginButton.value = this.orgLoginButtonText;
+            this.loginMessage.innerHTML = this.orgLoginMessageText;
         }
     }
 
@@ -148,12 +169,18 @@ export class ThirdPartyLogin {
     }
 
     private loginSuccess(data: AuthData) {
-        this.context.logger.warn("auth succesful", data);
         this.context.auth = data;
 
-        localStorage.setItem("auth-data", JSON.stringify(data));
+        localStorage.setItem(AUTH_DATA_KEY, JSON.stringify(data));
 
+        this.toggleLoginMessage();
         this.finish();
     }
 
+    private logout() {
+        localStorage.removeItem(AUTH_DATA_KEY);
+        this.context.auth = null;
+
+        this.toggleLoginMessage();
+    }
 }

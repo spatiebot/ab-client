@@ -2,7 +2,6 @@ import { PLAYER_STATUS } from "../../ab-protocol/src/lib";
 import { PlayerRespawn } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
-import { IGenericPlayerArgs } from "../../events/event-args/igeneric-player-args";
 import { EventMessage } from "../../events/event-message";
 import { Decoder } from "../../helpers/decoder";
 import { Pos } from "../../models/pos";

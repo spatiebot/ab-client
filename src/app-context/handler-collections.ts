@@ -19,6 +19,7 @@ import { PlayerFireHandler } from "../handlers/server-messages/player-fire-handl
 import { PlayerHitHandler } from "../handlers/server-messages/player-hit-handler";
 import { PlayerKilledHandler } from "../handlers/server-messages/player-killed-handler";
 import { PlayerLeaveHandler } from "../handlers/server-messages/player-leave-handler";
+import { PlayerLevelHandler } from "../handlers/server-messages/player-level-handler";
 import { PlayerNewHandler } from "../handlers/server-messages/player-new-handler";
 import { PlayerPowerupHandler } from "../handlers/server-messages/player-powerup-handler";
 import { PlayerRepelHandler } from "../handlers/server-messages/player-repel-handler";
@@ -56,6 +57,7 @@ export class HandlerCollections {
             new PlayerHitHandler(context),
             new PlayerKilledHandler(context),
             new PlayerLeaveHandler(context),
+            new PlayerLevelHandler(context),
             new PlayerNewHandler(context),
             new PlayerPowerupHandler(context),
             new PlayerRepelHandler(context),

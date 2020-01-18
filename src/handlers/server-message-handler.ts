@@ -138,6 +138,10 @@ export class ServerMessageHandler implements IMessageHandler {
                 this.context.eventQueue.pub(Events.PLAYER_LEAVE, serverMessage);
                 break;
 
+            case SERVER_PACKETS.PLAYER_LEVEL:
+                this.context.eventQueue.pub(Events.PLAYER_LEVEL, serverMessage);
+                break;
+
             case SERVER_PACKETS.PLAYER_NEW:
                 this.context.eventQueue.pub(Events.PLAYER_NEW, serverMessage);
                 break;

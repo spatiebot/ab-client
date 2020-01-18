@@ -138,7 +138,12 @@ export class PlayersRenderer {
         }
         context.fillStyle = nameColor;
 
-        const name = `${player.ranking || "?"}. ${player.name}`;
+        let levelPostfix = "";
+        if (player.level) {
+            levelPostfix = ` [${player.level}]`;
+        }
+
+        const name = `${player.ranking || "?"}. ${player.name}${levelPostfix}`;
         const flagSpace = this.context.settings.useBitmaps ? scaledFlagWidth + scaledFlagMarginLeft : 0;
         const nameWidth = context.measureText(name).width + flagSpace;
         const left = - nameWidth / 2;
