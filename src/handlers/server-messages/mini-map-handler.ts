@@ -24,7 +24,11 @@ export class MiniMapHandler implements IMessageHandler {
             }
 
             if (playerMinimapPos.x === 0 && playerMinimapPos.y === 0) {
-                player.status = PLAYER_STATUS.INACTIVE;
+                // invisible prowler may not get the correct minimap data,
+                // so ignore this if i'm hidden as a prowler
+                if (!this.context.state.getMe().stealthed) {
+                    player.status = PLAYER_STATUS.INACTIVE;
+                }
             } else {
                 const coords = decodeMinimapCoords(playerMinimapPos.x, playerMinimapPos.y);
                 player.posFromMinimap = new Pos(coords);
