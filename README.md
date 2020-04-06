@@ -5,6 +5,8 @@ It's in a playable state, but there is still work to do. See the Issues list.
 
 The latest build of the browser client is hosted at https://spatiebot.github.io.
 
+For some technical inside information, see [How it works](HowItWorks.md).
+
 # styling
 
 A lot of the assets and styling are configurable.
