@@ -12,10 +12,6 @@ import { Events } from "../events/constants";
 import { PeriodicLogger } from "../helpers/periodic-logger";
 import { StopWatch } from "../helpers/stopwatch";
 
-const FPS = 60;
-const MS_PER_SEC = 1000;
-const TICK_MS = MS_PER_SEC / FPS;
-
 export class Connection {
 
     private client: WebSocket;
@@ -27,15 +23,13 @@ export class Connection {
     private loginPromiseResolver: (value?: any) => void;
 
     private serverClockCalibrationTime: number;
-    private serverClockCalbirationTimeResetStopwatch: StopWatch;
+    private serverClockCalibrationTimeResetStopwatch: StopWatch;
     private lagMs = 0;
+    private lastServerClock: number;
     private lastReceivedMessages: { [key: string]: StopWatch } = {};
     private lastReceivedMessagesGcStopwatch = new StopWatch();
 
-    private logger: PeriodicLogger;
-
     constructor(private context: IContext) {
-        this.logger = new PeriodicLogger(context, 2);
     }
 
     public async init(): Promise<any> {
@@ -123,7 +117,7 @@ export class Connection {
 
             let thirdPartyLogin = "none";
             if (this.context.auth) {
-                thirdPartyLogin = JSON.stringify({token: this.context.auth.tokens.game});
+                thirdPartyLogin = JSON.stringify({ token: this.context.auth.tokens.game });
             }
 
             this.send({
@@ -165,7 +159,7 @@ export class Connection {
     }
 
     private resetCalibration(newTime: number) {
-        this.serverClockCalbirationTimeResetStopwatch = new StopWatch();
+        this.serverClockCalibrationTimeResetStopwatch = new StopWatch();
         this.serverClockCalibrationTime = newTime;
         this.lagMs = 0;
     }
@@ -193,11 +187,11 @@ export class Connection {
                         return;
                     }
 
-                    this.calibrateTime(result);
-
                     if (this.shouldDropMessage(result)) {
                         return;
                     }
+
+                    this.calibrateTime(result);
 
                     // handle a few meta messages directly
                     if (result.c === SERVER_PACKETS.PING) {
@@ -242,14 +236,28 @@ export class Connection {
 
         const currentServerClock = msg.clock as number / 100;
 
-        if (!this.serverClockCalbirationTimeResetStopwatch ||
-            this.serverClockCalbirationTimeResetStopwatch.elapsedMinutes > 5) {
+        const shouldResetCalibration = !this.serverClockCalibrationTimeResetStopwatch ||
+            this.serverClockCalibrationTimeResetStopwatch.elapsedMinutes > 5;
+
+        if (shouldResetCalibration) {
             this.resetCalibration(currentServerClock);
+            return;
         }
 
+        if (currentServerClock < this.lastServerClock) {
+            // only evaluate messages arriving in the right order
+            return;
+        }
+
+        this.lastServerClock = currentServerClock;
+
         const elapsedOnServer = currentServerClock - this.serverClockCalibrationTime;
-        const elapsedHere = this.serverClockCalbirationTimeResetStopwatch.elapsedMs;
-        const diffInMs = elapsedOnServer - elapsedHere;
+        const elapsedHere = this.serverClockCalibrationTimeResetStopwatch.elapsedMs;
+
+        // if a message arrives that has an elapsedtime of 10 ms,
+        // while our local elapsedtime is at 20 ms, we have a 10-ms delay in receiving the messages
+        // this will be compensated by extrapolating this in the eventqueue
+        const diffInMs = elapsedHere - elapsedOnServer;
 
         this.lagMs = diffInMs;
     }

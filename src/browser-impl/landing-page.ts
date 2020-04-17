@@ -94,6 +94,11 @@ export class LandingPage {
         document.getElementById("player-list").style.display = "block";
         document.getElementById("server-message").style.display = "block";
 
+        if (location.href.indexOf("debug") > -1) {
+            document.getElementById("debugPanel").style.display = "block";
+            this.context.settings.shouldShowDebugInfo = true;
+        }
+
         await this.loadConstantsPromise;
 
         // ctf-block will be shown later

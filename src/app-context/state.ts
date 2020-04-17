@@ -29,6 +29,9 @@ export class State {
     public numPlayers: number;
     public numPlayersTotal: number;
 
+    // random debug info
+    public skippedFrames: number = 0;
+
     private players = {};
     private mobs = {};
     private teams = {};

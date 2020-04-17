@@ -8,4 +8,5 @@ export class Settings {
     public isDevelopment: boolean = false;
     public zoom = 0.8;
     public useBitmaps: boolean = true;
+    public shouldShowDebugInfo: boolean = false;
 }

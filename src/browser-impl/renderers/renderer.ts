@@ -5,6 +5,7 @@ import { PeriodicLogger } from "../../helpers/periodic-logger";
 import { StopWatch } from "../../helpers/stopwatch";
 import { ClippedView } from "../clipped-view";
 import { BackgroundRenderer } from "./background-renderer";
+import { DebugInfoRenderer } from "./debug-info-renderer";
 import { EffectsRenderer } from "./effects-renderer";
 import { FlagRenderer } from "./flag-renderer";
 import { MinimapRenderer } from "./minimap-renderer";
@@ -36,6 +37,7 @@ export class Renderer {
     private playerListRenderer: PlayerListRenderer;
     private flagRenderer: FlagRenderer;
     private statsRenderer: StatsRenderer;
+    private debugInfoRenderer: DebugInfoRenderer;
 
     private shakeTimeout: any;
 
@@ -60,6 +62,8 @@ export class Renderer {
         this.minimapRenderer = new MinimapRenderer(context);
         this.playerListRenderer = new PlayerListRenderer(context);
         this.statsRenderer = new StatsRenderer(context);
+
+        this.debugInfoRenderer = new DebugInfoRenderer(context);
     }
 
     public addMessageToPlayer(msg: string) {
@@ -170,25 +174,27 @@ export class Renderer {
             return;
         }
 
-        const context = this.canvasContext;
+        const canvasCtx = this.canvasContext;
         this.clip.setClip(this.canvas);
 
         // background
-        this.backgroundRenderer.renderBackground(context);
+        this.backgroundRenderer.renderBackground(canvasCtx);
         // draw walls
-        this.wallsRenderer.renderWalls(context);
+        this.wallsRenderer.renderWalls(canvasCtx);
         // upgrade and powerup crates
-        this.upcratesRenderer.renderUpcrates(context);
+        this.upcratesRenderer.renderUpcrates(canvasCtx);
         // draw players
-        this.playersRenderer.renderPlayers(context);
+        this.playersRenderer.renderPlayers(canvasCtx);
         // draw missiles
-        this.missilesRenderer.renderMissiles(context);
+        this.missilesRenderer.renderMissiles(canvasCtx);
         // explosions and kills
-        this.explosionsRenderer.renderExplosions(context);
+        this.explosionsRenderer.renderExplosions(canvasCtx);
 
         if (this.context.gameType === GAME_TYPES.CTF) {
-            this.flagRenderer.render(context);
+            this.flagRenderer.render(canvasCtx);
         }
+
+        this.debugInfoRenderer.render();
     }
 
     private getUiElements() {

@@ -40,7 +40,8 @@ export class EventQueueProcessor {
             this.skippedFrames = 0;
         }
 
-        const diffTime = this.stopwatch.elapsedMs;
+        const lag = this.context.connection.getLagMs(); // ms that the server is (probably) ahead of us
+        const diffTime = this.stopwatch.elapsedMs + lag;
 
         let tooEarly = false;
         if (diffTime < TICK_MS) {
@@ -48,15 +49,10 @@ export class EventQueueProcessor {
         } else if (diffTime > TICK_MS * (this.tickCounter + 1)) {
             this.skippedFrames++;
         } else {
-            if (this.skippedFrames > 0) {
-                this.context.logger.debug("Skipped frames " + this.skippedFrames);
-            }
-
             // framefactor = the exact number of frames that should now be processed after the last processed frame.
             // for example "1" if it is exactly the time to process the next frame,
             //   or 1.2 if this tick is .2 of a frame to late, or 10 if we missed a few frames, etc.
-            const lag = this.context.connection.getLagMs();
-            const frameFactor = this.skippedFrames + (diffTime + lag) / (TICK_MS * this.tickCounter);
+            const frameFactor = this.skippedFrames + diffTime / (TICK_MS * this.tickCounter);
 
             // enqueue the tick message which will be processed last
             this.context.eventQueue.pub(Events.TICK, {
@@ -81,6 +77,8 @@ export class EventQueueProcessor {
                 this.process(nextMessage);
             }
         }
+
+        this.context.state.skippedFrames = this.skippedFrames;
 
         if (!tooEarly) {
             this.tickCounter++;
