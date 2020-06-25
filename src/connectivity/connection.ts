@@ -11,6 +11,9 @@ import { IContext } from "../app-context/icontext";
 import { Events } from "../events/constants";
 import { PeriodicLogger } from "../helpers/periodic-logger";
 import { StopWatch } from "../helpers/stopwatch";
+import { KeyStateCache } from "./keyStateCache";
+
+const KEY_THROTTLE_MS = 50;
 
 export class Connection {
 
@@ -29,6 +32,8 @@ export class Connection {
     private lastReceivedMessages: { [key: string]: StopWatch } = {};
     private lastReceivedMessagesGcStopwatch = new StopWatch();
 
+    private lastSentKeyStates: KeyStateCache[] = [];
+
     constructor(private context: IContext) {
     }
 
@@ -38,6 +43,20 @@ export class Connection {
     }
 
     public sendKey(key: KEY_CODES, state: boolean) {
+        let cache = this.lastSentKeyStates.find((x) => x.key === key && x.state === state);
+        if (cache) {
+            if (cache.lastPressed.elapsedMs < KEY_THROTTLE_MS) {
+                // don't send to prevent flooding
+                return;
+            }
+        } else {
+            cache = new KeyStateCache(key, state);
+            this.lastSentKeyStates.push(cache);
+        }
+
+        // allow the key, and reset the stopwatch
+        cache.lastPressed.start();
+
         this.keySequenceNumber++;
         const msg = {
             c: CLIENT_PACKETS.KEY,
