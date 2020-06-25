@@ -5,6 +5,7 @@ import { EventMessage } from "../../events/event-message";
 import { Decoder } from "../../helpers/decoder";
 import { Pos } from "../../models/pos";
 import { PowerUps } from "../../models/power-ups";
+import { Upgrades } from "../../models/upgrades";
 import { IMessageHandler } from "../imessage-handler";
 
 export class PlayerUpdateHandler implements IMessageHandler {
@@ -33,6 +34,9 @@ export class PlayerUpdateHandler implements IMessageHandler {
 
         const powerUps = Decoder.upgradesToPowerUps(msg.upgrades);
         player.powerUps = powerUps || new PowerUps();
+
+        player.upgrades = player.upgrades || new Upgrades();
+        player.upgrades.speed = player.powerUps.speed || 0;
 
         player.pos = new Pos(msg.posX, msg.posY);
         player.rot = msg.rot;
