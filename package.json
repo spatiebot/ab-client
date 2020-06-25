@@ -3,21 +3,21 @@
         "build": "gulp tsPipeline:build:dev"
     },
     "dependencies": {
-        "axios": "^0.19.0",
+        "axios": "^0.19.2",
         "js-cookie": "^2.2.1",
-        "pino": "^5.14.0",
-        "pino-pretty": "^3.4.0",
-        "ws": "^7.2.0"
+        "pino": "^6.3.2",
+        "pino-pretty": "^4.0.0",
+        "ws": "^7.3.0"
     },
     "devDependencies": {
-        "@types/node": "^12.12.14",
-        "gulp": "4.0.0",
+        "@types/node": "12.12.14",
+        "gulp": "4.0.2",
         "gulp-tslint": "8.1.4",
         "gulp-less": "4.0.1",
         "gulp-typescript": "6.0.0-alpha.1",
         "gulp-template": "5.0.0",
         "webpack-stream": "5.2.1",
-        "tslint": "5.20.1",
-        "typescript": "3.7.3"
+        "tslint": "6.1.2",
+        "typescript": "3.9.5"
     }
 }

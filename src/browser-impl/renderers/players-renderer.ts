@@ -39,7 +39,7 @@ export class PlayersRenderer {
 
     private flagImages: any = {};
 
-    private saysToSay: Array<{ playerId: number, msg: string, sw: StopWatch }> = [];
+    private saysToSay: { playerId: number, msg: string, sw: StopWatch }[] = [];
 
     constructor(private context: IContext, private clip: ClippedView) {
         this.images = {
