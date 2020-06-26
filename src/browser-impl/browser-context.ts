@@ -37,6 +37,7 @@ import { StayActiveHandler } from "../handlers/stay-active-handler";
 import { DropFlag } from "./user-input/drop-flag";
 import { AutoFire } from "./user-input/auto-fire";
 import { AutoFireHandler } from "../handlers/auto-fire-handler";
+import { Spectate } from "./user-input/spectate";
 
 export class BrowserContext implements IContext {
     public gameType: GAME_TYPES;
@@ -60,6 +61,7 @@ export class BrowserContext implements IContext {
     private upgradeSelection = new ApplyUpgrades(this);
     private dropFlag = new DropFlag(this);
     private autofire = new AutoFire(this);
+    private spectate = new Spectate(this);
     private playerDropdownMenu = new PlayerDropDownMenu(this, this.chatInput, this.renderer);
     private browserInitialization = new BrowserInitialization(this);
     private browserVisibilityHandler = new BrowserVisibilityHandler(this);
@@ -70,6 +72,7 @@ export class BrowserContext implements IContext {
         this.upgradeSelection,
         this.dropFlag,
         this.autofire,
+        this.spectate,
         this.aircraftSelection,
         this.playerDropdownMenu);
 

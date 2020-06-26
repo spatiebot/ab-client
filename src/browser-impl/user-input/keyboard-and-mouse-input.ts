@@ -8,6 +8,7 @@ import { ChatInput } from "./chat-input";
 import { PlayerDropDownMenu } from "./player-dropdownmenu";
 import { DropFlag } from "./drop-flag";
 import { AutoFire } from "./auto-fire";
+import { Spectate } from "./spectate";
 
 export class KeyboardAndMouseInput {
 
@@ -17,6 +18,7 @@ export class KeyboardAndMouseInput {
         private applyUpgrades: ApplyUpgrades,
         private dropFlag: DropFlag,
         private autoFire: AutoFire,
+        private spectate: Spectate,
         private aircraftSelection: AircraftSelection,
         private playerDropdownMenu: PlayerDropDownMenu) {
 
@@ -135,6 +137,12 @@ export class KeyboardAndMouseInput {
             case 13: // Enter
                 if (isKeyDown) {
                     this.chatInput.showAndFocus();
+                }
+                break;
+
+            case 86: // v
+                if (isKeyDown) {
+                    this.spectate.spectate();
                 }
                 break;
 
