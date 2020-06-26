@@ -33,6 +33,10 @@ import { ApplyUpgrades } from "./user-input/apply-upgrades";
 import { ChatInput } from "./user-input/chat-input";
 import { KeyboardAndMouseInput } from "./user-input/keyboard-and-mouse-input";
 import { PlayerDropDownMenu } from "./user-input/player-dropdownmenu";
+import { StayActiveHandler } from "../handlers/stay-active-handler";
+import { DropFlag } from "./user-input/drop-flag";
+import { AutoFire } from "./user-input/auto-fire";
+import { AutoFireHandler } from "../handlers/auto-fire-handler";
 
 export class BrowserContext implements IContext {
     public gameType: GAME_TYPES;
@@ -54,6 +58,8 @@ export class BrowserContext implements IContext {
     private chatInput = new ChatInput(this);
     private aircraftSelection = new AircraftSelection(this);
     private upgradeSelection = new ApplyUpgrades(this);
+    private dropFlag = new DropFlag(this);
+    private autofire = new AutoFire(this);
     private playerDropdownMenu = new PlayerDropDownMenu(this, this.chatInput, this.renderer);
     private browserInitialization = new BrowserInitialization(this);
     private browserVisibilityHandler = new BrowserVisibilityHandler(this);
@@ -62,6 +68,8 @@ export class BrowserContext implements IContext {
         this,
         this.chatInput,
         this.upgradeSelection,
+        this.dropFlag,
+        this.autofire,
         this.aircraftSelection,
         this.playerDropdownMenu);
 
@@ -94,6 +102,9 @@ export class BrowserContext implements IContext {
             new ShakeOnHitHandler(this),
             new FlagCookieHandler(this),
             new MissileChemtrailHandler(this),
+            // client tools
+            new StayActiveHandler(this),
+            new AutoFireHandler(this),
         ];
     }
 

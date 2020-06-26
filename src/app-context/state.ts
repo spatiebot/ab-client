@@ -28,6 +28,9 @@ export class State {
     public ping: number;
     public numPlayers: number;
     public numPlayersTotal: number;
+    public spectatingId: number;
+    public myPlayerId: number;
+    public isAutoFiring: boolean;
 
     // random debug info
     public skippedFrames: number = 0;
@@ -53,7 +56,9 @@ export class State {
         delete this.players[Number(id)];
     }
 
-    public getMe(): Player {
+    // get the player that has the focus. Mostly the player himself.
+    // In case of spectating, this returns the player being spectated.
+    public getFocusedPlayer(): Player {
         return this.getPlayerById(this.id);
     }
 

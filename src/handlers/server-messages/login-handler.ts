@@ -20,7 +20,21 @@ export class LoginHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
         const msg = ev.args as Login;
         const s = this.context.state;
+
         s.id = msg.id;
+
+        // the id given is the id of the user we are spectating
+        // in case of spectating.
+        const isSpectating = !!this.context.state.spectatingId;
+        if (!isSpectating) {
+            s.myPlayerId = msg.id;
+        }
+
+        if (!msg.players) {
+            // this is a message that is used for spectate start
+            return;
+        }
+
         s.team = msg.team;
 
         this.context.gameType = GAME_TYPES.FFA;
@@ -28,7 +42,9 @@ export class LoginHandler implements IMessageHandler {
             this.context.gameType = GAME_TYPES.CTF;
         }
 
+
         let ranking = 0;
+
         for (const loginPlayer of msg.players) {
             const p = new Player();
             ranking++;

@@ -1,12 +1,11 @@
 import { IContext } from "../../app-context/icontext";
 
 export class DebugInfoRenderer {
-    private lagInMsElement: HTMLSpanElement;
+    private debugPanel: HTMLDivElement;
     private skippedFramesElement: HTMLSpanElement;
 
     constructor(private context: IContext) {
-        this.lagInMsElement = document.getElementById("lag-in-ms") as HTMLSpanElement;
-        this.skippedFramesElement = document.getElementById("skipped-frames") as HTMLSpanElement;
+        this.debugPanel = document.getElementById("debugPanel") as HTMLDivElement;
     }
 
     public render(): void {
@@ -15,11 +14,15 @@ export class DebugInfoRenderer {
         }
 
         const lag = this.context.connection.getLagMs();
-        this.lagInMsElement.innerText = lag.toLocaleString("en-us", {
+        const lagText = lag.toLocaleString("en-us", {
             maximumFractionDigits: 2,
             minimumFractionDigits: 2,
         });
 
-        this.skippedFramesElement.innerText = this.context.state.skippedFrames.toString();
+        const skippedFramesText = this.context.state.skippedFrames.toString();
+
+        this.debugPanel.innerHTML = `Lag: ${lagText}\nSkipped frames: ${skippedFramesText}\n` +
+            `My id: ${this.context.state.id}\n` +
+            `GameType: ${this.context.gameType}`;
     }
 }

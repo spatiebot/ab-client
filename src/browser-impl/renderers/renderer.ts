@@ -89,7 +89,7 @@ export class Renderer {
                 typeLabel = " =&gt; team";
             } else if (chatType === CHAT_TYPE.WHISPER) {
                 type = "chat-whisper";
-                if (playerId === this.context.state.id) {
+                if (playerId === this.context.state.myPlayerId) { // state.id can be the spectatered player
                     const other = this.context.state.getPlayerName(to);
                     typeLabel = " =&gt; " + other;
                 } else {
@@ -170,7 +170,7 @@ export class Renderer {
             this.context.state.purgeAfterPanic();
         }
 
-        if (!this.context.state.getMe()) {
+        if (!this.context.state.getFocusedPlayer()) {
             return;
         }
 

@@ -6,6 +6,8 @@ import { AircraftSelection } from "./aircraft-selection";
 import { ApplyUpgrades } from "./apply-upgrades";
 import { ChatInput } from "./chat-input";
 import { PlayerDropDownMenu } from "./player-dropdownmenu";
+import { DropFlag } from "./drop-flag";
+import { AutoFire } from "./auto-fire";
 
 export class KeyboardAndMouseInput {
 
@@ -13,6 +15,8 @@ export class KeyboardAndMouseInput {
         private context: IContext,
         private chatInput: ChatInput,
         private applyUpgrades: ApplyUpgrades,
+        private dropFlag: DropFlag,
+        private autoFire: AutoFire,
         private aircraftSelection: AircraftSelection,
         private playerDropdownMenu: PlayerDropDownMenu) {
 
@@ -137,6 +141,18 @@ export class KeyboardAndMouseInput {
             case 88: // x
                 if (isKeyDown) {
                     this.applyUpgrades.dropUpgrade();
+                }
+                break;
+
+            case 89: // y
+                if (isKeyDown) {
+                    this.dropFlag.dropFlag();
+                }
+                break;
+
+            case 90: // z
+                if (isKeyDown) {
+                    this.autoFire.toggleAutoFire();
                 }
                 break;
 

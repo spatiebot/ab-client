@@ -26,7 +26,8 @@ export class MiniMapHandler implements IMessageHandler {
             if (playerMinimapPos.x === 0 && playerMinimapPos.y === 0) {
                 // invisible prowler may not get the correct minimap data,
                 // so ignore this if i'm hidden as a prowler
-                if (!this.context.state.getMe().stealthed) {
+                const focusAircraft = this.context.state.getFocusedPlayer();
+                if (focusAircraft && !focusAircraft.stealthed) {
                     player.status = PLAYER_STATUS.INACTIVE;
                 }
             } else {

@@ -17,7 +17,7 @@ export class PlayerPowerupHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
         const msg = ev.args as PlayerPowerup;
 
-        const player = this.context.state.getMe();
+        const player = this.context.state.getFocusedPlayer();
         if (player) {
             player.hasShield = msg.type === PLAYER_POWERUP_TYPES.SHIELD;
             player.hasInferno = msg.type === PLAYER_POWERUP_TYPES.INFERNO;

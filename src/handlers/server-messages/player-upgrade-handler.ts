@@ -14,7 +14,7 @@ export class PlayerUpgradeAppliedHandler implements IMessageHandler {
     }
 
     public exec(ev: EventMessage) {
-        const player = this.context.state.getMe();
+        const player = this.context.state.getFocusedPlayer();
 
         if (!player) {
             return;

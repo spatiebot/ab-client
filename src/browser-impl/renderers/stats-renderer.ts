@@ -37,23 +37,31 @@ export class StatsRenderer {
         this.redFlagLocation = document.getElementById("red-flag-location") as HTMLSpanElement;
     }
 
+    private toString(n: number) {
+        if (n !== 0 && !n) {
+            return "";
+        }
+
+        return "" + n;
+    }
+
     public render(): void {
-        const me = this.context.state.getMe();
+        const me = this.context.state.getFocusedPlayer();
         if (!me) {
             return;
         }
 
-        this.scoreElement.innerText = "" + me.score;
-        this.killsElement.innerText = "" + me.kills;
-        this.deathsElement.innerText = "" + me.deaths;
+        this.scoreElement.innerText = this.toString(me.score);
+        this.killsElement.innerText = this.toString(me.kills);
+        this.deathsElement.innerText = this.toString(me.deaths);
 
         const upgrades = me.upgrades || new Upgrades();
 
-        this.upgradesElement.innerText = "" + upgrades.available;
-        this.upgrDefenseElement.innerText = "" + upgrades.defense;
-        this.upgrEnergyElement.innerText = "" + upgrades.energy;
-        this.upgrMissileElement.innerText = "" + upgrades.missile;
-        this.upgrSpeedElement.innerText = "" + upgrades.speed;
+        this.upgradesElement.innerText = this.toString(upgrades.available);
+        this.upgrDefenseElement.innerText = this.toString(upgrades.defense);
+        this.upgrEnergyElement.innerText = this.toString(upgrades.energy);
+        this.upgrMissileElement.innerText = this.toString(upgrades.missile);
+        this.upgrSpeedElement.innerText = this.toString(upgrades.speed);
 
         // CTF stats
         if (this.context.gameType === GAME_TYPES.CTF && this.ctfInfo.style.display !== "block") {
@@ -66,8 +74,8 @@ export class StatsRenderer {
         const blueScore = blueInfo.score ? blueInfo.score : 0;
         const redScore = redInfo.score ? redInfo.score : 0;
 
-        this.blueScore.innerText = "" + blueScore;
-        this.redScore.innerText = "" + redScore;
+        this.blueScore.innerText = this.toString(blueScore);
+        this.redScore.innerText = this.toString(redScore);
 
         let blueFlagLocation = "?";
         if (blueInfo.flagState === CTF_FLAG_STATE.DYNAMIC) {

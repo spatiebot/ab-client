@@ -29,5 +29,13 @@ export class PlayerRespawnHandler implements IMessageHandler {
         p.status = PLAYER_STATUS.ALIVE;
         p.health = 1;
         p.energy = 1;
+
+        if (msg.id === this.context.state.myPlayerId) {
+            const wasSpectating = !!this.context.state.spectatingId;
+            if (wasSpectating) {
+                this.context.state.spectatingId = null;
+                this.context.state.id = this.context.state.myPlayerId;
+            }
+        }
     }
 }

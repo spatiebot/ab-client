@@ -81,6 +81,15 @@ export class PlayerDropDownMenu {
                 this.renderer.highlightPlayerOnMinimap(player.id);
                 break;
 
+            case "menu-spectate":
+                // start spectating
+                if (!this.context.state.spectatingId) {
+                    this.context.connection.sendCommand("spectate", "-3");
+                }
+                // spectate player
+                this.context.connection.sendCommand("spectate", player.id + "");
+                break;
+
         }
     }
 

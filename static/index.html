@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <title>ΛIMISH</title>
-    <link id="ui-styling" rel="stylesheet" type="text/css" href="styles/default/style.css?v=<%= timestamp %>" />
+    <link id="ui-styling" rel="stylesheet" type="text/css" href="styles/default/style.css?v=<%= timestamp %>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
 </head>
 
 <body style="overflow: hidden;">
@@ -50,6 +51,7 @@
             <div class="menu-item" id="menu-stats"></div>
             <div class="menu-item" id="menu-whisper">Send private message</div>
             <div class="menu-item" id="menu-locate">Locate on minimap</div>
+            <div class="menu-item" id="menu-spectate">Spectate</div>
             <div class="menu-item" id="menu-flag">Copy flag</div>
             <div class="menu-item" id="menu-ignore">Ignore</div>
             <div class="menu-item" id="menu-unignore">Unignore</div>
@@ -62,7 +64,7 @@
             <canvas id="minimap-canvas" style="position: absolute; width: 100%; height: 100%"></canvas>
         </div>
 
-        <!-- CTF and server info -->
+        <!-- CTF info -->
         <div id="ctf-info" style="display: none;">
             <span class="team-blue">Blue: </span>
             <span class="team-blue" id="blue-score">0</span>
@@ -76,6 +78,22 @@
             <span class="team-red">Red flag: </span>
             <span class="team-red" id="red-flag-location">home</span>
         </div>
+        <!-- stats -->
+        <div id="stats" style="display: none">
+            <div id="stats-row">
+                <div id="stats-left">
+                    <i class="fas fa-wifi"></i> Ping: <span id="stats-ping" class="stat-val">100</span><br/>
+                    <i class="fas fa-skull-crossbones"></i> Kills/deaths: <span id="stats-kills"
+                        class="stat-val">0</span>/<span id="stats-deaths" class="stat-val">0</span>
+                </div>
+                <div id="stats-right">
+                    <i class="far fa-star"></i> Score: <span id="stats-score" class="stat-val">0</span><br />
+                    <i class="fas fa-fist-raised"></i> Upgrades: <span id="stats-upgrades"
+                        class="stat-val">0</span><br />
+                </div>
+            </div>
+        </div>
+        <!-- server messages -->
         <div id="server-message" style="display: none">
         </div>
 
@@ -87,30 +105,39 @@
             <img src="styles/default/tornado.png" id="select-tornado" title="F4" /><br />
             <img src="styles/default/prowler.png" id="select-prowler" title="F5" /><br />
         </div>
-        <!-- stats -->
-        <div id="stats" style="display: none">
-            Score: <span id="stats-score">0</span><br />
-            Upgrades: <span id="stats-upgrades">0</span><br />
-            Kills: <span id="stats-kills">0</span><br />
-            Deaths: <span id="stats-deaths">0</span><br />
-            Ping: <span id="stats-ping">100</span><br />
-        </div>
+
         <!-- upgrade selection -->
         <div id="upgradeSelection" style="display: none">
-            <div id="select-speed" title="Speed upgrade (1)">S: <span id="stats-speed">0</span>
+            <div id="select-speed" title="Speed upgrade (1)"><i class="fas fa-tachometer-alt"></i> <span
+                    class="stats-val" id="stats-speed">0</span>
             </div>
-            <div id="select-defense" title="Defense upgrade (2)">D: <span id="stats-defense">0</span>
+            <div id="select-defense" title="Defense upgrade (2)"><i class="fas fa-shield-alt"></i> <span
+                    class="stats-val" id="stats-defense">0</span>
             </div>
-            <div id="select-energy" title="Energy regeneration upgrade (3)">E: <span id="stats-energy">0</span></div>
-            <div id="select-missile" title="Missile speed upgrade (4)">M: <span id="stats-missile">0</span></div>
-            <div id="drop-upgrade" title="Drop 1 upgrade (x)">
-                <img src="styles/default/drop-upgrades.png" />
+            <div id="select-energy" title="Energy regeneration upgrade (3)"><i class="fas fa-charging-station"></i>
+                <span class="stats-val" id="stats-energy">0</span></div>
+            <div id="select-missile" title="Missile speed upgrade (4)"><i class="fas fa-rocket"></i> <span
+                class="stats-val" id="stats-missile">0</span></div>
+        </div>
+
+        <!-- action buttons-->
+        <div id="actionButtons" style="display: none">
+            <div id="auto-fire" title="Auto-fire" class="button">
+                <i class="fas fa-meteor"></i>
+                Auto fire (Z)
+            </div>
+            <div id="drop-upgrade" title="Drop 1 upgrade (x)" class="button">
+                <i class="fas fa-caret-square-down"></i>
+                Drop upgrade (X)
+            </div>
+            <div id="drop-flag" title="Drop flag (y)" class="button">
+                <i class="far fa-flag"></i>
+                Drop flag (Y)
             </div>
         </div>
+
         <!-- debug information -->
         <div id="debugPanel" style="display: none">
-            <div>Lag: <span id="lag-in-ms"></span> ms</div>
-            <div>Skipped frames: <span id="skipped-frames"></span></div>
         </div>
 
         <!-- game and name selection -->

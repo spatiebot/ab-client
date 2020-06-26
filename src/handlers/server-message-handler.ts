@@ -98,6 +98,9 @@ export class ServerMessageHandler implements IMessageHandler {
                 this.context.eventQueue.pub(Events.FLAG_UPDATE, serverMessage);
                 break;
 
+            case SERVER_PACKETS.GAME_SPECTATE:
+                this.context.eventQueue.pub(Events.PLAYER_SPECTATE, serverMessage);
+
             case SERVER_PACKETS.LOGIN:
                 this.context.eventQueue.pub(Events.LOGIN, serverMessage);
                 break;

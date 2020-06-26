@@ -24,6 +24,7 @@ import { PlayerNewHandler } from "../handlers/server-messages/player-new-handler
 import { PlayerPowerupHandler } from "../handlers/server-messages/player-powerup-handler";
 import { PlayerRepelHandler } from "../handlers/server-messages/player-repel-handler";
 import { PlayerRespawnHandler } from "../handlers/server-messages/player-respawn-handler";
+import { PlayerSpectateHandler } from "../handlers/server-messages/player-spectate-handler";
 import { PlayerStealthHandler } from "../handlers/server-messages/player-stealth-handler";
 import { PlayerSwitchTypeHandler } from "../handlers/server-messages/player-switch-type-handler";
 import { PlayerUpdateHandler } from "../handlers/server-messages/player-update-handler";
@@ -62,6 +63,7 @@ export class HandlerCollections {
             new PlayerPowerupHandler(context),
             new PlayerRepelHandler(context),
             new PlayerRespawnHandler(context),
+            new PlayerSpectateHandler(context),
             new PlayerStealthHandler(context),
             new PlayerSwitchTypeHandler(context),
             new PlayerUpdateHandler(context),

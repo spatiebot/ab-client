@@ -90,6 +90,7 @@ export class LandingPage {
         document.getElementById("aircraftSelection").style.display = "block";
         document.getElementById("stats").style.display = "block";
         document.getElementById("upgradeSelection").style.display = "block";
+        document.getElementById("actionButtons").style.display = "block";
         document.getElementById("minimap").style.display = "block";
         document.getElementById("player-list").style.display = "block";
         document.getElementById("server-message").style.display = "block";
@@ -104,6 +105,9 @@ export class LandingPage {
         // ctf-block will be shown later
         window.document.body.style.backgroundImage = "inherit";
         this.context.start();
+
+        // expose context to manipulation in F12 :)
+        (window as any).gameContext = this.context;
     }
 
     private async populateServerList() {
