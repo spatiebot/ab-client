@@ -66,7 +66,7 @@ export class ServerAnnouncementRenderHandler implements IMessageHandler {
                     msg.text = "Two seconds of inactivity and full health required to respawn.";
                     break;
                 case SERVER_ERRORS.REQUIRED_INACTIVITY_AND_HEALTH_TO_SPECTATE:
-                    msg.text = "Tow seconds of inactivity and full health required to spectate.";
+                    msg.text = "Two seconds of inactivity and full health required to spectate.";
                     break;
                 case SERVER_ERRORS.UNKNOWN_COMMAND:
                     msg.text = "Unknown command";

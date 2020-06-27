@@ -38,6 +38,7 @@ import { DropFlag } from "./user-input/drop-flag";
 import { AutoFire } from "./user-input/auto-fire";
 import { AutoFireHandler } from "../handlers/auto-fire-handler";
 import { Spectate } from "./user-input/spectate";
+import { SwitchSides } from "./user-input/switch-sides";
 
 export class BrowserContext implements IContext {
     public gameType: GAME_TYPES;
@@ -62,6 +63,7 @@ export class BrowserContext implements IContext {
     private dropFlag = new DropFlag(this);
     private autofire = new AutoFire(this);
     private spectate = new Spectate(this);
+    private switchSides = new SwitchSides(this, this.autofire); // adds event handler to button
     private playerDropdownMenu = new PlayerDropDownMenu(this, this.chatInput, this.renderer);
     private browserInitialization = new BrowserInitialization(this);
     private browserVisibilityHandler = new BrowserVisibilityHandler(this);
