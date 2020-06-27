@@ -69,7 +69,14 @@ export class PlayersRenderer {
 
         for (const player of this.context.state.getPlayers()) {
 
-            if (player.status !== PLAYER_STATUS.ALIVE || !player.isVisibleOnScreen) {
+            const isAlive = player.status === PLAYER_STATUS.ALIVE;
+            if (!isAlive) {
+                continue;
+            }
+            const isVisible  = player.isVisibleOnScreen;
+            const isStealthed = player.stealthed;
+            // do show stealthed prowlers (approximately)
+            if (!isVisible && !isStealthed) {
                 continue;
             }
 

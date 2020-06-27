@@ -1,5 +1,4 @@
 import { IContext } from "../../app-context/icontext";
-import { GAME_TYPES } from "../../ab-protocol/src/lib";
 import { ServerMessage } from "../../ab-protocol/src/types/packets-server";
 import { Events } from "../../events/constants";
 import { StopWatch } from "../../helpers/stopwatch";
@@ -51,7 +50,6 @@ export class SwitchSides {
             const myAircraft = c.state.getPlayerById(c.state.myPlayerId);
             c.connection.sendCommand("respawn", myAircraft.type.toString());
         }, 500);
-
     }
 
     private showMessage(msg: string) {
@@ -62,6 +60,4 @@ export class SwitchSides {
 
         this.context.eventQueue.pub(Events.SERVER_ANNOUNCEMENT, servermessage);
     }
-
-
 }
