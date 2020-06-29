@@ -16,7 +16,7 @@ export class TeamsHandler implements IMessageHandler {
         const msg = ev.args as PlayerReteam;
 
         for (const p of msg.players) {
-            if (p.id === this.context.state.id) {
+            if (p.id === this.context.state.myPlayerId) {
                 this.context.state.team = p.team;
             }
 

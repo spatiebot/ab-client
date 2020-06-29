@@ -78,10 +78,12 @@ export class PlayersRenderer {
 
             const pos = player.mostReliablePos;
             const isInViewPort = pos && this.clip.isVisible(pos);
+            const isInvisiblyInViewPort = isInViewPort && !player.isVisibleOnScreen;
+            const isStealthyInViewPort = isInViewPort && player.stealthed;
+            const isFriendlyPlayer = player.team === this.context.state.team;
 
-            const isInvisibleProwler = player.type === SHIPS_TYPES.PROWLER &&
-                (isInViewPort && !player.isVisibleOnScreen ||
-                    player.stealthed && player.team !== this.context.state.team);
+            const isProwler = player.type === SHIPS_TYPES.PROWLER;
+            const isInvisibleProwler = isProwler && !isFriendlyPlayer && (isInvisiblyInViewPort || isStealthyInViewPort);
 
             if (!player.isVisibleOnScreen && !isInvisibleProwler) {
                 continue;
