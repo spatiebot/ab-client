@@ -1,4 +1,4 @@
-import { SHIPS_SPECS } from "../../ab-assets/ships-constants";
+import { SHIPS_SPECS, SHIPS_TYPES } from "../../ab-assets/ships-constants";
 import { COUNTRY_NAMES, CTF_TEAMS, FLAGS_CODE_TO_ISO, PLAYER_STATUS } from "../../ab-protocol/src/lib";
 import { IContext } from "../../app-context/icontext";
 import { StopWatch } from "../../helpers/stopwatch";
@@ -24,6 +24,9 @@ const SAY_MARGIN = 20;
 const SAY_HEIGHT = 40;
 const SAY_DURATION_SECONDS = 5;
 const SAY_DISTANCE_FROM_AIRCRAFT = 80;
+
+const INVISIBLE_PROWLER_BLUR_WIDTH = 10;
+const PROWLER_RADAR_CIRCLE_RADIUS = 300;
 
 declare const constants: any;
 
@@ -69,19 +72,18 @@ export class PlayersRenderer {
 
         for (const player of this.context.state.getPlayers()) {
 
-            const isAlive = player.status === PLAYER_STATUS.ALIVE;
-            if (!isAlive) {
-                continue;
-            }
-            const isVisible  = player.isVisibleOnScreen;
-            const isStealthed = player.stealthed;
-            // do show stealthed prowlers (approximately)
-            if (!isVisible && !isStealthed) {
+            if (player.status === PLAYER_STATUS.INACTIVE) {
                 continue;
             }
 
             const pos = player.mostReliablePos;
-            if (!pos || !this.clip.isVisible(pos)) {
+            const isInViewPort = pos && this.clip.isVisible(pos);
+
+            const isInvisibleProwler = player.type === SHIPS_TYPES.PROWLER &&
+                (isInViewPort && !player.isVisibleOnScreen ||
+                    player.stealthed && player.team !== this.context.state.team);
+
+            if (!player.isVisibleOnScreen && !isInvisibleProwler) {
                 continue;
             }
 
@@ -89,14 +91,24 @@ export class PlayersRenderer {
 
             // move & rotate canvas to render the aircraft
             context.translate(clipPos.x, clipPos.y);
-            context.rotate(player.rot);
 
-            this.renderAircraft(player, context);
+            if (!isInvisibleProwler) {
+                context.rotate(player.rot);
+            } else {
+                // don't rotate invisible prowlers, because we don't know their rotation
+                // but do blur them to indicate this is prowler radar
+                context.filter = `blur(${INVISIBLE_PROWLER_BLUR_WIDTH}px)`;
+            }
 
-            // rotate back to render bars
-            context.rotate(-player.rot);
+            this.renderAircraft(player, context, isInvisibleProwler);
 
-            this.renderBars(context, player);
+            if (!isInvisibleProwler) {
+                // rotate back and render bars
+                context.rotate(-player.rot);
+                this.renderBars(context, player);
+            } else {
+                context.filter = "none";
+            }
 
             // draw name + flag
             this.renderName(player, context,
@@ -213,11 +225,20 @@ export class PlayersRenderer {
         context.globalAlpha = 1;
     }
 
-    private renderAircraft(player: Player, context: CanvasRenderingContext2D) {
+    private renderAircraft(player: Player, context: CanvasRenderingContext2D, isInvisibleProwler: boolean) {
 
         const aircraftSpecs = SHIPS_SPECS[player.type];
 
-        if (this.context.settings.useBitmaps) {
+        if (isInvisibleProwler) {
+            context.fillStyle =
+                player.team === CTF_TEAMS.BLUE ? constants.PLAYER_NOBITMAP_BLUE_TEAM_PROWLER_COLOR :
+                    player.team === CTF_TEAMS.RED ? constants.PLAYER_NOBITMAP_RED_TEAM_PROWLER_COLOR :
+                        constants.PLAYER_NOBITMAP_PROWLER_COLOR;
+            const r = this.clip.scale(PROWLER_RADAR_CIRCLE_RADIUS);
+            context.beginPath();
+            context.arc(0, 0, r, 0, 2 * Math.PI);
+            context.fill();
+        } else if (this.context.settings.useBitmaps) {
             const image: HTMLImageElement = this.images[aircraftSpecs.name];
             const imageScale = 1; // used to have larger images before
             const targetWidth = this.clip.scale(image.width * imageScale);
