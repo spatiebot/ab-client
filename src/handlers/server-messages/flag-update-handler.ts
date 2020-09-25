@@ -17,13 +17,13 @@ export class FlagUpdateHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
         const msg = ev.args as GameFlag;
 
-        const team = this.context.state.getCtfTeam(msg.flag);
+        const team = this.context.writeState.getCtfTeam(msg.flag);
         team.flagState = msg.type;
         team.flagTakenById = msg.id;
 
         team.flagPos = new Pos(msg.posX, msg.posY);
 
-        this.context.state.getCtfTeam(CTF_TEAMS.BLUE).score = msg.blueteam;
-        this.context.state.getCtfTeam(CTF_TEAMS.RED).score = msg.redteam;
+        this.context.writeState.getCtfTeam(CTF_TEAMS.BLUE).score = msg.blueteam;
+        this.context.writeState.getCtfTeam(CTF_TEAMS.RED).score = msg.redteam;
     }
 }

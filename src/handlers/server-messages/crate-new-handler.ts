@@ -22,6 +22,6 @@ export class CrateNewHandler implements IMessageHandler {
         m.pos = new Pos(msg.posX, msg.posY);
         m.mobType = msg.type;
 
-        this.context.state.addMob(m);
+        this.context.writeState.addMob(m);
     }
 }

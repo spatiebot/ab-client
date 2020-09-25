@@ -16,7 +16,7 @@ export class MissileMaintenanceHandler implements IMessageHandler {
     public exec(ev: EventMessage): void {
         const tick = ev.args as ITickArgs;
 
-        for (const missile of this.context.state.getMissiles()) {
+        for (const missile of this.context.writeState.getMissiles()) {
 
             const missileParams = PROJECTILES_SPECS[missile.mobType];
 
@@ -50,7 +50,7 @@ export class MissileMaintenanceHandler implements IMessageHandler {
                 missile.pos.y > MAP_COORDS.MAX_Y ||
                 missile.distance >= missileParams.distance
             ) {
-                this.context.state.removeMob(missile.id);
+                this.context.writeState.removeMob(missile.id);
             }
         }
     }

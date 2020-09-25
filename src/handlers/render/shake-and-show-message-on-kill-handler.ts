@@ -22,10 +22,10 @@ export class ShakeAndShowMessageOnKillHandler implements IMessageHandler {
         }
 
         let text = "";
-        if (msg.killer === this.context.state.id) {
-            text = `You have destroyed ${this.context.state.getPlayerName(msg.id)}`;
-        } else if (msg.id === this.context.state.id) {
-            text = `Destroyed by ${this.context.state.getPlayerName(msg.killer)}`;
+        if (msg.killer === this.context.readState.id) {
+            text = `You have destroyed ${this.context.readState.getPlayerName(msg.id)}`;
+        } else if (msg.id === this.context.readState.id) {
+            text = `Destroyed by ${this.context.readState.getPlayerName(msg.killer)}`;
             this.context.renderer.renderKill();
         }
 

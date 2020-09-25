@@ -46,7 +46,7 @@ export class StatsRenderer {
     }
 
     public render(): void {
-        const me = this.context.state.getFocusedPlayer();
+        const me = this.context.readState.getFocusedPlayer();
         if (!me) {
             return;
         }
@@ -68,8 +68,8 @@ export class StatsRenderer {
             this.ctfInfo.style.display = "block";
         }
 
-        const blueInfo = this.context.state.getCtfTeam(CTF_TEAMS.BLUE);
-        const redInfo = this.context.state.getCtfTeam(CTF_TEAMS.RED);
+        const blueInfo = this.context.readState.getCtfTeam(CTF_TEAMS.BLUE);
+        const redInfo = this.context.readState.getCtfTeam(CTF_TEAMS.RED);
 
         const blueScore = blueInfo.score ? blueInfo.score : 0;
         const redScore = redInfo.score ? redInfo.score : 0;
@@ -79,7 +79,7 @@ export class StatsRenderer {
 
         let blueFlagLocation = "?";
         if (blueInfo.flagState === CTF_FLAG_STATE.DYNAMIC) {
-            const carrierName = this.context.state.getPlayerName(blueInfo.flagTakenById);
+            const carrierName = this.context.readState.getPlayerName(blueInfo.flagTakenById);
             blueFlagLocation = `taken by ${carrierName}`;
         } else if (FLAG_DEFAULT_POSITION.blue.equals(blueInfo.flagPos)) {
             blueFlagLocation = "home";
@@ -90,7 +90,7 @@ export class StatsRenderer {
 
         let redFlagLocation = "?";
         if (redInfo.flagState === CTF_FLAG_STATE.DYNAMIC) {
-            const carrierName = this.context.state.getPlayerName(redInfo.flagTakenById);
+            const carrierName = this.context.readState.getPlayerName(redInfo.flagTakenById);
             redFlagLocation = `taken by ${carrierName}`;
         } else if (FLAG_DEFAULT_POSITION.red.equals(redInfo.flagPos)) {
             redFlagLocation = "home";

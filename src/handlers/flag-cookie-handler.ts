@@ -15,7 +15,7 @@ export class FlagCookieHandler implements IMessageHandler {
 
     public exec(ev: EventMessage) {
         const msg = ev.args as PlayerFlag;
-        if (msg.id !== this.context.state.id) {
+        if (msg.id !== this.context.readState.id) {
             return;
         }
         const flag = FLAGS_CODE_TO_ISO["" + msg.flag];

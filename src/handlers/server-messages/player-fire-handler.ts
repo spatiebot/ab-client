@@ -17,7 +17,7 @@ export class PlayerFireHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
         const msg = ev.args as PlayerFire;
 
-        const player = this.context.state.getPlayerById(msg.id);
+        const player = this.context.writeState.getPlayerById(msg.id);
 
         if (!player) {
             return;
@@ -38,7 +38,7 @@ export class PlayerFireHandler implements IMessageHandler {
             mob.rot = mob.speed.direction();
             mob.team = player.team;
 
-            this.context.state.addMob(mob);
+            this.context.writeState.addMob(mob);
         }
 
     }

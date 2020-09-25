@@ -17,7 +17,8 @@ export interface IContext {
     eventQueue: EventQueue;
     tm: TimerManager;
     processor: EventQueueProcessor;
-    state: State;
+    readState: State;
+    writeState: State;
     webSocketFactory: IWebSocketFactory;
     connection: Connection;
     auth: AuthData;

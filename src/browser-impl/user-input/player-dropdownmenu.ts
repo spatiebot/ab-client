@@ -31,7 +31,7 @@ export class PlayerDropDownMenu {
         this.currentId = Number(id);
         this.currentName = decodeURI(name);
 
-        const player = this.context.state.getPlayerById(Number(id));
+        const player = this.context.readState.getPlayerById(Number(id));
 
         this.menuTitle.innerText = this.currentName;
         this.menuStats.innerText =
@@ -47,7 +47,7 @@ export class PlayerDropDownMenu {
     private onMenuItemClicked(item: Element) {
         this.hide();
 
-        const player = this.context.state.getPlayerById(this.currentId);
+        const player = this.context.readState.getPlayerById(this.currentId);
 
         if (!player || player.name === "Server") {
             return;
@@ -83,7 +83,7 @@ export class PlayerDropDownMenu {
 
             case "menu-spectate":
                 // start spectating
-                if (!this.context.state.spectatingId) {
+                if (!this.context.readState.spectatingId) {
                     this.context.connection.sendCommand("spectate", "-3");
                 }
                 // spectate player

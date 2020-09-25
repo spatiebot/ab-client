@@ -23,7 +23,8 @@ export class NodeContext implements IContext {
     public eventQueue = new EventQueue();
     public tm = new TimerManager();
     public processor = new EventQueueProcessor(this);
-    public state = new State();
+    public readState = new State();
+    public writeState = new State();
     public handlers: IMessageHandler[];
     public webSocketFactory: IWebSocketFactory = new NodeWebSocketFactory();
     public connection: Connection = new Connection(this);

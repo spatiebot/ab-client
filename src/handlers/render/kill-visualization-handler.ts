@@ -17,6 +17,6 @@ export class KillVisualizationHandler implements IMessageHandler {
 
         const killVisual = new KillVisual();
         killVisual.pos = new Pos(kill.posX, kill.posY);
-        this.context.state.addKill(killVisual);
+        this.context.writeState.addKill(killVisual);
     }
 }

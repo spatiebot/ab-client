@@ -20,6 +20,6 @@ export class ExplosionVisualizationHandler implements IMessageHandler {
         const explosion = new ExplosionVisual();
         explosion.pos = expl.pos;
         explosion.type = expl.type;
-        this.context.state.addExplosion(explosion);
+        this.context.writeState.addExplosion(explosion);
     }
 }

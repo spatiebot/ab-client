@@ -11,7 +11,7 @@ export class PlayerListRenderer {
     }
 
     public render(): void {
-        const players = this.context.state.getPlayers();
+        const players = this.context.readState.getPlayers();
 
         players.sort((a: Player, b: Player) => {
             const ar = a.ranking || Number.MAX_SAFE_INTEGER;

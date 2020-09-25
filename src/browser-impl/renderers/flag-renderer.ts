@@ -22,8 +22,8 @@ export class FlagRenderer {
 
     public render(ctx: CanvasRenderingContext2D): void {
 
-        const redTeam = this.context.state.getCtfTeam(CTF_TEAMS.RED);
-        const blueTeam = this.context.state.getCtfTeam(CTF_TEAMS.BLUE);
+        const redTeam = this.context.readState.getCtfTeam(CTF_TEAMS.RED);
+        const blueTeam = this.context.readState.getCtfTeam(CTF_TEAMS.BLUE);
 
         this.renderFlag(redTeam, this.redFlag, ctx);
         this.renderFlag(blueTeam, this.blueFlag, ctx);
@@ -61,7 +61,7 @@ export class FlagRenderer {
         let isFlagBeingCarried = false;
         if (team.flagState === CTF_FLAG_STATE.DYNAMIC) {
             // flag is on the move
-            const carrier = this.context.state.getPlayerById(team.flagTakenById);
+            const carrier = this.context.readState.getPlayerById(team.flagTakenById);
             if (carrier) {
                 pos = carrier.mostReliablePos;
                 isFlagVisible = carrier.isVisibleOnScreen && this.clip.isVisible(pos);

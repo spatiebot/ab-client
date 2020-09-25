@@ -17,7 +17,7 @@ export class MissilesRenderer {
 
     public renderMissiles(context: CanvasRenderingContext2D) {
         context.fillStyle = constants.MISSILE_COLOR;
-        for (const missile of this.context.state.getMissiles()) {
+        for (const missile of this.context.readState.getMissiles()) {
             const pos = missile.pos;
             if (!pos) {
                 continue;
@@ -36,7 +36,7 @@ export class MissilesRenderer {
 
                 let shouldRestoreAlphs = false;
                 if (this.context.gameType === GAME_TYPES.CTF && missile.team) {
-                    if (missile.team === this.context.state.team && missile.ownerId !== this.context.state.id) {
+                    if (missile.team === this.context.readState.team && missile.ownerId !== this.context.readState.id) {
                         // show friendly missiles as transparent
                         context.globalAlpha = 0.4;
                         shouldRestoreAlphs = true;

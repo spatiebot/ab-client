@@ -8,7 +8,7 @@ export class BrowserVisibilityHandler {
     }
 
     public clearKeys(): void {
-        const me = this.context.state.getFocusedPlayer();
+        const me = this.context.readState.getFocusedPlayer();
         if (!me) {
             return;
         }

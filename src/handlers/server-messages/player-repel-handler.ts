@@ -17,7 +17,7 @@ export class PlayerRepelHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
         const msg = ev.args as EventRepel;
 
-        const player = this.context.state.getPlayerById(msg.id);
+        const player = this.context.writeState.getPlayerById(msg.id);
         if (player) {
             player.pos = new Pos(msg.posX, msg.posY);
             player.rot = msg.rot;
@@ -27,7 +27,7 @@ export class PlayerRepelHandler implements IMessageHandler {
         }
 
         for (const repelledPlayer of msg.players) {
-            const p = this.context.state.getPlayerById(repelledPlayer.id);
+            const p = this.context.writeState.getPlayerById(repelledPlayer.id);
 
             if (!p) {
                 continue;
@@ -46,7 +46,7 @@ export class PlayerRepelHandler implements IMessageHandler {
         }
 
         for (const missile of msg.mobs) {
-            const mob = this.context.state.getMobById(missile.id);
+            const mob = this.context.writeState.getMobById(missile.id);
 
             if (!mob) {
                 continue;

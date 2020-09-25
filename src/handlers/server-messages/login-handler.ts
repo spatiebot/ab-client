@@ -19,13 +19,13 @@ export class LoginHandler implements IMessageHandler {
 
     public exec(ev: EventMessage) {
         const msg = ev.args as Login;
-        const s = this.context.state;
+        const s = this.context.writeState;
 
         s.id = msg.id;
 
         // the id given is the id of the user we are spectating
         // in case of spectating.
-        const isSpectating = !!this.context.state.spectatingId;
+        const isSpectating = !!s.spectatingId;
         if (!isSpectating) {
             s.myPlayerId = msg.id;
         }

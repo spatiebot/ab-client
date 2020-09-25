@@ -47,7 +47,8 @@ export class BrowserContext implements IContext {
     public eventQueue: EventQueue;
     public tm: TimerManager;
     public processor: EventQueueProcessor;
-    public state: State;
+    public readState: State;
+    public writeState: State;
     public handlers: IMessageHandler[];
     public webSocketFactory: IWebSocketFactory;
     public connection: Connection;
@@ -90,7 +91,8 @@ export class BrowserContext implements IContext {
         this.eventQueue = new EventQueue();
         this.tm = new TimerManager();
         this.processor = new EventQueueProcessor(this);
-        this.state = new State();
+        this.readState = new State();
+        this.writeState = this.readState;
         this.connection = new Connection(this);
 
         this.handlers = [

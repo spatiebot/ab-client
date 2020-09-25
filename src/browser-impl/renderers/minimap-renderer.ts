@@ -44,9 +44,9 @@ export class MinimapRenderer {
         const scaleX = this.canvas.width / MAP_SIZE.WIDTH;
         const scaleY = this.canvas.height / MAP_SIZE.HEIGHT;
 
-        const myId = this.context.state.id;
+        const myId = this.context.readState.id;
 
-        for (const player of this.context.state.getPlayers()) {
+        for (const player of this.context.readState.getPlayers()) {
             if (player.status === PLAYER_STATUS.INACTIVE) {
                 continue;
             }
@@ -95,8 +95,8 @@ export class MinimapRenderer {
 
         if (this.context.gameType === GAME_TYPES.CTF) {
 
-            const redTeam = this.context.state.getCtfTeam(CTF_TEAMS.RED);
-            const blueTeam = this.context.state.getCtfTeam(CTF_TEAMS.BLUE);
+            const redTeam = this.context.readState.getCtfTeam(CTF_TEAMS.RED);
+            const blueTeam = this.context.readState.getCtfTeam(CTF_TEAMS.BLUE);
 
             this.renderFlag(redTeam, this.redFlag, this.canvasContext,
                 FLAG_DEFAULT_POSITION.red, constants.CTF_RED_TEAM_COLOR);
@@ -117,7 +117,7 @@ export class MinimapRenderer {
 
         if (team.flagState === CTF_FLAG_STATE.DYNAMIC) {
             // flag is on the move
-            const carrier = this.context.state.getPlayerById(team.flagTakenById);
+            const carrier = this.context.readState.getPlayerById(team.flagTakenById);
             if (carrier) {
                 pos = carrier.mostReliablePos;
             }

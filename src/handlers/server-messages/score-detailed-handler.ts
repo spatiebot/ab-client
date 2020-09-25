@@ -17,7 +17,7 @@ export class ScoreDetailedHandler implements IMessageHandler {
 
         if (msg.ffaScores) {
             for (const playerScore of msg.ffaScores) {
-                const player = this.context.state.getPlayerById(playerScore.id);
+                const player = this.context.writeState.getPlayerById(playerScore.id);
                 if (!player) {
                     continue;
                 }
@@ -30,7 +30,7 @@ export class ScoreDetailedHandler implements IMessageHandler {
             }
         } else if (msg.ctfScores) {
             for (const playerScore of msg.ctfScores) {
-                const player = this.context.state.getPlayerById(playerScore.id);
+                const player = this.context.writeState.getPlayerById(playerScore.id);
                 if (!player) {
                     continue;
                 }

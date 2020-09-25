@@ -22,6 +22,6 @@ export class MountainHitHandler implements IMessageHandler {
             type: msg.type,
         } as IExplosionArgs);
 
-        this.context.state.removeMob(msg.id);
+        this.context.writeState.removeMob(msg.id);
     }
 }

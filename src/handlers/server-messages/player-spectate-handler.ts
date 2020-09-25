@@ -15,11 +15,11 @@ export class PlayerSpectateHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
         const msg = ev.args as GameSpectate;
 
-        const p = this.context.state.getPlayerById(msg.id);
+        const p = this.context.writeState.getPlayerById(msg.id);
         if (!p) {
             return;
         }
 
-        this.context.state.spectatingId = msg.id;
+        this.context.writeState.spectatingId = msg.id;
     }
 }

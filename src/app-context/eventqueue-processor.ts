@@ -78,7 +78,7 @@ export class EventQueueProcessor {
             }
         }
 
-        this.context.state.skippedFrames = this.skippedFrames;
+        this.context.writeState.skippedFrames = this.skippedFrames;
 
         if (!tooEarly) {
             this.tickCounter++;

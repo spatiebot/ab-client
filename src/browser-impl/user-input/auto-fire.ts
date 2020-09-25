@@ -9,9 +9,9 @@ export class AutoFire {
     }
 
     public toggleAutoFire() {
-        this.context.state.isAutoFiring = !this.context.state.isAutoFiring;
+        this.context.writeState.isAutoFiring = !this.context.readState.isAutoFiring;
 
-        if (!this.context.state.isAutoFiring) {
+        if (!this.context.readState.isAutoFiring) {
             // stop the aggressiveness
             this.context.connection.sendKey(KEY_CODES.FIRE, false);
         }

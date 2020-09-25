@@ -18,7 +18,7 @@ export class ScoreBoardHandler implements IMessageHandler {
         let ranking = 0;
         for (const playerScore of data) {
             ranking++;
-            const player = this.context.state.getPlayerById(playerScore.id);
+            const player = this.context.writeState.getPlayerById(playerScore.id);
             if (!player) {
                 continue;
             }

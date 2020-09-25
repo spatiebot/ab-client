@@ -21,7 +21,7 @@ export class PlayerUpdateHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
         const msg = ev.args as PlayerUpdate;
 
-        const player = this.context.state.getPlayerById(msg.id);
+        const player = this.context.writeState.getPlayerById(msg.id);
 
         if (!player) {
             return;

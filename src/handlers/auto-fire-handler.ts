@@ -17,7 +17,7 @@ export class AutoFireHandler implements IMessageHandler {
 
     public exec(ev: EventMessage) {
 
-        if (!this.context.state.isAutoFiring) {
+        if (!this.context.readState.isAutoFiring) {
             return;
         }
 

@@ -15,6 +15,6 @@ export class PlayerLeaveHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
         const msg = ev.args as PlayerLeave;
 
-        this.context.state.removePlayer(msg.id);
+        this.context.writeState.removePlayer(msg.id);
     }
 }

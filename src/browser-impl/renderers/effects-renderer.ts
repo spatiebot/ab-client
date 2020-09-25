@@ -10,7 +10,7 @@ export class EffectsRenderer {
 
     public renderExplosions(context: CanvasRenderingContext2D) {
         context.fillStyle = constants.EFFECTS_EXPLOSION_COLOR;
-        for (const explosion of this.context.state.getActiveExplosions()) {
+        for (const explosion of this.context.readState.getActiveExplosions()) {
             const pos = explosion.pos;
             if (!pos) {
                 continue;
@@ -25,7 +25,7 @@ export class EffectsRenderer {
 
         // kills
         context.fillStyle = constants.EFFECTS_KILL_COLOR;
-        for (const kill of this.context.state.getActiveKills()) {
+        for (const kill of this.context.readState.getActiveKills()) {
             const pos = kill.pos;
             if (!pos) {
                 continue;
@@ -40,7 +40,7 @@ export class EffectsRenderer {
 
         // farts
         context.fillStyle = constants.EFFECTS_FART_COLOR;
-        for (const fart of this.context.state.getActiveFarts()) {
+        for (const fart of this.context.readState.getActiveFarts()) {
             if (!fart.player) {
                 continue;
             }
@@ -58,7 +58,7 @@ export class EffectsRenderer {
         }
 
         // missile clouds
-        for (const cloud of this.context.state.getActiveRocketTrailClouds()) {
+        for (const cloud of this.context.readState.getActiveRocketTrailClouds()) {
             const pos = cloud.pos;
             if (!pos) {
                 continue;

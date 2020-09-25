@@ -13,7 +13,7 @@ export class StayActiveHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
 
         // only do this when spectating
-        if (!this.context.state.spectatingId) {
+        if (!this.context.readState.spectatingId) {
             return;
         }
 

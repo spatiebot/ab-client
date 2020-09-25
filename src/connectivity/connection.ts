@@ -226,9 +226,9 @@ export class Connection {
                         this.afterLogin(result);
                     } else if (result.c === SERVER_PACKETS.PING_RESULT) {
                         const pingResultResult = result as PingResult;
-                        this.context.state.ping = pingResultResult.ping;
-                        this.context.state.numPlayers = pingResultResult.playersgame;
-                        this.context.state.numPlayersTotal = pingResultResult.playerstotal;
+                        this.context.writeState.ping = pingResultResult.ping;
+                        this.context.writeState.numPlayers = pingResultResult.playersgame;
+                        this.context.writeState.numPlayersTotal = pingResultResult.playerstotal;
 
                     } else {
                         // let most messages be handled by a subscriber
@@ -282,7 +282,7 @@ export class Connection {
     }
 
     private shouldDropMessage(msg: ProtocolPacket): boolean {
-        if (!msg.id || !msg.clock || msg.id !== this.context.state.id) {
+        if (!msg.id || !msg.clock || msg.id !== this.context.readState.id) {
             return false;
         }
 

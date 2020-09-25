@@ -70,7 +70,7 @@ export class PlayersRenderer {
             this.initFlagImages();
         }
 
-        for (const player of this.context.state.getPlayers()) {
+        for (const player of this.context.readState.getPlayers()) {
 
             if (player.status === PLAYER_STATUS.INACTIVE) {
                 continue;
@@ -80,7 +80,7 @@ export class PlayersRenderer {
             const isInViewPort = pos && this.clip.isVisible(pos);
             const isInvisiblyInViewPort = isInViewPort && !player.isVisibleOnScreen;
             const isStealthyInViewPort = isInViewPort && player.stealthed;
-            const isFriendlyPlayer = player.team === this.context.state.team;
+            const isFriendlyPlayer = player.team === this.context.readState.team;
 
             const isProwler = player.type === SHIPS_TYPES.PROWLER;
             const isInvisibleProwler = isProwler && !isFriendlyPlayer && (isInvisiblyInViewPort || isStealthyInViewPort);
@@ -199,7 +199,7 @@ export class PlayersRenderer {
         const r = this.clip.scale(HEALTH_ENERGY_BARS_RADIUS);
 
         context.lineWidth = this.clip.scale(HEALTH_ENERGY_BARS_WIDTH);
-        context.globalAlpha = player.id === this.context.state.id ? 0.8 : 0.5;
+        context.globalAlpha = player.id === this.context.readState.id ? 0.8 : 0.5;
 
         context.beginPath();
         context.arc(0, 0, r, Math.PI, Math.PI + (Math.PI * player.health / 2));

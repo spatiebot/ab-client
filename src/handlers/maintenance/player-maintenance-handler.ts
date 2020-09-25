@@ -24,7 +24,7 @@ export class PlayerMaintenanceHandler implements IMessageHandler {
     public exec(ev: EventMessage): void {
         const tick = ev.args as ITickArgs;
 
-        for (const player of this.context.state.getPlayers()) {
+        for (const player of this.context.writeState.getPlayers()) {
 
             if (player.status === PLAYER_STATUS.INACTIVE) {
                 continue;

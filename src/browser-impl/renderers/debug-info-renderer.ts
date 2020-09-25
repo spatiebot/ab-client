@@ -19,10 +19,10 @@ export class DebugInfoRenderer {
             minimumFractionDigits: 2,
         });
 
-        const skippedFramesText = this.context.state.skippedFrames.toString();
+        const skippedFramesText = this.context.readState.skippedFrames.toString();
 
         this.debugPanel.innerHTML = `Lag: ${lagText}\nSkipped frames: ${skippedFramesText}\n` +
-            `My id: ${this.context.state.id}\n` +
+            `My id: ${this.context.readState.id}\n` +
             `GameType: ${this.context.gameType}`;
     }
 }

@@ -15,7 +15,7 @@ export class ChatPlayerMutedHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
 
         const msg = ev.args as ChatVotemutepassed;
-        const player = this.context.state.getPlayerById(msg.id);
+        const player = this.context.writeState.getPlayerById(msg.id);
 
         if (player) {
             player.isMuted = true;

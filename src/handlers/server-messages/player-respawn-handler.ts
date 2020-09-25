@@ -19,7 +19,7 @@ export class PlayerRespawnHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
         const msg = ev.args as PlayerRespawn;
 
-        const p = this.context.state.getPlayerById(msg.id);
+        const p = this.context.writeState.getPlayerById(msg.id);
         if (!p) {
             return;
         }
@@ -30,11 +30,11 @@ export class PlayerRespawnHandler implements IMessageHandler {
         p.health = 1;
         p.energy = 1;
 
-        if (msg.id === this.context.state.myPlayerId) {
-            const wasSpectating = !!this.context.state.spectatingId;
+        if (msg.id === this.context.writeState.myPlayerId) {
+            const wasSpectating = !!this.context.writeState.spectatingId;
             if (wasSpectating) {
-                this.context.state.spectatingId = null;
-                this.context.state.id = this.context.state.myPlayerId;
+                this.context.writeState.spectatingId = null;
+                this.context.writeState.id = this.context.writeState.myPlayerId;
             }
         }
     }

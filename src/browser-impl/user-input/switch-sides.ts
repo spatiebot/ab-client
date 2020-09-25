@@ -28,14 +28,14 @@ export class SwitchSides {
 
         const c = this.context;
 
-        if (c.state.isAutoFiring) {
+        if (c.readState.isAutoFiring) {
             this.showMessage("Switching, stopping autofire...");
             this.autoFire.toggleAutoFire();
             c.tm.setTimeout(() => this.switch(), 2000);
             return;
         }
 
-        if (!c.state.spectatingId) {
+        if (!c.readState.spectatingId) {
             this.showMessage("Switching, entering spec mode...")
             c.connection.sendCommand("spectate", "-3");
             c.tm.setTimeout(() => this.switch(), 500 + this.timer.elapsedMs / 4);
@@ -47,7 +47,7 @@ export class SwitchSides {
         c.connection.sendCommand("switch", "");
         c.tm.setTimeout(() => {
             this.showMessage("Switching, respawning...")
-            const myAircraft = c.state.getPlayerById(c.state.myPlayerId);
+            const myAircraft = c.readState.getPlayerById(c.readState.myPlayerId);
             c.connection.sendCommand("respawn", myAircraft.type.toString());
         }, 500);
     }

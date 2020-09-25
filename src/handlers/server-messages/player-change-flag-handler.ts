@@ -15,7 +15,7 @@ export class PlayerChangeFlagHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
         const msg = ev.args as PlayerFlag;
 
-        const p = this.context.state.getPlayerById(msg.id);
+        const p = this.context.writeState.getPlayerById(msg.id);
 
         if (p) {
             p.flag = msg.flag;

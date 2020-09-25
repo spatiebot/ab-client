@@ -16,7 +16,7 @@ export class PlayerKilledHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
         const msg = ev.args as PlayerKill;
 
-        const p = this.context.state.getPlayerById(msg.id);
+        const p = this.context.writeState.getPlayerById(msg.id);
 
         if (p) {
             p.status = PLAYER_STATUS.INACTIVE;

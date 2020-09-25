@@ -23,7 +23,7 @@ export class MissileChemtrailHandler implements IMessageHandler {
 
         const tick = ev.args as ITickArgs;
 
-        for (const missile of this.context.state.getMissiles()) {
+        for (const missile of this.context.readState.getMissiles()) {
 
             const cloudVisualSpec = CloudVisualSpec.getFor(missile.mobType);
 
@@ -36,7 +36,7 @@ export class MissileChemtrailHandler implements IMessageHandler {
                 const jumpY = missile.speed.x / maxSpeed * cloudVisualSpec.distribBandwidth;
                 cloud.pos.x += tick.frame % (cloudVisualSpec.spawnFreq * 2) === 0 ? -jumpX : jumpX;
                 cloud.pos.y += tick.frame % (cloudVisualSpec.spawnFreq * 2) === 0 ? jumpY : -jumpY;
-                this.context.state.addRocketTrailCloud(cloud);
+                this.context.writeState.addRocketTrailCloud(cloud);
             }
         }
     }

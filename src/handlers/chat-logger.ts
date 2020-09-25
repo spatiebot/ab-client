@@ -12,7 +12,7 @@ export class ChatLogger implements IMessageHandler {
 
     public exec(ev: EventMessage) {
         const chat = ev.args as IChatArgs;
-        const player = this.context.state.getPlayerName(chat.playerId);
+        const player = this.context.readState.getPlayerName(chat.playerId);
 
         this.context.logger.info(`${player} says "${chat.chatMessage}"`);
     }

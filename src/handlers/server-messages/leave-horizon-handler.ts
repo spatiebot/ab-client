@@ -19,9 +19,9 @@ export class LeaveHorizonHandler implements IMessageHandler {
 
         let mobOrPlayer: Mob;
         if (msg.type === LEAVE_HORIZON_TYPES.MOB) {
-            mobOrPlayer = this.context.state.getMobById(msg.id);
+            mobOrPlayer = this.context.writeState.getMobById(msg.id);
         } else {
-            mobOrPlayer = this.context.state.getPlayerById(msg.id);
+            mobOrPlayer = this.context.writeState.getPlayerById(msg.id);
         }
 
         if (mobOrPlayer) {
@@ -31,7 +31,7 @@ export class LeaveHorizonHandler implements IMessageHandler {
         if (msg.type !== LEAVE_HORIZON_TYPES.PLAYER) {
             // We don't seem to get every despawn of mobs that have left the horizon,
             // so remove it entirely now. This is what the canonical frontend does also.
-            this.context.state.removeMob(msg.id);
+            this.context.writeState.removeMob(msg.id);
         }
 
     }

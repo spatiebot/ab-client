@@ -13,7 +13,7 @@ export class ShakeOnHitHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
         const msg = ev.args as PlayerHit;
 
-        if (msg.players.find((x) => x.id === this.context.state.id)) {
+        if (msg.players.find((x) => x.id === this.context.readState.id)) {
             this.context.renderer.renderHit();
         }
     }

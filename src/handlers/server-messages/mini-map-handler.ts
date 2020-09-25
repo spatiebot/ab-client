@@ -18,7 +18,7 @@ export class MiniMapHandler implements IMessageHandler {
         const data = ev.args as ScoreBoardRanking[];
 
         for (const playerMinimapPos of data) {
-            const player = this.context.state.getPlayerById(playerMinimapPos.id);
+            const player = this.context.writeState.getPlayerById(playerMinimapPos.id);
             if (!player) {
                 continue;
             }
@@ -26,7 +26,7 @@ export class MiniMapHandler implements IMessageHandler {
             if (playerMinimapPos.x === 0 && playerMinimapPos.y === 0) {
                 // invisible prowler may not get the correct minimap data,
                 // so ignore this if i'm hidden as a prowler
-                const focusAircraft = this.context.state.getFocusedPlayer();
+                const focusAircraft = this.context.writeState.getFocusedPlayer();
                 if (focusAircraft && focusAircraft.stealthed) {
                     player.status = PLAYER_STATUS.INACTIVE;
                 }

@@ -89,8 +89,8 @@ export class Renderer {
                 typeLabel = " =&gt; team";
             } else if (chatType === CHAT_TYPE.WHISPER) {
                 type = "chat-whisper";
-                if (playerId === this.context.state.myPlayerId) { // state.id can be the spectatered player
-                    const other = this.context.state.getPlayerName(to);
+                if (playerId === this.context.readState.myPlayerId) { // state.id can be the spectatered player
+                    const other = this.context.readState.getPlayerName(to);
                     typeLabel = " =&gt; " + other;
                 } else {
                     typeLabel = " =&gt; me";
@@ -128,7 +128,7 @@ export class Renderer {
     }
 
     public showPing() {
-        this.pingElement.innerText = "" + this.context.state.ping + " ms";
+        this.pingElement.innerText = "" + this.context.readState.ping + " ms";
     }
 
     public highlightPlayerOnMinimap(playerId: number) {
@@ -136,7 +136,7 @@ export class Renderer {
     }
 
     public ignorePlayer(playerId: number) {
-        if (this.ignoredPlayers.indexOf(playerId) === -1 && playerId !== this.context.state.id) {
+        if (this.ignoredPlayers.indexOf(playerId) === -1 && playerId !== this.context.readState.id) {
             this.ignoredPlayers.push(playerId);
         }
     }
@@ -167,10 +167,10 @@ export class Renderer {
         if (isFirstTick) {
             // this may be the first tick after a panic,
             // purge any unnecessary stuff to keep up.
-            this.context.state.purgeAfterPanic();
+            this.context.readState.purgeAfterPanic();
         }
 
-        if (!this.context.state.getFocusedPlayer()) {
+        if (!this.context.readState.getFocusedPlayer()) {
             return;
         }
 

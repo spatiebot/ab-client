@@ -56,7 +56,7 @@ export class ChatInput {
                 } else if (command === "s") {
                     this.context.eventQueue.pub(Events.CHAT_SEND, { text: args, type: CHAT_TYPE.SAY } as IChatSendArgs);
                 } else if (command === "w") {
-                    const allPlayers = this.context.state.getPlayers();
+                    const allPlayers = this.context.readState.getPlayers();
                     allPlayers.sort((a, b) => b.name.length - a.name.length);
 
                     let player: Player;

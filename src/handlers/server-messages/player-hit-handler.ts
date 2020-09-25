@@ -23,7 +23,7 @@ export class PlayerHitHandler implements IMessageHandler {
         } as IExplosionArgs);
 
         for (const who of msg.players) {
-            const player = this.context.state.getPlayerById(who.id);
+            const player = this.context.writeState.getPlayerById(who.id);
             if (!player) {
                 continue;
             }
@@ -31,6 +31,6 @@ export class PlayerHitHandler implements IMessageHandler {
             player.healthRegen = who.healthRegen;
         }
 
-        this.context.state.removeMob(msg.id);
+        this.context.writeState.removeMob(msg.id);
     }
 }
