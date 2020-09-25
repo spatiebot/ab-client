@@ -127,45 +127,46 @@ export class State {
     }
 
     public addExplosion(expl: ExplosionVisual) {
+        // purge this list and add the new explosion
+        this.explosions = this.getActiveExplosions();
         this.explosions.push(expl);
     }
 
-    // get only active explosions, also purges the collection of inactive explosions
     public getActiveExplosions(): ExplosionVisual[] {
         const activeExplosions = this.explosions.filter((e) => !e.isFinished);
-        this.explosions = activeExplosions;
         return activeExplosions;
     }
 
     public addKill(kill: KillVisual) {
+        // purge the list and add the new kill
+        this.kills = this.getActiveKills();
         this.kills.push(kill);
     }
 
-    // get only active kill visuals, also purges the collection of inactive kills
     public getActiveKills(): KillVisual[] {
         const activeKills = this.kills.filter((e) => !e.isFinished);
-        this.kills = activeKills;
         return activeKills;
     }
 
     public addFart(fart: GoliFartVisual) {
+        // purge the list and add new fart
+        this.farts = this.getActiveFarts();
         this.farts.push(fart);
     }
 
-    // get only active fart visuals, also purges the collection of inactive farts
     public getActiveFarts(): GoliFartVisual[] {
         const activeFarts = this.farts.filter((e) => !e.isFinished);
-        this.farts = activeFarts;
         return activeFarts;
     }
 
     public addRocketTrailCloud(cloud: CloudVisual) {
+        // purge the list and add new chemtrail
+        this.rocketTrailClouds = this.getActiveRocketTrailClouds();
         this.rocketTrailClouds.push(cloud);
     }
 
     public getActiveRocketTrailClouds(): CloudVisual[] {
         const activeClouds = this.rocketTrailClouds.filter((e) => !e.isFinished);
-        this.rocketTrailClouds = activeClouds;
         return activeClouds;
     }
 
