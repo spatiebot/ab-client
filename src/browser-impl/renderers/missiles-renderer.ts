@@ -18,7 +18,7 @@ export class MissilesRenderer {
     public renderMissiles(context: CanvasRenderingContext2D) {
         context.fillStyle = constants.MISSILE_COLOR;
         for (const missile of this.context.readState.getMissiles()) {
-            const pos = missile.pos;
+            const pos = missile.highResPos;
             if (!pos) {
                 continue;
             }

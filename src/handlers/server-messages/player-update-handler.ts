@@ -3,6 +3,7 @@ import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
 import { EventMessage } from "../../events/event-message";
 import { Decoder } from "../../helpers/decoder";
+import { MobFunctions } from "../../models/mob-functions";
 import { Pos } from "../../models/pos";
 import { PowerUps } from "../../models/power-ups";
 import { Upgrades } from "../../models/upgrades";
@@ -30,7 +31,7 @@ export class PlayerUpdateHandler implements IMessageHandler {
         player.isVisibleOnScreen = true;
 
         const movements = Decoder.keystateToPlayerMovements(msg.keystate);
-        player.setMovements(movements);
+        MobFunctions.setMovements(player, movements);
 
         const powerUps = Decoder.upgradesToPowerUps(msg.upgrades);
         player.powerUps = powerUps || new PowerUps();
@@ -38,7 +39,8 @@ export class PlayerUpdateHandler implements IMessageHandler {
         player.upgrades = player.upgrades || new Upgrades();
         player.upgrades.speed = player.powerUps.speed || 0;
 
-        player.pos = new Pos(msg.posX, msg.posY);
+        MobFunctions.setPos(player, msg.posX, msg.posY);
+
         player.rot = msg.rot;
         player.speed = new Pos(msg.speedX, msg.speedY);
     }

@@ -3,6 +3,7 @@ import { ScoreBoardRanking } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
 import { EventMessage } from "../../events/event-message";
+import { MobFunctions } from "../../models/mob-functions";
 import { Pos } from "../../models/pos";
 import { IMessageHandler } from "../imessage-handler";
 
@@ -32,7 +33,7 @@ export class MiniMapHandler implements IMessageHandler {
                 }
             } else {
                 const coords = decodeMinimapCoords(playerMinimapPos.x, playerMinimapPos.y);
-                player.posFromMinimap = new Pos(coords);
+                MobFunctions.setPosFromMinimap(player, new Pos(coords));
             }
         }
     }

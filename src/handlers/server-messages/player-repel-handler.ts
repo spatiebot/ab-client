@@ -3,6 +3,7 @@ import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
 import { EventMessage } from "../../events/event-message";
 import { Decoder } from "../../helpers/decoder";
+import { MobFunctions } from "../../models/mob-functions";
 import { Pos } from "../../models/pos";
 import { IMessageHandler } from "../imessage-handler";
 
@@ -19,7 +20,7 @@ export class PlayerRepelHandler implements IMessageHandler {
 
         const player = this.context.writeState.getPlayerById(msg.id);
         if (player) {
-            player.pos = new Pos(msg.posX, msg.posY);
+            MobFunctions.setPos(player, msg.posX, msg.posY);
             player.rot = msg.rot;
             player.speed = new Pos(msg.speedX, msg.speedY);
             player.energyRegen = msg.energyRegen;
@@ -34,9 +35,9 @@ export class PlayerRepelHandler implements IMessageHandler {
             }
 
             const movements = Decoder.keystateToPlayerMovements(repelledPlayer.keystate);
-            p.setMovements(movements);
+            MobFunctions.setMovements(p, movements);
 
-            p.pos = new Pos(repelledPlayer.posX, repelledPlayer.posY);
+            MobFunctions.setPos(p, repelledPlayer.posX, repelledPlayer.posY);
             p.rot = repelledPlayer.rot;
             p.speed = new Pos(repelledPlayer.speedX, repelledPlayer.speedY);
             p.energyRegen = repelledPlayer.energyRegen;
@@ -52,7 +53,7 @@ export class PlayerRepelHandler implements IMessageHandler {
                 continue;
             }
 
-            mob.pos = new Pos(missile.posX, missile.posY);
+            MobFunctions.setPos(mob, missile.posX, missile.posY);
             mob.accel = new Pos(missile.accelX, missile.accelY);
             mob.maxSpeed = missile.maxSpeed;
             mob.speed = new Pos(missile.speedX, missile.speedY);

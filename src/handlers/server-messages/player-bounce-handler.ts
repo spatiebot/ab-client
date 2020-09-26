@@ -3,6 +3,7 @@ import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
 import { EventMessage } from "../../events/event-message";
 import { Decoder } from "../../helpers/decoder";
+import { MobFunctions } from "../../models/mob-functions";
 import { Pos } from "../../models/pos";
 import { IMessageHandler } from "../imessage-handler";
 
@@ -24,9 +25,8 @@ export class PlayerBounceHandler implements IMessageHandler {
         }
 
         const movements = Decoder.keystateToPlayerMovements(msg.keystate);
-        player.setMovements(movements);
-
-        player.pos = new Pos(msg.posX, msg.posY);
+        MobFunctions.setMovements(player, movements);
+        MobFunctions.setPos(player, msg.posX, msg.posY);
         player.rot = msg.rot;
         player.speed = new Pos(msg.speedX, msg.speedY);
     }

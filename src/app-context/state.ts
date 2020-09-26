@@ -6,6 +6,7 @@ import { GoliFartVisual } from "../models/golifart-visual";
 import { KillVisual } from "../models/kill-visual";
 import { Mob } from "../models/mob";
 import { Player } from "../models/player";
+import { WriteableState } from "./writable-state";
 
 const MISSILES: MOB_TYPES[] = [
     MOB_TYPES.PREDATOR_MISSILE,
@@ -35,25 +36,40 @@ export class State {
     // random debug info
     public skippedFrames: number = 0;
 
-    private players = {};
-    private mobs = {};
-    private teams = {};
-    private explosions: ExplosionVisual[] = [];
-    private farts: GoliFartVisual[] = [];
-    private kills: KillVisual[] = [];
-    private rocketTrailClouds: CloudVisual[] = [];
+    protected players = {};
+    protected mobs = {};
+    protected teams = {};
+    protected explosions: ExplosionVisual[] = [];
+    protected farts: GoliFartVisual[] = [];
+    protected kills: KillVisual[] = [];
+    protected rocketTrailClouds: CloudVisual[] = [];
 
     constructor() {
         this.teams[CTF_TEAMS.BLUE] = new CtfTeam();
         this.teams[CTF_TEAMS.RED] = new CtfTeam();
     }
 
-    public addPlayer(p: Player): void {
-        this.players[Number(p.id)] = p;
-    }
+    public syncState(s: WriteableState) {
+        this.id = s.id;
+        this.team = s.team;
+        this.ping = s.ping;
+        this.numPlayers = s.numPlayers;
+        this.numPlayersTotal = s.numPlayersTotal;
+        this.spectatingId = s.spectatingId;
+        this.myPlayerId = s.myPlayerId;
+        this.isAutoFiring = s.isAutoFiring;
 
-    public removePlayer(id: number) {
-        delete this.players[Number(id)];
+        this.skippedFrames = s.skippedFrames;
+
+        const actors = s.getActors();
+        this.players = actors.players;
+        this.mobs = actors.mobs;
+        this.teams = actors.teams;
+
+        this.explosions = s.getActiveExplosions();
+        this.farts = s.getActiveFarts();
+        this.kills = s.getActiveKills();
+        this.rocketTrailClouds = s.getActiveRocketTrailClouds();
     }
 
     // get the player that has the focus. Mostly the player himself.
@@ -87,14 +103,6 @@ export class State {
         return p.name;
     }
 
-    public addMob(m: Mob): void {
-        this.mobs[Number(m.id)] = m;
-    }
-
-    public removeMob(id: number): void {
-        delete this.mobs[Number(id)];
-    }
-
     public getMobById(id: number): Mob {
         return this.mobs[Number(id)];
     }
@@ -103,6 +111,7 @@ export class State {
         const allMobs = Object.values(this.mobs) as Mob[];
         return allMobs.filter((m) => MISSILES.indexOf(m.mobType) !== -1);
     }
+
 
     public getUpcrates(): Mob[] {
         const allMobs = Object.values(this.mobs) as Mob[];
@@ -118,29 +127,9 @@ export class State {
         return this.teams[otherTeam];
     }
 
-    public purgeAfterPanic(): void {
-        // purge any fancy stuff, so the panic doesn't get worse: this prevents
-        // rendering explosions from long ago.
-        this.explosions.splice(0);
-        this.kills.splice(0);
-        this.rocketTrailClouds.splice(0);
-    }
-
-    public addExplosion(expl: ExplosionVisual) {
-        // purge this list and add the new explosion
-        this.explosions = this.getActiveExplosions();
-        this.explosions.push(expl);
-    }
-
     public getActiveExplosions(): ExplosionVisual[] {
         const activeExplosions = this.explosions.filter((e) => !e.isFinished);
         return activeExplosions;
-    }
-
-    public addKill(kill: KillVisual) {
-        // purge the list and add the new kill
-        this.kills = this.getActiveKills();
-        this.kills.push(kill);
     }
 
     public getActiveKills(): KillVisual[] {
@@ -148,21 +137,9 @@ export class State {
         return activeKills;
     }
 
-    public addFart(fart: GoliFartVisual) {
-        // purge the list and add new fart
-        this.farts = this.getActiveFarts();
-        this.farts.push(fart);
-    }
-
     public getActiveFarts(): GoliFartVisual[] {
         const activeFarts = this.farts.filter((e) => !e.isFinished);
         return activeFarts;
-    }
-
-    public addRocketTrailCloud(cloud: CloudVisual) {
-        // purge the list and add new chemtrail
-        this.rocketTrailClouds = this.getActiveRocketTrailClouds();
-        this.rocketTrailClouds.push(cloud);
     }
 
     public getActiveRocketTrailClouds(): CloudVisual[] {

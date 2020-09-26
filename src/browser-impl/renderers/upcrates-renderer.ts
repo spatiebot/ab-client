@@ -19,7 +19,7 @@ export class UpcratesRenderer {
 
     public renderUpcrates(context: CanvasRenderingContext2D) {
         for (const crate of this.context.readState.getUpcrates()) {
-            const pos = crate.pos;
+            const pos = crate.highResPos;
 
             if (!pos || !this.clip.isVisible(pos)) {
                 // this.logger.log("not visible", pos, this.clip.getClipRectangle());

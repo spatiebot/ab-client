@@ -9,6 +9,7 @@ import { IWebSocketFactory } from "./iwebsocket-factory";
 import { Settings } from "./settings";
 import { State } from "./state";
 import { TimerManager } from "./timer-manager";
+import { WriteableState } from "./writable-state";
 
 export interface IContext {
 
@@ -18,7 +19,7 @@ export interface IContext {
     tm: TimerManager;
     processor: EventQueueProcessor;
     readState: State;
-    writeState: State;
+    writeState: WriteableState;
     webSocketFactory: IWebSocketFactory;
     connection: Connection;
     auth: AuthData;

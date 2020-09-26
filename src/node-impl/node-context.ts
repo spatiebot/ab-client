@@ -8,6 +8,7 @@ import { IWebSocketFactory } from "../app-context/iwebsocket-factory";
 import { Settings } from "../app-context/settings";
 import { State } from "../app-context/state";
 import { TimerManager } from "../app-context/timer-manager";
+import { WriteableState } from "../app-context/writable-state";
 import { Connection } from "../connectivity/connection";
 import { EventQueue } from "../events/event-queue";
 import { ChatLogger } from "../handlers/chat-logger";
@@ -23,8 +24,8 @@ export class NodeContext implements IContext {
     public eventQueue = new EventQueue();
     public tm = new TimerManager();
     public processor = new EventQueueProcessor(this);
+    public writeState = new WriteableState();
     public readState = new State();
-    public writeState = new State();
     public handlers: IMessageHandler[];
     public webSocketFactory: IWebSocketFactory = new NodeWebSocketFactory();
     public connection: Connection = new Connection(this);

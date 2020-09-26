@@ -1,4 +1,5 @@
 import { IContext } from "../../app-context/icontext";
+import { MobFunctions } from "../../models/mob-functions";
 import { ClippedView } from "../clipped-view";
 
 declare const constants: any;
@@ -44,7 +45,7 @@ export class EffectsRenderer {
             if (!fart.player) {
                 continue;
             }
-            const pos = fart.player.pos;
+            const pos = fart.player.highResPos;
             if (!pos) {
                 continue;
             }

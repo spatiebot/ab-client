@@ -4,7 +4,7 @@ import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
 import { EventMessage } from "../../events/event-message";
 import { Decoder } from "../../helpers/decoder";
-import { Pos } from "../../models/pos";
+import { MobFunctions } from "../../models/mob-functions";
 import { PowerUps } from "../../models/power-ups";
 import { IMessageHandler } from "../imessage-handler";
 
@@ -23,7 +23,8 @@ export class PlayerRespawnHandler implements IMessageHandler {
         if (!p) {
             return;
         }
-        p.pos = new Pos(msg.posX, msg.posY);
+
+        MobFunctions.setPos(p, msg.posX, msg.posY);
         p.rot = msg.rot;
         p.powerUps = Decoder.upgradesToPowerUps(msg.upgrades) || new PowerUps();
         p.status = PLAYER_STATUS.ALIVE;

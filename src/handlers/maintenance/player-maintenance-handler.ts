@@ -7,7 +7,9 @@ import { Events } from "../../events/constants";
 import { ITickArgs } from "../../events/event-args/itick-args";
 import { EventMessage } from "../../events/event-message";
 import { PeriodicLogger } from "../../helpers/periodic-logger";
+import { MobFunctions } from "../../models/mob-functions";
 import { Player } from "../../models/player";
+import { Pos } from "../../models/pos";
 import { IMessageHandler } from "../imessage-handler";
 
 export const PI_X2 = 2 * Math.PI;
@@ -114,6 +116,9 @@ export class PlayerMaintenanceHandler implements IMessageHandler {
          */
         let speedValue = 0;
 
+        let x = player.highResPos.x;
+        let y = player.highResPos.y;
+
         if (
             player.speed.x !== 0 ||
             player.speed.y !== 0 ||
@@ -163,29 +168,32 @@ export class PlayerMaintenanceHandler implements IMessageHandler {
             /**
              * Update player position.
              */
-            player.pos.x += frameFactor * startSpeedX +
+
+            x += frameFactor * startSpeedX +
                 0.5 * (player.speed.x - startSpeedX) * frameFactor * frameFactor;
-            player.pos.y += frameFactor * startSpeedY +
+            y += frameFactor * startSpeedY +
                 0.5 * (player.speed.y - startSpeedY) * frameFactor * frameFactor;
         }
 
         /**
          * Validate coords.
          */
-        if (player.pos.x < PLAYERS_POSITION.MIN_X) {
-            player.pos.x = PLAYERS_POSITION.MIN_X;
+        if (x < PLAYERS_POSITION.MIN_X) {
+            x = PLAYERS_POSITION.MIN_X;
         }
 
-        if (player.pos.x > PLAYERS_POSITION.MAX_X) {
-            player.pos.x = PLAYERS_POSITION.MAX_X;
+        if (x > PLAYERS_POSITION.MAX_X) {
+            x = PLAYERS_POSITION.MAX_X;
         }
 
-        if (player.pos.y < PLAYERS_POSITION.MIN_Y) {
-            player.pos.y = PLAYERS_POSITION.MIN_Y;
+        if (y < PLAYERS_POSITION.MIN_Y) {
+            y = PLAYERS_POSITION.MIN_Y;
         }
 
-        if (player.pos.y > PLAYERS_POSITION.MAX_Y) {
-            player.pos.y = PLAYERS_POSITION.MAX_Y;
+        if (y > PLAYERS_POSITION.MAX_Y) {
+            y = PLAYERS_POSITION.MAX_Y;
         }
+
+        MobFunctions.setPos(player, x, y);
     }
 }

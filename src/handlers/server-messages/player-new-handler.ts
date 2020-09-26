@@ -1,8 +1,10 @@
+import { PLAYER_STATUS } from "../../ab-protocol/src/lib";
 import { PlayerNew } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
 import { EventMessage } from "../../events/event-message";
 import { Decoder } from "../../helpers/decoder";
+import { MobFunctions } from "../../models/mob-functions";
 import { Player } from "../../models/player";
 import { Pos } from "../../models/pos";
 import { PowerUps } from "../../models/power-ups";
@@ -19,11 +21,11 @@ export class PlayerNewHandler implements IMessageHandler {
     public exec(ev: EventMessage) {
         const msg = ev.args as PlayerNew;
 
-        const p = new Player();
+        const p = MobFunctions.createPlayer();
         p.id = msg.id;
         p.flag = msg.flag;
         p.name = msg.name;
-        p.pos = new Pos(msg.posX, msg.posY);
+        MobFunctions.setPos(p, msg.posX, msg.posY);
         p.type = msg.type;
         p.rot = msg.rot;
         p.status = msg.status;

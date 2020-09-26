@@ -2,6 +2,7 @@ import { SHIPS_SPECS, SHIPS_TYPES } from "../../ab-assets/ships-constants";
 import { COUNTRY_NAMES, CTF_TEAMS, FLAGS_CODE_TO_ISO, PLAYER_STATUS } from "../../ab-protocol/src/lib";
 import { IContext } from "../../app-context/icontext";
 import { StopWatch } from "../../helpers/stopwatch";
+import { MobFunctions } from "../../models/mob-functions";
 import { Player } from "../../models/player";
 import { Pos } from "../../models/pos";
 import { ClippedView } from "../clipped-view";
@@ -76,7 +77,7 @@ export class PlayersRenderer {
                 continue;
             }
 
-            const pos = player.mostReliablePos;
+            const pos = MobFunctions.getMostReliablePos(player);
             const isInViewPort = pos && this.clip.isVisible(pos);
             const isInvisiblyInViewPort = isInViewPort && !player.isVisibleOnScreen;
             const isStealthyInViewPort = isInViewPort && player.stealthed;

@@ -37,6 +37,7 @@ import { ServerCommandReplyHandler } from "../handlers/server-messages/server-co
 import { ServerCustomHandler } from "../handlers/server-messages/server-custom-handler";
 import { ServerErrorHandler } from "../handlers/server-messages/server-error-handler";
 import { TeamsHandler } from "../handlers/server-messages/teams-handler";
+import { SyncStateHandler } from "../handlers/sync-state-handler";
 import { IContext } from "./icontext";
 
 export class HandlerCollections {
@@ -81,6 +82,7 @@ export class HandlerCollections {
             // maintenance
             new MissileMaintenanceHandler(context),
             new PlayerMaintenanceHandler(context),
+            new SyncStateHandler(context),
 
             // client input
             new KeyboardMessageHandler(context),

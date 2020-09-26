@@ -15,22 +15,7 @@ export class Mob {
     public isVisibleOnScreen: boolean;
     public distance: number;
 
-    public get pos(): Pos {
-        return this.highResPos;
-    }
-    public set pos(value: Pos) {
-        this.highResPos = value;
-        this.posUpdateTimer.start();
-    }
-
-    protected posUpdateTimer = new StopWatch();
-
-    private highResPos: Pos;
-
-    constructor() {
-        this.speed = new Pos();
-        this.pos = new Pos();
-        this.accel = new Pos();
-    }
+    public posUpdateTimer: StopWatch;
+    public highResPos: Pos;
 
 }

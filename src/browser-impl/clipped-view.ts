@@ -37,7 +37,7 @@ export class ClippedView {
             this.context.settings.horizonY = screenSizeY / 2;
         }
 
-        const myPos = this.context.readState.getFocusedPlayer().pos;
+        const myPos = this.context.readState.getFocusedPlayer().highResPos;
         const halfWidth = (canvas.width / zoom) / 2;
         const halfHeight = (canvas.height / zoom) / 2;
         this.clipRectangle = [

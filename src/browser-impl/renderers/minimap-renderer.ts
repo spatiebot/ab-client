@@ -2,6 +2,7 @@ import { FLAG_DEFAULT_POSITION } from "../../ab-assets/ctf-constants";
 import { CTF_FLAG_STATE, CTF_TEAMS, GAME_TYPES, MAP_SIZE, PLAYER_STATUS } from "../../ab-protocol/src/lib";
 import { IContext } from "../../app-context/icontext";
 import { CtfTeam } from "../../models/ctf-team";
+import { MobFunctions } from "../../models/mob-functions";
 import { Pos } from "../../models/pos";
 
 const MARKER_SIZE = 3;
@@ -51,9 +52,11 @@ export class MinimapRenderer {
                 continue;
             }
 
+            const mostReliablePos = MobFunctions.getMostReliablePos(player);
+
             const pos = new Pos(
-                (player.mostReliablePos.x + HALF_MAP_WIDTH) * scaleX,
-                (player.mostReliablePos.y + HALF_MAP_HEIGHT) * scaleY);
+                (mostReliablePos.x + HALF_MAP_WIDTH) * scaleX,
+                (mostReliablePos.y + HALF_MAP_HEIGHT) * scaleY);
 
             if (player.id === myId) {
                 this.canvasContext.strokeStyle = constants.MINIMAP_HIGHLIGHT_COLOR;
@@ -119,7 +122,7 @@ export class MinimapRenderer {
             // flag is on the move
             const carrier = this.context.readState.getPlayerById(team.flagTakenById);
             if (carrier) {
-                pos = carrier.mostReliablePos;
+                pos = MobFunctions.getMostReliablePos(carrier);
             }
         }
 

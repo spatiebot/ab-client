@@ -2,6 +2,7 @@ import { EventBoost } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
 import { EventMessage } from "../../events/event-message";
+import { MobFunctions } from "../../models/mob-functions";
 import { Pos } from "../../models/pos";
 import { IMessageHandler } from "../imessage-handler";
 
@@ -25,8 +26,9 @@ export class PlayerBoostHandler implements IMessageHandler {
         player.boost = msg.boost;
         player.energy = msg.energy;
         player.energyRegen = msg.energyRegen;
-        player.pos = new Pos(msg.posX, msg.posY);
         player.rot = msg.rot;
         player.speed = new Pos(msg.speedX, msg.speedY);
+
+        MobFunctions.setPos(player, msg.posX, msg.posY);
     }
 }

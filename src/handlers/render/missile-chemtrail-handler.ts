@@ -29,7 +29,7 @@ export class MissileChemtrailHandler implements IMessageHandler {
 
             if (tick.frame % cloudVisualSpec.spawnFreq === 0) {
                 const cloud = new CloudVisual(cloudVisualSpec);
-                cloud.pos = new Pos(missile.pos);
+                cloud.pos = new Pos(missile.highResPos);
 
                 const maxSpeed = PROJECTILES_SPECS[missile.mobType].maxSpeed;
                 const jumpX = missile.speed.y / maxSpeed * cloudVisualSpec.distribBandwidth;

@@ -1,9 +1,10 @@
-import { CTF_TEAMS, GAME_TYPES } from "../../ab-protocol/src/lib";
+import { CTF_TEAMS, GAME_TYPES, PLAYER_STATUS } from "../../ab-protocol/src/lib";
 import { Login } from "../../ab-protocol/src/types/packets-server";
 import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
 import { EventMessage } from "../../events/event-message";
 import { Decoder } from "../../helpers/decoder";
+import { MobFunctions } from "../../models/mob-functions";
 import { Player } from "../../models/player";
 import { Pos } from "../../models/pos";
 import { PowerUps } from "../../models/power-ups";
@@ -46,13 +47,12 @@ export class LoginHandler implements IMessageHandler {
         let ranking = 0;
 
         for (const loginPlayer of msg.players) {
-            const p = new Player();
+            const p = MobFunctions.createPlayer();
             ranking++;
 
             p.id = loginPlayer.id;
             p.flag = loginPlayer.flag;
             p.name = loginPlayer.name;
-            p.pos = new Pos(loginPlayer.posX, loginPlayer.posY);
             p.type = loginPlayer.type;
             p.rot = loginPlayer.rot;
             p.status = loginPlayer.status;
@@ -63,6 +63,8 @@ export class LoginHandler implements IMessageHandler {
             p.level = loginPlayer.level;
 
             p.powerUps = Decoder.upgradesToPowerUps(loginPlayer.upgrades) || new PowerUps();
+
+            MobFunctions.setPos(p, loginPlayer.posX, loginPlayer.posY);
 
             s.addPlayer(p);
         }

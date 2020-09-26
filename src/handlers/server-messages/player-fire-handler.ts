@@ -3,6 +3,7 @@ import { IContext } from "../../app-context/icontext";
 import { Events } from "../../events/constants";
 import { EventMessage } from "../../events/event-message";
 import { Mob } from "../../models/mob";
+import { MobFunctions } from "../../models/mob-functions";
 import { Pos } from "../../models/pos";
 import { IMessageHandler } from "../imessage-handler";
 
@@ -27,9 +28,8 @@ export class PlayerFireHandler implements IMessageHandler {
         player.energyRegen = msg.energyRegen;
 
         for (const missile of msg.projectiles) {
-            const mob = new Mob();
+            const mob = MobFunctions.createMob(missile.posX, missile.posY);
             mob.id = missile.id;
-            mob.pos = new Pos(missile.posX, missile.posY);
             mob.accel = new Pos(missile.accelX, missile.accelY);
             mob.maxSpeed = missile.maxSpeed;
             mob.speed = new Pos(missile.speedX, missile.speedY);

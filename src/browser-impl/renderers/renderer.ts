@@ -167,7 +167,7 @@ export class Renderer {
         if (isFirstTick) {
             // this may be the first tick after a panic,
             // purge any unnecessary stuff to keep up.
-            this.context.readState.purgeAfterPanic();
+            this.context.writeState.purgeAfterPanic();
         }
 
         if (!this.context.readState.getFocusedPlayer()) {

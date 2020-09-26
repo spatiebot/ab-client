@@ -39,6 +39,7 @@ import { AutoFire } from "./user-input/auto-fire";
 import { AutoFireHandler } from "../handlers/auto-fire-handler";
 import { Spectate } from "./user-input/spectate";
 import { SwitchSides } from "./user-input/switch-sides";
+import { WriteableState } from "../app-context/writable-state";
 
 export class BrowserContext implements IContext {
     public gameType: GAME_TYPES;
@@ -48,7 +49,7 @@ export class BrowserContext implements IContext {
     public tm: TimerManager;
     public processor: EventQueueProcessor;
     public readState: State;
-    public writeState: State;
+    public writeState: WriteableState;
     public handlers: IMessageHandler[];
     public webSocketFactory: IWebSocketFactory;
     public connection: Connection;
@@ -91,8 +92,8 @@ export class BrowserContext implements IContext {
         this.eventQueue = new EventQueue();
         this.tm = new TimerManager();
         this.processor = new EventQueueProcessor(this);
+        this.writeState = new WriteableState();
         this.readState = new State();
-        this.writeState = this.readState;
         this.connection = new Connection(this);
 
         this.handlers = [
