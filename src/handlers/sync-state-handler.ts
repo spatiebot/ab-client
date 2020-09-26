@@ -11,7 +11,7 @@ export class SyncStateHandler implements IMessageHandler {
 
     public exec(ev: EventMessage) {
 
-        this.context.readState.syncState(this.context.writeState);
+        this.context.readState.syncFrom(this.context.writeState);
 
     }
 

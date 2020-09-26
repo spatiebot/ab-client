@@ -108,7 +108,8 @@ export class Renderer {
     }
 
     public showServerMessage(type: SERVER_MESSAGE_TYPES, durationMs: number, text: string) {
-        this.serverMessageStopwatch = new StopWatch(durationMs);
+        this.serverMessageStopwatch = new StopWatch();
+        this.serverMessageStopwatch.timeoutMs = durationMs;
         this.serverMessage.innerHTML = text;
     }
 

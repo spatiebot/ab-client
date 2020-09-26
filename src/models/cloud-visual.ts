@@ -5,7 +5,7 @@ import { Pos } from "./pos";
 export class CloudVisual {
     public pos: Pos;
 
-    private readonly stopwatch: StopWatch = new StopWatch();
+    public readonly stopwatch: StopWatch = new StopWatch();
 
     constructor(private spec: CloudVisualSpec) {
     }
@@ -31,4 +31,12 @@ export class CloudVisual {
         // shrinking
         return Math.max(0, this.spec.sizeMax - this.spec.sizeShrinkStep * this.stopwatch.elapsedMs);
     }
+
+    public static create(o: CloudVisual): CloudVisual {
+        const kv = new CloudVisual(o.spec);
+        kv.pos = new Pos(o.pos);
+        kv.stopwatch.startTime = o.stopwatch.startTime;
+        return kv;
+    }
+
 }

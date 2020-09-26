@@ -15,7 +15,7 @@ export class GoliFartVisualizationHandler implements IMessageHandler {
         const repel = ev.args as EventRepel;
 
         const fartVisual = new GoliFartVisual();
-        fartVisual.player = this.context.readState.getPlayerById(repel.id);
+        fartVisual.playerId = repel.id;
         this.context.writeState.addFart(fartVisual);
     }
 }

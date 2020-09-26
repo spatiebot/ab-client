@@ -1,4 +1,5 @@
 import { Keystate, MOB_TYPES } from "../ab-protocol/src/lib";
+import { PlayersRenderer } from "../browser-impl/renderers/players-renderer";
 import { StopWatch } from "../helpers/stopwatch";
 import { Mob } from "./mob";
 import { Player } from "./player";
@@ -78,6 +79,22 @@ export class MobFunctions {
             return p.highResPos;
         }
         return p.lowResPos;
+    }
+
+    public static restoreComplexPlayerObjects(player: Player) {
+        // restore mob
+        this.restoreComplexMobObjects(player);
+        // restore  Player
+        player.lowResPos = new Pos(player.lowResPos);
+        player.lowResPosUpdateTimer = new StopWatch(player.lowResPosUpdateTimer);
+        player.shieldOrInfernoTimer = new StopWatch(player.shieldOrInfernoTimer);
+    }
+
+    public static restoreComplexMobObjects(mob: Mob) {
+        mob.highResPos = new Pos(mob.highResPos);
+        mob.speed = new Pos(mob.speed);
+        mob.accel = new Pos(mob.accel);
+        mob.posUpdateTimer = new StopWatch(mob.posUpdateTimer);
     }
 
 }

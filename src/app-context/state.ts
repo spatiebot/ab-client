@@ -5,6 +5,7 @@ import { ExplosionVisual } from "../models/explosion-visual";
 import { GoliFartVisual } from "../models/golifart-visual";
 import { KillVisual } from "../models/kill-visual";
 import { Mob } from "../models/mob";
+import { MobFunctions } from "../models/mob-functions";
 import { Player } from "../models/player";
 import { WriteableState } from "./writable-state";
 
@@ -47,29 +48,6 @@ export class State {
     constructor() {
         this.teams[CTF_TEAMS.BLUE] = new CtfTeam();
         this.teams[CTF_TEAMS.RED] = new CtfTeam();
-    }
-
-    public syncState(s: WriteableState) {
-        this.id = s.id;
-        this.team = s.team;
-        this.ping = s.ping;
-        this.numPlayers = s.numPlayers;
-        this.numPlayersTotal = s.numPlayersTotal;
-        this.spectatingId = s.spectatingId;
-        this.myPlayerId = s.myPlayerId;
-        this.isAutoFiring = s.isAutoFiring;
-
-        this.skippedFrames = s.skippedFrames;
-
-        const actors = s.getActors();
-        this.players = actors.players;
-        this.mobs = actors.mobs;
-        this.teams = actors.teams;
-
-        this.explosions = s.getActiveExplosions();
-        this.farts = s.getActiveFarts();
-        this.kills = s.getActiveKills();
-        this.rocketTrailClouds = s.getActiveRocketTrailClouds();
     }
 
     // get the player that has the focus. Mostly the player himself.
@@ -147,4 +125,69 @@ export class State {
         return activeClouds;
     }
 
+    public syncFrom(s: WriteableState) {
+        this.id = s.id;
+        this.team = s.team;
+        this.ping = s.ping;
+        this.numPlayers = s.numPlayers;
+        this.numPlayersTotal = s.numPlayersTotal;
+        this.spectatingId = s.spectatingId;
+        this.myPlayerId = s.myPlayerId;
+        this.isAutoFiring = s.isAutoFiring;
+
+        this.skippedFrames = s.skippedFrames;
+
+        const actors = s.getActors();
+
+        this.players = {};
+        for (const id of Object.keys(actors.players)) {
+            const p = actors.players[id];
+            // simulate parsing from backgroundprocess
+            const player = JSON.parse(JSON.stringify(p)) as Player;
+            MobFunctions.restoreComplexPlayerObjects(player);
+            this.players[id] = player;
+        }
+
+        this.mobs = {};
+        for (const id of Object.keys(actors.mobs)) {
+            const m = actors.mobs[id];
+            // simulate parsing from backgroundprocess
+            const mob = JSON.parse(JSON.stringify(m)) as Mob;
+            MobFunctions.restoreComplexMobObjects(mob);
+            this.mobs[id] = mob;
+        }
+
+        const blueTeam = this.teams[CTF_TEAMS.BLUE] as CtfTeam;
+        const redTeam = this.teams[CTF_TEAMS.RED] as CtfTeam;
+        blueTeam.copyFrom(actors.teams[CTF_TEAMS.BLUE]);
+        redTeam.copyFrom(actors.teams[CTF_TEAMS.RED]);
+
+        this.explosions = [];
+        for (const e of s.getActiveExplosions()) {
+            // simulate parsing from backgroundprocess
+            const expl = JSON.parse(JSON.stringify(e)) as ExplosionVisual;
+            this.explosions.push(ExplosionVisual.create(expl));
+        }
+
+        this.farts = [];
+        for (const f of s.getActiveFarts()) {
+            // simulate parsing from backgroundprocess
+            const fart = JSON.parse(JSON.stringify(f)) as GoliFartVisual;
+            this.farts.push(GoliFartVisual.create(fart));
+        }
+
+        this.kills = [];
+        for (const k of s.getActiveKills()) {
+            // simulate parsing from backgroundprocess
+            const kill = JSON.parse(JSON.stringify(k)) as KillVisual;
+            this.kills.push(KillVisual.create(kill));
+        }
+
+        this.rocketTrailClouds = [];
+        for (const c of s.getActiveRocketTrailClouds()) {
+            // simulate parsing from backgroundprocess
+            const cloud = JSON.parse(JSON.stringify(c)) as CloudVisual;
+            this.rocketTrailClouds.push(CloudVisual.create(cloud));
+        }
+    }
 }

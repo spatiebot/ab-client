@@ -42,10 +42,12 @@ export class EffectsRenderer {
         // farts
         context.fillStyle = constants.EFFECTS_FART_COLOR;
         for (const fart of this.context.readState.getActiveFarts()) {
-            if (!fart.player) {
+            const player = this.context.readState.getPlayerById(fart.playerId);
+            if (!player) {
                 continue;
             }
-            const pos = fart.player.highResPos;
+
+            const pos = player.highResPos;
             if (!pos) {
                 continue;
             }

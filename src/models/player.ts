@@ -24,7 +24,6 @@ export class Player extends Mob {
     public powerUps: PowerUps;
     public hasShield: boolean;
     public hasInferno: boolean;
-    public shieldOrInfernoTimer: StopWatch;
 
     public health: number = 1;
     public healthRegen: number;
@@ -42,6 +41,8 @@ export class Player extends Mob {
     public isMuted: boolean;
 
     public lowResPos: Pos;
+
     public lowResPosUpdateTimer: StopWatch;
+    public shieldOrInfernoTimer: StopWatch;
 
 }

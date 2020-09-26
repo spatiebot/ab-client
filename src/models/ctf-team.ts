@@ -6,4 +6,11 @@ export class CtfTeam {
     public flagTakenById: number;
     public flagPos: Pos;
     public score: number;
+
+    public copyFrom(other: CtfTeam) {
+        this.flagState = other.flagState;
+        this.flagTakenById = other.flagTakenById;
+        this.flagPos = new Pos(other.flagPos);
+        this.score = other.score;
+    }
 }

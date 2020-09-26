@@ -13,7 +13,6 @@ export class PlayerRespawnHandler implements IMessageHandler {
     public handles = [Events.PLAYER_RESPAWN];
 
     constructor(private context: IContext) {
-
     }
 
     public exec(ev: EventMessage) {

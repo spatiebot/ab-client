@@ -21,7 +21,8 @@ export class PlayerPowerupHandler implements IMessageHandler {
         if (player) {
             player.hasShield = msg.type === PLAYER_POWERUP_TYPES.SHIELD;
             player.hasInferno = msg.type === PLAYER_POWERUP_TYPES.INFERNO;
-            player.shieldOrInfernoTimer = new StopWatch(msg.duration);
+            player.shieldOrInfernoTimer = new StopWatch();
+            player.shieldOrInfernoTimer.timeoutMs = msg.duration;
         }
     }
 }
