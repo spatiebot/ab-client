@@ -10,7 +10,7 @@ export class ServerGamesRepository {
 
     public async getServerInfo(): Promise<ServerRegionInfoDto> {
         try {
-            const response = await axios.get(GAMES_URL + Date.now);
+            const response = await axios.get(GAMES_URL + Date.now());
             const data = response.data;
 
             // the data property in the response is again stringified
@@ -20,7 +20,7 @@ export class ServerGamesRepository {
 
         } catch (error) {
             // fallback data
-            const response = await await axios.get(FALLBACK_URL + Date.now);
+            const response = await await axios.get(FALLBACK_URL + Date.now());
             const data: string = response.data;
             const lines = data.split("\n");
 
