@@ -185,7 +185,7 @@ export class KeyboardAndMouseInput {
 
         }
 
-        if (keyToSend) {
+        if (keyToSend && !e.repeat) {
             this.context.eventQueue.pub(Events.KEYBOARD, { key: keyToSend, state: isKeyDown } as IKeyboardArgs);
         }
 
