@@ -22,6 +22,7 @@ export class EachSecondRenderHandler implements IMessageHandler {
         this.context.renderer.showStats();
         this.context.renderer.hideServerMessageAfterTimeout();
 
-        this.context.connection.fetchDetailedScore();
+        // removed for now per issue #29 (https://github.com/spatiebot/ab-client/issues/29)
+        // this.context.connection.fetchDetailedScore();
     }
 }

@@ -180,11 +180,12 @@ export class PlayersRenderer {
                 scaledFlagWidth, scaledFlagWidth);
         }
 
+        // removed for now per issue #29 (https://github.com/spatiebot/ab-client/issues/29)
         // draw stats
-        const lineHeight = this.clip.scale(20);
-        context.fillStyle = constants.PLAYER_STATS_COLOR;
-        const stats2 = `Score: ${player.score}; ping: ${player.ping || "?"} ms`;
-        context.fillText(stats2, left, top + lineHeight);
+        // const lineHeight = this.clip.scale(20);
+        // context.fillStyle = constants.PLAYER_STATS_COLOR;
+        // const stats2 = `Score: ${player.score}; ping: ${player.ping || "?"} ms`;
+        // context.fillText(stats2, left, top + lineHeight);
     }
 
     private renderBars(context: CanvasRenderingContext2D, player: Player) {
