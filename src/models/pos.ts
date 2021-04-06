@@ -1,6 +1,8 @@
+import { IPos } from "./ipos";
+
 const PI_2 = Math.PI * 2;
 
-export class Pos {
+export class Pos implements IPos {
     // TODO rename to Vector
 
     public x: number;

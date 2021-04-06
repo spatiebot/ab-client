@@ -34,7 +34,7 @@ The `Renderer` fills all elements which are defined in the main [`index.html`](s
 
 The Renderers main method is `renderGame`, which draws all moving elements on the `Canvas`. It delegates to different classes:
 
-- it first calculates which part of the map is shown (around the center point, which is always the player at this point; note that spectating is not implemented yet). The calculation is done by the [`ClippedView`](src/browser-impl/clipped-view.ts) class. This class does the translation and scaling of elements.
+- it first calculates which part of the map is shown (around the center point, which is always the player at this point; when spectating it is the spectated player). The calculation is done by the [`ClippedView`](src/browser-impl/clipped-view.ts) class. This class does the translation and scaling of elements.
 - then it clears the canvas and draws the background from a static png holding the world map, this is done by the [`BackgroundRenderer`](src/browser-impl/renderers/background-renderer.ts)
 - on top of the background the mountains or "walls" are drawn. These are several png images of different sizes. This is done by the [`WallsRenderer`](src/browser-impl/renderers/walls-renderer.ts)
 - the [`UpcratesRenderer`](src/browser-impl/renderers/upcrates-renderer.ts) draws all crates in sight

@@ -10,8 +10,12 @@ import { State } from "../app-context/state";
 import { TimerManager } from "../app-context/timer-manager";
 import { Connection } from "../connectivity/connection";
 import { EventQueue } from "../events/event-queue";
+import { BotHeartbeatHandler } from "../handlers/bot/bot-heartbeat-handler";
+import { BotSteeringInstructionHandler } from "../handlers/bot/bot-steering-instruction-handler";
+import { ChatInstructionReceiver } from "../handlers/bot/chat-instruction-receiver";
 import { ChatLogger } from "../handlers/chat-logger";
 import { IMessageHandler } from "../handlers/imessage-handler";
+import { BotState } from "./botting/bot-state";
 import { Logger } from "./logger";
 import { NodeWebSocketFactory } from "./node-websocket-factory";
 
@@ -29,11 +33,15 @@ export class NodeContext implements IContext {
     public connection: Connection = new Connection(this);
     public isActive: boolean;
     public auth: AuthData; // never set in node implementation
+    public botstate = new BotState();
 
     constructor() {
         this.handlers = [
             ...HandlerCollections.getDefaultHandlers(this),
+            new BotHeartbeatHandler(this),
+            new BotSteeringInstructionHandler(this),
             new ChatLogger(this),
+            new ChatInstructionReceiver(this),
         ];
     }
 

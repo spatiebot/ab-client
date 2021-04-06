@@ -129,7 +129,7 @@ export class LandingPage {
                     id: "local",
                     name: "Local",
                     nameShort: "local",
-                    path: "ffa", // this doesn't matter if running locally
+                    path: "ctf", // this doesn't matter if running locally
                     players: 0,
                     type: 0, // this probably doesnt matter too, use it as an http indicator
                 } as GameEndpoint],

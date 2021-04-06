@@ -1,5 +1,5 @@
 export class Settings {
-    public websocketUrl: string = "wss://eu.airmash.online/ffa2";
+    public websocketUrl: string = "wss://eu.airmash.online/ffa";
     public playerName: string = "Unknown";
     public horizonX: number = 2000;
     public horizonY: number = 2000;
