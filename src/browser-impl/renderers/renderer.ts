@@ -10,6 +10,7 @@ import { EffectsRenderer } from "./effects-renderer";
 import { FlagRenderer } from "./flag-renderer";
 import { MinimapRenderer } from "./minimap-renderer";
 import { MissilesRenderer } from "./missiles-renderer";
+import { PathRenderer } from "./path-renderer";
 import { PlayerListRenderer } from "./playerlist-renderer";
 import { PlayersRenderer } from "./players-renderer";
 import { StatsRenderer } from "./stats-renderer";
@@ -38,6 +39,7 @@ export class Renderer {
     private flagRenderer: FlagRenderer;
     private statsRenderer: StatsRenderer;
     private debugInfoRenderer: DebugInfoRenderer;
+    private pathRenderer: PathRenderer;
 
     private shakeTimeout: any;
 
@@ -64,6 +66,7 @@ export class Renderer {
         this.statsRenderer = new StatsRenderer(context);
 
         this.debugInfoRenderer = new DebugInfoRenderer(context);
+        this.pathRenderer = new PathRenderer(this.clip, context);
     }
 
     public addMessageToPlayer(msg: string) {
@@ -181,6 +184,7 @@ export class Renderer {
         this.backgroundRenderer.renderBackground(canvasCtx);
         // draw walls
         this.wallsRenderer.renderWalls(canvasCtx);
+        this.pathRenderer.renderPath(canvasCtx); // bot path
         // upgrade and powerup crates
         this.upcratesRenderer.renderUpcrates(canvasCtx);
         // draw players

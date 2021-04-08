@@ -43,6 +43,32 @@ export class Connection {
     }
 
     public sendKey(key: KEY_CODES, state: boolean) {
+
+        const currentKeyState = this.context.state.getFocusedPlayer().keystate;
+
+        switch (key) {
+            case KEY_CODES.DOWN:
+                if (currentKeyState.DOWN === state) {
+                    return;
+                }
+                break;
+            case KEY_CODES.UP:
+                if (currentKeyState.UP === state) {
+                    return;
+                }
+                break;
+            case KEY_CODES.LEFT:
+                if (currentKeyState.LEFT === state) {
+                    return;
+                }
+                break;
+            case KEY_CODES.RIGHT:
+                if (currentKeyState.RIGHT === state) {
+                    return;
+                }
+                break;
+        }
+
         let cache = this.lastSentKeyStates.find((x) => x.key === key && x.state === state);
         if (cache) {
             if (cache.lastPressed.elapsedMs < KEY_THROTTLE_MS) {

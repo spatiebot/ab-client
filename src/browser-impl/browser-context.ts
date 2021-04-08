@@ -39,6 +39,9 @@ import { AutoFire } from "./user-input/auto-fire";
 import { AutoFireHandler } from "../handlers/auto-fire-handler";
 import { Spectate } from "./user-input/spectate";
 import { SwitchSides } from "./user-input/switch-sides";
+import { ChatInstructionReceiver } from "../handlers/bot/chat-instruction-receiver";
+import { BotState } from "../botting/bot-state";
+import { BotHeartbeatHandler } from "../handlers/bot/bot-heartbeat-handler";
 
 export class BrowserContext implements IContext {
     public gameType: GAME_TYPES;
@@ -57,6 +60,7 @@ export class BrowserContext implements IContext {
     // browser-only:
     public isBrowserVisible: boolean;
     public renderer = new Renderer(this);
+    public botstate = new BotState();
     private chatInput = new ChatInput(this);
     private aircraftSelection = new AircraftSelection(this);
     private upgradeSelection = new ApplyUpgrades(this);
@@ -110,6 +114,9 @@ export class BrowserContext implements IContext {
             // client tools
             new StayActiveHandler(this),
             new AutoFireHandler(this),
+
+            // bot
+            new BotHeartbeatHandler(this)
         ];
     }
 

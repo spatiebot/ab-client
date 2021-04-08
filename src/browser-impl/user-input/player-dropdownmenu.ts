@@ -90,6 +90,10 @@ export class PlayerDropDownMenu {
                 this.context.connection.sendCommand("spectate", player.id + "");
                 break;
 
+            case "menu-kill":
+                this.context.botstate.playerToKill = player.id;
+                break;
+
         }
     }
 

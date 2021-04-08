@@ -121,23 +121,6 @@ export class LandingPage {
         table.innerHTML = "<tr><th>Region</th><th>Game</th><th>Players online</th><th></th></tr>";
         gamesContainer.append(table);
 
-        if (location.href.indexOf("127.0.0.1") > -1) {
-            // running locally; add the local server url to connect to
-            serverInfo.data.unshift({
-                games: [{
-                    host: "127.0.0.1:3501",
-                    id: "local",
-                    name: "Local",
-                    nameShort: "local",
-                    path: "ctf", // this doesn't matter if running locally
-                    players: 0,
-                    type: 0, // this probably doesnt matter too, use it as an http indicator
-                } as GameEndpoint],
-                id: "local",
-                name: "Local",
-            } as ServerRegion);
-        }
-
         for (const server of serverInfo.data) {
             for (const game of server.games) {
                 const row = document.createElement("tr");

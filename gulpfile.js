@@ -5,6 +5,7 @@ var less = require('gulp-less');
 var template = require('gulp-template');
 var tsProject = ts.createProject('tsconfig.json');
 var gulpWebpack = require('webpack-stream');
+var gutil = require('gulp-util');
 
 gulp.task('compile', function () {
     return tsProject.src()
@@ -60,8 +61,15 @@ gulp.task('inject-timestamp', function () {
         .pipe(gulp.dest('./dist/'));
 });
 
+gulp.task('inject-local-url', function () {
+    return gulp.src('./build/helpers/games-repository.js')
+        .pipe(template({
+            local_server_url: gutil.env.local_server_url
+        }))
+        .pipe(gulp.dest('./build/helpers/'));
+});
 
-gulp.task('default', gulp.parallel(gulp.series('copy-data', 'inject-timestamp'), gulp.series('compile', 'lint')));
+gulp.task('default', gulp.parallel(gulp.series('copy-data', 'inject-timestamp'), gulp.series('compile', 'inject-local-url', 'lint')));
 gulp.task('browser-default', gulp.parallel('less', 'default'));
 gulp.task('browser', gulp.series('browser-default', 'webpack'));
 gulp.task('browser-prod', gulp.series('browser-default', 'webpack-prod'));

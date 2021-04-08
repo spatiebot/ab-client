@@ -6,18 +6,18 @@ import { StopWatch } from "../helpers/stopwatch";
 import { KEY_CODES } from "../ab-protocol/src/lib";
 
 const AUTOFIRE_THRESHOLD_MS = 250;
-
 export class AutoFireHandler implements IMessageHandler {
     public handles = [Events.TICK];
 
     private timer = new StopWatch();
+    private wasAutoFiring = false;
 
     constructor(private context: IContext) {
     }
 
     public exec(ev: EventMessage) {
 
-        if (!this.context.state.isAutoFiring) {
+        if (!this.wasAutoFiring && !this.context.state.isAutoFiring) {
             return;
         }
 
@@ -27,7 +27,8 @@ export class AutoFireHandler implements IMessageHandler {
 
         this.timer.start();
 
-        this.context.connection.sendKey(KEY_CODES.FIRE, true);
+        this.context.connection.sendKey(KEY_CODES.FIRE, this.context.state.isAutoFiring);
+        this.wasAutoFiring = this.context.state.isAutoFiring;
     }
 
 }

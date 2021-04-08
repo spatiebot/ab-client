@@ -1,4 +1,5 @@
 import { IContext } from "../app-context/icontext";
+import { IPos } from "../models/ipos";
 import { Pos } from "../models/pos";
 
 const SHAKE_MARGIN = 20;
@@ -48,12 +49,12 @@ export class ClippedView {
         this.zoom = zoom;
     }
 
-    public isVisible(pos: Pos): boolean {
+    public isVisible(pos: IPos): boolean {
         return this.clipRectangle[0].x < pos.x && this.clipRectangle[1].x > pos.x &&
             this.clipRectangle[0].y < pos.y && this.clipRectangle[1].y > pos.y;
     }
 
-    public translate(pos: Pos): Pos {
+    public translate(pos: IPos): Pos {
         return new Pos((pos.x - this.clipRectangle[0].x) * this.zoom, (pos.y - this.clipRectangle[0].y) * this.zoom);
     }
 

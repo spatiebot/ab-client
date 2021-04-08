@@ -3,6 +3,7 @@ import { CloudVisual } from "../models/cloud-visual";
 import { CtfTeam } from "../models/ctf-team";
 import { ExplosionVisual } from "../models/explosion-visual";
 import { GoliFartVisual } from "../models/golifart-visual";
+import { IPos } from "../models/ipos";
 import { KillVisual } from "../models/kill-visual";
 import { Mob } from "../models/mob";
 import { Player } from "../models/player";
@@ -23,6 +24,7 @@ const CRATES: MOB_TYPES[] = [
 ];
 
 export class State {
+
     public id: number;
     public team: number;
     public ping: number;
