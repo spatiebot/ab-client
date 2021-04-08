@@ -23,7 +23,7 @@ export class PathFinding {
             isHighres = true;
         }
 
-        path = simplifyPath(path, 1);
+        // path = simplifyPath(path, 1);
 
         return {
             isHighres,

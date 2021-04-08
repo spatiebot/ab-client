@@ -8,6 +8,8 @@ import { PathFinding } from "./path-finding";
 
 const DISTANCE_CLOSE = 300;
 const DISTANCE_TOO_CLOSE = 50;
+const SKIP_STEPS_IN_HIGHRES = 8;
+const SKIP_STEPS_IN_LOWRES = 2;
 
 interface IGotoResult {
     isClose: boolean;
@@ -47,7 +49,10 @@ export class GotoLocationExecutor {
 
         this.context.botstate.path = path;
 
-        const nextStep = path[2] || path[1];
+        let nextStep = path[isHighres ? SKIP_STEPS_IN_HIGHRES : SKIP_STEPS_IN_LOWRES];
+        if (!nextStep) {
+            nextStep = path[1];
+        }
         if (!nextStep) {
             return this.finish(true, distance);
         }
