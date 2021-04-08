@@ -9,6 +9,9 @@ For some technical inside information, see [How it works](HowItWorks.md).
 
 # starting the web client using Docker
 
+clone repository and submodule  
+`git clone --recurse-submodules git://github.com/spatiebot/ab-client.git`
+ 
 build a container with the web client:  
 `docker build -t ab-client .`  
 
@@ -21,19 +24,23 @@ or if you want to add a local server URL to the web client for local testing:
 
 # building locally
 
-You'll need Node v12 or more, and the gulp-cli.
+You'll need Node v12 or more.
 
-1. clone repository and submodule (`git clone --recurse-submodules git://github.com/spatiebot/ab-client.git`)
-2. `npm i`
+clone repository and submodule  
+`git clone --recurse-submodules git://github.com/spatiebot/ab-client.git`  
 
-to create a browser client:
+install deps  
+`npm i`
 
+to create a browser client:  
 `npm run build-browser`   
 or
 `npm run build-browser-prod`  
 
 will result in dist/index.html with the browser client. The "prod" variant will be minified.  
-To play the game, you need to start an HTTP server in the dist directory, for example using the nmp module "http-server".
+To play the game, you need to start an HTTP server in the dist directory, for example  
+`cd dist`  
+`npx http-server`
 
 To create and run a headless bot:
 

@@ -47,7 +47,7 @@ export class UpcratesRenderer {
             const size = this.clip.scale(CRATE_SIZE);
             context.rect(-halfSize, -halfSize, size, size);
             context.fill();
-            context.fillStyle = constants.UPCRATES_BORDER_COLOR;
+            context.strokeStyle = constants.UPCRATES_BORDER_COLOR;
             context.stroke();
 
             context.rotate(-CRATE_ROTATION);

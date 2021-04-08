@@ -98,6 +98,9 @@ export class KeyboardAndMouseInput {
             return;
         }
 
+        // if bot is active: stop it.
+        this.context.botstate.stop();
+
         let preventDefault = false;
         let keyToSend: KEY_CODES;
         switch (e.keyCode) {

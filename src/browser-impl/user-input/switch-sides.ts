@@ -26,6 +26,8 @@ export class SwitchSides {
             this.timer = new StopWatch();
         }
 
+        this.context.botstate.stop();
+
         const c = this.context;
 
         if (c.state.isAutoFiring) {
