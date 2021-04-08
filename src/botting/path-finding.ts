@@ -2,7 +2,7 @@ import { IPos } from "../models/ipos";
 import { highresAircraftMaps, lowresAircraftMaps } from "./maprepresentation";
 import { simplifyPath } from "./simplify-path";
 
-const PATH_LENGTH_THRESHOLD_FOR_HIGHRES = 500;
+const PATH_LENGTH_THRESHOLD_FOR_HIGHRES = 2000;
 
 interface ICalculatedPath {
     isHighres: boolean;
@@ -23,7 +23,7 @@ export class PathFinding {
             isHighres = true;
         }
 
-        // path = simplifyPath(path, 1);
+        path = simplifyPath(path, map.getScale());
 
         return {
             isHighres,

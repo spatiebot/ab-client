@@ -8,8 +8,8 @@ import { PathFinding } from "./path-finding";
 
 const DISTANCE_CLOSE = 300;
 const DISTANCE_TOO_CLOSE = 50;
-const SKIP_STEPS_IN_HIGHRES = 8;
-const SKIP_STEPS_IN_LOWRES = 2;
+const SKIP_STEPS_IN_HIGHRES = 3;
+const SKIP_STEPS_IN_LOWRES = 1;
 
 interface IGotoResult {
     isClose: boolean;

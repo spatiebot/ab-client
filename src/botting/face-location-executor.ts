@@ -12,7 +12,7 @@ const rotationSpeeds = {
     5: 0.33  // prowler
 };
 
-const ROT_PRECISION = 0.4;
+const ROT_PRECISION = 0.1;
 
 export class FaceLocationExecutor {
 
