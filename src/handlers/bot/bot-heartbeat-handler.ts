@@ -7,7 +7,7 @@ import { EventMessage } from "../../events/event-message";
 import { StopWatch } from "../../helpers/stopwatch";
 import { IMessageHandler } from "../imessage-handler";
 
-const BOT_TICK_MS = 200;
+const BOT_TICK_MS = 180;
 const SHOOTING_RANGE = 700;
 
 export class BotHeartbeatHandler implements IMessageHandler {
@@ -33,6 +33,7 @@ export class BotHeartbeatHandler implements IMessageHandler {
             this.followPlayer();
         }
 
+        this.doSteering();
     }
 
     private autoPilot() {
@@ -83,6 +84,36 @@ export class BotHeartbeatHandler implements IMessageHandler {
         } else {
             this.context.state.isAutoFiring = false;
         }
+    }
+
+    private doSteering() {
+        const keyInstructions = this.context.botstate.eatKeyQueue();
+
+        const allKeys = [KEY_CODES.UP, KEY_CODES.DOWN, KEY_CODES.LEFT, KEY_CODES.RIGHT, KEY_CODES.FIRE, KEY_CODES.SPECIAL];
+
+        // only send the last state per key of all instructions
+        for (const keyCode of allKeys) {
+            for (let i = keyInstructions.length - 1; i >= 0; i--) {
+                const instr = keyInstructions[i];
+                if (instr.key === keyCode) {
+                    // in case of duration (= turning during a certain time), only send the key if we aren't turning already.
+                    if (instr.duration > 0) {
+                        if (!this.context.botstate.turningTimeout) {
+                            this.context.connection.sendKey(instr.key, instr.state);
+                            this.context.botstate.turningTimeout = setTimeout(() => {
+                                this.context.connection.sendKey(instr.key, !instr.state);
+                                this.context.botstate.turningTimeout = null;
+                            }, instr.duration);
+                        }
+                    } else {
+                        this.context.connection.sendKey(instr.key, instr.state);
+                    }
+                    break;
+                }
+            }
+        };
+
+
     }
 
 }

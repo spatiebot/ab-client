@@ -23,8 +23,6 @@ export class PathFinding {
             isHighres = true;
         }
 
-        path = simplifyPath(path, map.getScale());
-
         return {
             isHighres,
             path

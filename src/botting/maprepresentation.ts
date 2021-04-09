@@ -3,6 +3,7 @@ import { MAP_SIZE } from "../ab-assets/map-constants";
 import { SHIPS_SPECS, SHIPS_TYPES } from "../ab-assets/ships-constants";
 import { abWalls } from "../ab-assets/walls";
 import { IPos } from "../models/ipos";
+import { AircraftSize } from "./aircraft-size";
 
 const HIGH_RES = 10;
 const LOW_RES = 100;
@@ -37,7 +38,7 @@ class ShipAwareMapRepresentation {
             const pos = this.translateToInternalRepresentation({ x: wall[0], y: wall[1] });
 
             // add shipwidth / 2 (or a bit more) to the radius to account for the width of the ship in relation to the walls
-            const radius = Math.round((wall[2] + shipWidth) / scale);
+            const radius = Math.round((wall[2] + shipWidth * 0.8) / scale);
 
             for (let x = pos.x - radius; x < pos.x + radius; x++) {
                 const dx = pos.x - x;
@@ -95,25 +96,8 @@ const lowresAircraftMaps: ShipAwareMapRepresentation[] = [];
 const highresAircraftMaps: ShipAwareMapRepresentation[] = [];
 
 for (const shipType of [SHIPS_TYPES.PREDATOR, SHIPS_TYPES.GOLIATH, SHIPS_TYPES.COPTER, SHIPS_TYPES.TORNADO, SHIPS_TYPES.PROWLER]) {
-    const hitCircles = SHIPS_SPECS[shipType].collisions;
-
-    let leftX: number = 999;
-    let rightX: number = 0;
-    for (const circle of hitCircles) {
-        const x = circle[0];
-        const y = circle[1];
-        const r = circle[2];
-        if (x - r < leftX) {
-            leftX = x - r;
-        }
-        if (x + r > rightX) {
-            rightX = x + r;
-        }
-    }
-    const shipWidth = rightX - leftX;
-
-    lowresAircraftMaps[shipType] = new ShipAwareMapRepresentation(LOW_RES, shipWidth);
-    highresAircraftMaps[shipType] = new ShipAwareMapRepresentation(HIGH_RES, shipWidth);
+    lowresAircraftMaps[shipType] = new ShipAwareMapRepresentation(LOW_RES, AircraftSize.getSize(shipType).width);
+    highresAircraftMaps[shipType] = new ShipAwareMapRepresentation(HIGH_RES, AircraftSize.getSize(shipType).width);
 }
 
 export { lowresAircraftMaps, highresAircraftMaps }

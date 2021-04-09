@@ -42,6 +42,9 @@ To play the game, you need to start an HTTP server in the dist directory, for ex
 `cd dist`  
 `npx http-server`
 
+To run a local browser client that can connect to a local server:  
+`npm run build-browser -- --local_server_url=ws://192.168.50.150:3501`
+
 To create and run a headless bot:
 
 `npm run build`  
