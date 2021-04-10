@@ -42,6 +42,7 @@ import { SwitchSides } from "./user-input/switch-sides";
 import { BotState } from "../botting/bot-state";
 import { BotHeartbeatHandler } from "../handlers/bot/bot-heartbeat-handler";
 import { AutoPilotToFlag } from "./user-input/autopilot-to-flag";
+import { AutoBoostHandler } from "../handlers/auto-boost-handler";
 
 export class BrowserContext implements IContext {
     public gameType: GAME_TYPES;
@@ -60,7 +61,7 @@ export class BrowserContext implements IContext {
     // browser-only:
     public isBrowserVisible: boolean;
     public renderer = new Renderer(this);
-    public botstate = new BotState();
+    public botstate = new BotState(this);
     private chatInput = new ChatInput(this);
     private aircraftSelection = new AircraftSelection(this);
     private upgradeSelection = new ApplyUpgrades(this);
@@ -68,7 +69,7 @@ export class BrowserContext implements IContext {
     private autofire = new AutoFire(this);
     private spectate = new Spectate(this);
     private autoPilotToFlag = new AutoPilotToFlag(this);
-    private switchSides = new SwitchSides(this, this.autofire); // adds event handler to button
+    private switchSides = new SwitchSides(this); // adds event handler to button
     private playerDropdownMenu = new PlayerDropDownMenu(this, this.chatInput, this.renderer);
     private browserInitialization = new BrowserInitialization(this);
     private browserVisibilityHandler = new BrowserVisibilityHandler(this);
@@ -115,6 +116,7 @@ export class BrowserContext implements IContext {
             // client tools
             new StayActiveHandler(this),
             new AutoFireHandler(this),
+            new AutoBoostHandler(this),
 
             // bot
             new BotHeartbeatHandler(this)

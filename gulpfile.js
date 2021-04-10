@@ -36,12 +36,34 @@ gulp.task('webpack', function () {
         .pipe(gulp.dest('dist/'));
 });
 
+gulp.task('webpack-worker', function () {
+    return gulp.src('build/browser-worker.js')
+        .pipe(gulpWebpack({
+            output: {
+                filename: 'browser-worker-pack.js'
+            },
+            mode: 'development'
+        }))
+        .pipe(gulp.dest('dist/'));
+});
 
 gulp.task('webpack-prod', function () {
     return gulp.src('build/browser-app.js')
         .pipe(gulpWebpack({
             output: {
                 filename: 'browser-pack.js'
+            },
+            mode: 'production'
+        }))
+        .pipe(gulp.dest('dist/'));
+});
+
+
+gulp.task('webpack-worker-prod', function () {
+    return gulp.src('build/browser-worker.js')
+        .pipe(gulpWebpack({
+            output: {
+                filename: 'browser-worker-pack.js'
             },
             mode: 'production'
         }))
@@ -71,6 +93,6 @@ gulp.task('inject-local-url', function () {
 
 gulp.task('default', gulp.parallel(gulp.series('copy-data', 'inject-timestamp'), gulp.series('compile', 'inject-local-url', 'lint')));
 gulp.task('browser-default', gulp.parallel('less', 'default'));
-gulp.task('browser', gulp.series('browser-default', 'webpack'));
-gulp.task('browser-prod', gulp.series('browser-default', 'webpack-prod'));
+gulp.task('browser', gulp.series('browser-default', gulp.parallel('webpack', 'webpack-worker')));
+gulp.task('browser-prod', gulp.series('browser-default',  gulp.parallel('webpack-prod', 'webpack-worker-prod')));
 gulp.task('node', gulp.series('default'));

@@ -32,7 +32,6 @@ export class State {
     public numPlayersTotal: number;
     public spectatingId: number;
     public myPlayerId: number;
-    public isAutoFiring: boolean;
 
     // random debug info
     public skippedFrames: number = 0;

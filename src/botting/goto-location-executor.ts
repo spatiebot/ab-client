@@ -1,16 +1,19 @@
-import { KEY_CODES, PLAYER_STATUS } from "../ab-protocol/src/lib";
+import { SHIPS_TYPES } from "../ab-assets/ships-constants";
+import { KEY_CODES } from "../ab-protocol/src/lib";
 import { IContext } from "../app-context/icontext";
 import { Delta } from "../helpers/delta";
+import { StopWatch } from "../helpers/stopwatch";
 import { IPos } from "../models/ipos";
 import { Player } from "../models/player";
-import { AircraftSize } from "./aircraft-size";
 import { FaceLocationExecutor } from "./face-location-executor";
-import { PathFinding } from "./path-finding";
 
 const DISTANCE_CLOSE = 300;
 const DISTANCE_TOO_CLOSE = 50;
-const SKIP_STEPS_IN_HIGHRES = 5;
-const SKIP_STEPS_IN_LOWRES = 1;
+const DISTANCE_FAR = DISTANCE_CLOSE * 2;
+
+const MS_PER_SEC = 1000;
+const FPS = 60;
+const MS_PER_FRAME = MS_PER_SEC / FPS;
 
 interface IGotoResult {
     isClose: boolean;
@@ -22,7 +25,6 @@ export class GotoLocationExecutor {
     public static DISTANCE_CLOSE = DISTANCE_CLOSE;
 
     constructor(private context: IContext, private me: Player, private posToGoTo: IPos) {
-
     }
 
     private finish(isClose: boolean, distance: number): IGotoResult {
@@ -31,26 +33,31 @@ export class GotoLocationExecutor {
         return { isClose, distance };
     }
 
-    public execute(): IGotoResult {
+    public execute(tickDuration: number, allowBoostRange: number = DISTANCE_FAR): IGotoResult {
         const { distance } = Delta.getDelta(this.me.pos, this.posToGoTo);
 
         if (distance < DISTANCE_TOO_CLOSE) {
             return this.finish(true, distance);
         }
 
-        let path: IPos[];
-        let isHighres: boolean;
-        try {
-            const calculatedPath = PathFinding.findPath(this.me.pos, this.posToGoTo, this.me.type);
-            path = calculatedPath.path;
-            isHighres = calculatedPath.isHighres;
-        } catch (error) {
-            return this.finish(false, distance);
+        this.context.botstate.initPathFindingWorker();
+
+        if (!this.context.botstate.isCalculatingPath) {
+            this.context.botstate.calcPath({
+                pos1: this.me.pos,
+                pos2: this.posToGoTo,
+                aircraftType: this.me.type,
+                pointsToAvoid: []
+            });
         }
 
-        this.context.botstate.path = path;
+        if (!this.context.botstate.path) {
+            // still calculating
+            return { isClose: false, distance };
+        }
 
-        const nextStep = this.findNextStep(path);
+        const path = this.context.botstate.path;
+        const nextStep = this.nextStep(path, tickDuration);
         if (!nextStep) {
             return this.finish(true, distance);
         }
@@ -58,27 +65,34 @@ export class GotoLocationExecutor {
         const faceLocation = new FaceLocationExecutor(this.context, this.me, nextStep);
         faceLocation.execute();
 
-        const isClose = isHighres && distance < DISTANCE_CLOSE; // && path.length < PATH_LENGTH_CLOSE;
+        const isClose = distance < DISTANCE_CLOSE; // && path.length < PATH_LENGTH_CLOSE;
         if (isClose) {
             return this.finish(true, distance);
         } else {
             this.context.botstate.enqueueKey(KEY_CODES.UP, true);
+
+            if (this.me.type === SHIPS_TYPES.PREDATOR) {
+                this.context.botstate.autoBoost = distance > allowBoostRange;
+            }
         }
         return { isClose, distance };
     }
 
-    findNextStep(path: IPos[]) {
+    nextStep(path: IPos[], tickDurationMs: number) {
         const firstStep = path[0];
         if (!firstStep) {
             return null;
         }
         const { distance } = Delta.getDelta(this.me.mostReliablePos, firstStep);
 
-        const aircraftHeight = AircraftSize.getSize(this.me.type).height;
-        if (distance > aircraftHeight * 2) {
+        const numFramesInPrevTick = tickDurationMs / MS_PER_FRAME;
+        const distancePrevTick = Math.sqrt(Math.pow(this.me.speed.y, 2) + Math.pow(this.me.speed.x, 2)) * numFramesInPrevTick;
+        if (distance > distancePrevTick * 3) {
+            this.context.botstate.path = path.slice(1);
+
             return firstStep;
         }
 
-        return this.findNextStep(path.slice(1));
+        return this.nextStep(path.slice(1), tickDurationMs);
     }
 }

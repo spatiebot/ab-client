@@ -4,9 +4,11 @@ import { SHIPS_SPECS, SHIPS_TYPES } from "../ab-assets/ships-constants";
 import { abWalls } from "../ab-assets/walls";
 import { IPos } from "../models/ipos";
 import { AircraftSize } from "./aircraft-size";
+import { IShipAwareMapRepresentation } from "./ishipaware-maprepresentation";
 
 const HIGH_RES = 10;
 const LOW_RES = 100;
+const LOWEST_RES = 500;
 
 /* tslint:disable:no-bitwise */
 function posFrom32bits(bits: number): IPos {
@@ -14,23 +16,23 @@ function posFrom32bits(bits: number): IPos {
 }
 /* tslint:enable:no-bitwise */
 
-class ShipAwareMapRepresentation {
-    private map: number[][] = [[]];
+class ShipAwareMapRepresentation implements IShipAwareMapRepresentation {
     private grid: any;
-
 
     constructor(private scale: number, shipWidth: number) {
 
+        const mapArray: number[][] = [[]];
+
         for (let y = 0; y < MAP_SIZE.HEIGHT / scale; y++) {
-            this.map[y] = [];
+            mapArray[y] = [];
             for (let x = 0; x < MAP_SIZE.WIDTH / scale; x++) {
-                this.map[y][x] = 0;
+                mapArray[y][x] = 0;
             }
         }
         for (let y = 0; y < MAP_SIZE.HEIGHT / scale; y++) {
-            this.map[y] = [];
+            mapArray[y] = [];
             for (let x = 0; x < MAP_SIZE.WIDTH / scale; x++) {
-                this.map[y][x] = 0;
+                mapArray[y][x] = 0;
             }
         }
 
@@ -46,16 +48,16 @@ class ShipAwareMapRepresentation {
                     const dy = pos.y - y;
                     const distance = Math.sqrt(dx * dx + dy * dy);
                     if (distance <= radius) {
-                        this.map[y][x] = 1;
+                        mapArray[y][x] = 1;
                     }
                 }
             }
         }
 
-        const width = this.map[0].length;
-        const height = this.map.length;
+        const width = mapArray[0].length;
+        const height = mapArray.length;
 
-        const buf = pathfinding.bytesFrom2DArray(width, height, this.map);
+        const buf = pathfinding.bytesFrom2DArray(width, height, mapArray);
         this.grid = pathfinding.buildGrid(width, height, buf);
     }
 
@@ -84,20 +86,26 @@ class ShipAwareMapRepresentation {
         const path = pathfinding.findPath(tpos1.x, tpos1.y, tpos2.x, tpos2.y, this.grid);
 
         const result: IPos[] = [];
-        for (const bit of path) {
-            result.push(this.translateBack(posFrom32bits(bit)));
+        if (path) {
+            for (const bit of path) {
+                result.push(this.translateBack(posFrom32bits(bit)));
+            }
         }
 
         return result;
     }
 }
 
-const lowresAircraftMaps: ShipAwareMapRepresentation[] = [];
-const highresAircraftMaps: ShipAwareMapRepresentation[] = [];
+const lowresAircraftMaps: IShipAwareMapRepresentation[] = [];
+const highresAircraftMaps: IShipAwareMapRepresentation[] = [];
+const lowestresMaps: IShipAwareMapRepresentation[] = [];
+
+const lowestresMap = new ShipAwareMapRepresentation(LOWEST_RES, AircraftSize.getSize(SHIPS_TYPES.GOLIATH).width);
 
 for (const shipType of [SHIPS_TYPES.PREDATOR, SHIPS_TYPES.GOLIATH, SHIPS_TYPES.COPTER, SHIPS_TYPES.TORNADO, SHIPS_TYPES.PROWLER]) {
     lowresAircraftMaps[shipType] = new ShipAwareMapRepresentation(LOW_RES, AircraftSize.getSize(shipType).width);
     highresAircraftMaps[shipType] = new ShipAwareMapRepresentation(HIGH_RES, AircraftSize.getSize(shipType).width);
+    lowestresMaps[shipType] = lowestresMap;
 }
 
-export { lowresAircraftMaps, highresAircraftMaps }
+export { lowestresMaps, lowresAircraftMaps, highresAircraftMaps }

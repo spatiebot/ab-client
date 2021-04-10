@@ -9,11 +9,6 @@ export class AutoFire {
     }
 
     public toggleAutoFire() {
-        this.context.state.isAutoFiring = !this.context.state.isAutoFiring;
-
-        if (!this.context.state.isAutoFiring) {
-            // stop the aggressiveness
-            this.context.connection.sendKey(KEY_CODES.FIRE, false);
-        }
+        this.context.botstate.autoFire = !this.context.botstate.autoFire;
     }
 }

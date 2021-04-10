@@ -17,7 +17,7 @@ export class AutoFireHandler implements IMessageHandler {
 
     public exec(ev: EventMessage) {
 
-        if (!this.wasAutoFiring && !this.context.state.isAutoFiring) {
+        if (!this.wasAutoFiring && !this.context.botstate.autoFire) {
             return;
         }
 
@@ -27,8 +27,8 @@ export class AutoFireHandler implements IMessageHandler {
 
         this.timer.start();
 
-        this.context.connection.sendKey(KEY_CODES.FIRE, this.context.state.isAutoFiring);
-        this.wasAutoFiring = this.context.state.isAutoFiring;
+        this.context.connection.sendKey(KEY_CODES.FIRE, this.context.botstate.autoFire);
+        this.wasAutoFiring = this.context.botstate.autoFire;
     }
 
 }

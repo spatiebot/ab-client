@@ -7,8 +7,8 @@ import { EventMessage } from "../../events/event-message";
 import { StopWatch } from "../../helpers/stopwatch";
 import { IMessageHandler } from "../imessage-handler";
 
-const BOT_TICK_MS = 180;
-const SHOOTING_RANGE = 700;
+const BOT_TICK_MS = 250;
+const SHOOTING_RANGE = 1000;
 
 export class BotHeartbeatHandler implements IMessageHandler {
 
@@ -25,8 +25,6 @@ export class BotHeartbeatHandler implements IMessageHandler {
             return;
         }
 
-        this.timer.start();
-
         if (this.context.botstate.autoPilotToFlag) {
             this.autoPilot();
         } else if (this.context.botstate.playerToKill) {
@@ -34,6 +32,8 @@ export class BotHeartbeatHandler implements IMessageHandler {
         }
 
         this.doSteering();
+
+        this.timer.start();
     }
 
     private autoPilot() {
@@ -54,7 +54,7 @@ export class BotHeartbeatHandler implements IMessageHandler {
         }
 
         const goto = new GotoLocationExecutor(this.context, me, flagPos);
-        const { isClose } = goto.execute();
+        const { isClose } = goto.execute(this.timer.elapsedMs);
 
         if (isClose) {
             this.context.botstate.stop();
@@ -72,7 +72,7 @@ export class BotHeartbeatHandler implements IMessageHandler {
         const posToGoTo = playerToFollow.mostReliablePos;
 
         const goto = new GotoLocationExecutor(this.context, me, posToGoTo);
-        const { isClose, distance } = goto.execute();
+        const { isClose, distance } = goto.execute(this.timer.elapsedMs, SHOOTING_RANGE);
 
         if (isClose) {
             const faceLocation = new FaceLocationExecutor(this.context, me, posToGoTo);
@@ -80,9 +80,9 @@ export class BotHeartbeatHandler implements IMessageHandler {
         }
 
         if (distance < SHOOTING_RANGE) {
-            this.context.state.isAutoFiring = true;
+            this.context.botstate.autoFire = true;
         } else {
-            this.context.state.isAutoFiring = false;
+            this.context.botstate.autoFire = false;
         }
     }
 
@@ -96,14 +96,13 @@ export class BotHeartbeatHandler implements IMessageHandler {
             for (let i = keyInstructions.length - 1; i >= 0; i--) {
                 const instr = keyInstructions[i];
                 if (instr.key === keyCode) {
-                    // in case of duration (= turning during a certain time), only send the key if we aren't turning already.
+                    // in case of duration (= turning during a certain time, or boosting), only send the key if we aren't doing it already.
                     if (instr.duration > 0) {
-                        if (!this.context.botstate.turningTimeout) {
+                        // check if we can reserve a timeout slot
+                        const timeoutAcquired = this.context.botstate.requestTimeoutFor(instr);
+
+                        if (timeoutAcquired) {
                             this.context.connection.sendKey(instr.key, instr.state);
-                            this.context.botstate.turningTimeout = setTimeout(() => {
-                                this.context.connection.sendKey(instr.key, !instr.state);
-                                this.context.botstate.turningTimeout = null;
-                            }, instr.duration);
                         }
                     } else {
                         this.context.connection.sendKey(instr.key, instr.state);

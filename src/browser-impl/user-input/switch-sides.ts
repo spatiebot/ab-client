@@ -2,13 +2,12 @@ import { IContext } from "../../app-context/icontext";
 import { ServerMessage } from "../../ab-protocol/src/types/packets-server";
 import { Events } from "../../events/constants";
 import { StopWatch } from "../../helpers/stopwatch";
-import { AutoFire } from "./auto-fire";
 
 export class SwitchSides {
 
     private timer: StopWatch;
 
-    constructor(private context: IContext, private autoFire: AutoFire) {
+    constructor(private context: IContext) {
 
         const switchSides = document.getElementById("switch-sides");
         switchSides.onclick = () => this.switch();
@@ -26,13 +25,11 @@ export class SwitchSides {
             this.timer = new StopWatch();
         }
 
-        this.context.botstate.stop();
-
         const c = this.context;
 
-        if (c.state.isAutoFiring) {
-            this.showMessage("Switching, stopping autofire...");
-            this.autoFire.toggleAutoFire();
+        if (c.botstate.isOn()) {
+            this.showMessage("Switching, stopping automatic activity...");
+            c.botstate.stop();
             c.tm.setTimeout(() => this.switch(), 2000);
             return;
         }

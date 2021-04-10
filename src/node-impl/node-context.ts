@@ -18,6 +18,7 @@ import { BotState } from "../botting/bot-state";
 import { Logger } from "./logger";
 import { NodeWebSocketFactory } from "./node-websocket-factory";
 import { AutoFireHandler } from "../handlers/auto-fire-handler";
+import { AutoBoostHandler } from "../handlers/auto-boost-handler";
 
 export class NodeContext implements IContext {
 
@@ -33,7 +34,7 @@ export class NodeContext implements IContext {
     public connection: Connection = new Connection(this);
     public isActive: boolean;
     public auth: AuthData; // never set in node implementation
-    public botstate = new BotState();
+    public botstate = new BotState(this);
 
     constructor() {
         this.handlers = [
@@ -41,7 +42,8 @@ export class NodeContext implements IContext {
             new BotHeartbeatHandler(this),
             new ChatLogger(this),
             new ChatInstructionReceiver(this),
-            new AutoFireHandler(this)
+            new AutoFireHandler(this),
+            new AutoBoostHandler(this)
         ];
     }
 
