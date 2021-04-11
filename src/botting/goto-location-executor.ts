@@ -2,7 +2,7 @@ import { SHIPS_TYPES } from "../ab-assets/ships-constants";
 import { KEY_CODES } from "../ab-protocol/src/lib";
 import { IContext } from "../app-context/icontext";
 import { Delta } from "../helpers/delta";
-import { StopWatch } from "../helpers/stopwatch";
+import { Prediction } from "../helpers/prediction";
 import { IPos } from "../models/ipos";
 import { Player } from "../models/player";
 import { FaceLocationExecutor } from "./face-location-executor";
@@ -30,6 +30,7 @@ export class GotoLocationExecutor {
     private finish(isClose: boolean, distance: number): IGotoResult {
         this.context.botstate.path = null;
         this.context.botstate.enqueueKey(KEY_CODES.UP, false);
+        this.context.botstate.enqueueKey(KEY_CODES.DOWN, true);
         return { isClose, distance };
     }
 
@@ -43,11 +44,26 @@ export class GotoLocationExecutor {
         this.context.botstate.initPathFindingWorker();
 
         if (!this.context.botstate.isCalculatingPath) {
+            // avoid players and missiles
+            const avoid: IPos[] = [];
+            for (const p of this.context.state.getPlayers()) {
+                if (p.id === this.me.id || p.id === this.context.botstate.playerToKill) {
+                    continue;
+                }
+                avoid.push(Prediction.predictPosition(p.mostReliablePos, p.speed, tickDuration));
+            }
+            for (const m of this.context.state.getMissiles()) {
+                if (m.team === this.me.team) {
+                    continue;
+                }
+                avoid.push(Prediction.predictPosition(m.pos, m.speed, tickDuration));
+            }
+
             this.context.botstate.calcPath({
                 pos1: this.me.pos,
                 pos2: this.posToGoTo,
                 aircraftType: this.me.type,
-                pointsToAvoid: []
+                pointsToAvoid: avoid
             });
         }
 

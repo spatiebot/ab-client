@@ -79,16 +79,36 @@ class ShipAwareMapRepresentation implements IShipAwareMapRepresentation {
         return this.scale;
     }
 
-    public findPath(pos1: IPos, pos2: IPos): IPos[] {
+    public findPath(pos1: IPos, pos2: IPos, pointsToAvoid: IPos[]): IPos[] {
         const tpos1 = this.translateToInternalRepresentation(pos1);
         const tpos2 = this.translateToInternalRepresentation(pos2);
 
-        const path = pathfinding.findPath(tpos1.x, tpos1.y, tpos2.x, tpos2.y, this.grid);
+        const restoreWalkability: IPos[] = [];
+        for (const p of pointsToAvoid) {
+            const mapPoint = this.translateToInternalRepresentation(p);
+            for (let x = mapPoint.x - 1; x <= mapPoint.x + 1; x++) {
+                for (let y = mapPoint.y - 1; y <= mapPoint.y + 1; y++) {
+                    if (this.grid.isWalkableAt(x, y)) {
+                        restoreWalkability.push({x, y});
+                        this.grid.setWalkableAt(x, y, false);
+                    }
+                }
+            }
+        }
 
         const result: IPos[] = [];
-        if (path) {
-            for (const bit of path) {
-                result.push(this.translateBack(posFrom32bits(bit)));
+
+        try {
+            const path = pathfinding.findPath(tpos1.x, tpos1.y, tpos2.x, tpos2.y, this.grid);
+
+            if (path) {
+                for (const bit of path) {
+                    result.push(this.translateBack(posFrom32bits(bit)));
+                }
+            }
+        } finally {
+            for (const p of restoreWalkability) {
+                this.grid.setWalkableAt(p.x, p.y, true);
             }
         }
 

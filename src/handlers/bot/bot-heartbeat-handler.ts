@@ -62,14 +62,19 @@ export class BotHeartbeatHandler implements IMessageHandler {
     }
 
     private followPlayer() {
-        const playerToFollow = this.context.state.getPlayerById(this.context.botstate.playerToKill);
+        const killPlayer = this.context.state.getPlayerById(this.context.botstate.playerToKill);
 
-        if (!playerToFollow || playerToFollow.status !== PLAYER_STATUS.ALIVE) {
+        if (!killPlayer) {
+            this.context.botstate.playerToKill = null;
+            return;
+        }
+
+        if (killPlayer.status !== PLAYER_STATUS.ALIVE) {
             return;
         }
 
         const me = this.context.state.getFocusedPlayer();
-        const posToGoTo = playerToFollow.mostReliablePos;
+        const posToGoTo = killPlayer.mostReliablePos;
 
         const goto = new GotoLocationExecutor(this.context, me, posToGoTo);
         const { isClose, distance } = goto.execute(this.timer.elapsedMs, SHOOTING_RANGE);
