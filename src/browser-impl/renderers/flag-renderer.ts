@@ -2,6 +2,7 @@ import { FLAG_DEFAULT_POSITION } from "../../ab-assets/ctf-constants";
 import { CTF_FLAG_STATE, CTF_TEAMS } from "../../ab-protocol/src/lib";
 import { IContext } from "../../app-context/icontext";
 import { CtfTeam } from "../../models/ctf-team";
+import { IPos } from "../../models/ipos";
 import { Pos } from "../../models/pos";
 import { ClippedView } from "../clipped-view";
 
@@ -32,7 +33,7 @@ export class FlagRenderer {
         this.renderBase(ctx, FLAG_DEFAULT_POSITION.red, constants.CTF_RED_TEAM_COLOR);
     }
 
-    private renderBase(ctx: CanvasRenderingContext2D, pos: Pos, color: string) {
+    private renderBase(ctx: CanvasRenderingContext2D, pos: IPos, color: string) {
         const leftUpper = new Pos(pos.x - CTF_BASE_HALF_SIZE, pos.y - CTF_BASE_HALF_SIZE);
         const rightBottom = new Pos(pos.x + CTF_BASE_HALF_SIZE, pos.y + CTF_BASE_HALF_SIZE);
         if (!this.clip.isVisible(leftUpper) && !this.clip.isVisible(rightBottom)) {

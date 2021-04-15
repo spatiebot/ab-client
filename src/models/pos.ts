@@ -34,7 +34,7 @@ export class Pos implements IPos {
         return dir;
     }
 
-    public equals(other: Pos): boolean {
+    public equals(other: IPos): boolean {
         return !!other && other.x === this.x && other.y === this.y;
     }
 }

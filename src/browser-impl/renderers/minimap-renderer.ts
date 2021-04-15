@@ -2,6 +2,7 @@ import { FLAG_DEFAULT_POSITION } from "../../ab-assets/ctf-constants";
 import { CTF_FLAG_STATE, CTF_TEAMS, GAME_TYPES, MAP_SIZE, PLAYER_STATUS } from "../../ab-protocol/src/lib";
 import { IContext } from "../../app-context/icontext";
 import { CtfTeam } from "../../models/ctf-team";
+import { IPos } from "../../models/ipos";
 import { Pos } from "../../models/pos";
 
 const MARKER_SIZE = 3;
@@ -107,7 +108,7 @@ export class MinimapRenderer {
 
     private renderFlag(
         team: CtfTeam, flag: HTMLImageElement,
-        ctx: CanvasRenderingContext2D, basePos: Pos, color: string) {
+        ctx: CanvasRenderingContext2D, basePos: IPos, color: string) {
 
         let pos = team.flagPos;
 

@@ -13,6 +13,7 @@ export class BotState {
     turningTimeout: any;
     boostTimeout: any;
     path: IPos[];
+    distanceToTarget: number;
     autoPilotToFlag: boolean;
     autoFire: boolean;
     autoBoost: boolean;

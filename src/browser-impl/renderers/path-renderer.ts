@@ -24,9 +24,9 @@ export class PathRenderer {
                 context.stroke();
 
                 if (count === 1) {
-                    context.font = "12px 'Courier New'"
+                    context.font = "16px 'Courier New'"
                     context.fillStyle = "white";
-                    context.fillText("len: " + path.length, clipPos.x, clipPos.y);
+                    context.fillText("dist: " + this.context.botstate.distanceToTarget, clipPos.x, clipPos.y);
                 }
 
                 count++;

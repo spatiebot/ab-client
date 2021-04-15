@@ -26,6 +26,11 @@ export class AutoBoostHandler implements IMessageHandler {
             return;
         }
 
+        const enemyTeam = this.context.state.getOtherCtfTeam(this.context.state.team);
+        if (enemyTeam && enemyTeam.flagTakenById === this.context.state.myPlayerId) {
+            return;
+        }
+
         this.timer.start();
 
         this.context.connection.sendKey(KEY_CODES.SPECIAL, this.context.botstate.autoBoost);

@@ -1,10 +1,12 @@
-import { CTF_FLAG_STATE, KEY_CODES, PLAYER_STATUS } from "../../ab-protocol/src/lib";
+import { FLAG_DEFAULT_POSITION } from "../../ab-assets/ctf-constants";
+import { CTF_FLAG_STATE, CTF_TEAMS, KEY_CODES, PLAYER_STATUS } from "../../ab-protocol/src/lib";
 import { IContext } from "../../app-context/icontext";
 import { FaceLocationExecutor } from "../../botting/face-location-executor";
 import { GotoLocationExecutor } from "../../botting/goto-location-executor";
 import { Events } from "../../events/constants";
 import { EventMessage } from "../../events/event-message";
 import { StopWatch } from "../../helpers/stopwatch";
+import { IPos } from "../../models/ipos";
 import { IMessageHandler } from "../imessage-handler";
 
 const BOT_TICK_MS = 250;
@@ -44,21 +46,28 @@ export class BotHeartbeatHandler implements IMessageHandler {
         }
         const me = this.context.state.getFocusedPlayer();
 
-        let flagPos = otherTeam.flagPos;
+        let posToGoTo: IPos = otherTeam.flagPos;
         if (otherTeam.flagState === CTF_FLAG_STATE.DYNAMIC) {
             // flag is on the move
-            const carrier = this.context.state.getPlayerById(otherTeam.flagTakenById);
-            if (carrier) {
-                flagPos = carrier.mostReliablePos;
+            if (otherTeam.flagTakenById === this.context.state.myPlayerId) {
+                // I'm carrying the flag
+                // fly back to our own flag
+                if (this.context.state.team === CTF_TEAMS.BLUE) {
+                    posToGoTo = FLAG_DEFAULT_POSITION.blue;
+                } else {
+                    posToGoTo = FLAG_DEFAULT_POSITION.red;
+                }
+            } else {
+                const carrier = this.context.state.getPlayerById(otherTeam.flagTakenById);
+                if (carrier) {
+                    posToGoTo = carrier.mostReliablePos;
+                }
             }
         }
 
-        const goto = new GotoLocationExecutor(this.context, me, flagPos);
-        const { isClose } = goto.execute(this.timer.elapsedMs);
+        const goto = new GotoLocationExecutor(this.context, me, posToGoTo, 10, false);
+        goto.execute(this.timer.elapsedMs);
 
-        if (isClose) {
-            this.context.botstate.stop();
-        }
     }
 
     private followPlayer() {

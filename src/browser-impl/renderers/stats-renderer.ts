@@ -81,7 +81,7 @@ export class StatsRenderer {
         if (blueInfo.flagState === CTF_FLAG_STATE.DYNAMIC) {
             const carrierName = this.context.state.getPlayerName(blueInfo.flagTakenById);
             blueFlagLocation = `taken by ${carrierName}`;
-        } else if (FLAG_DEFAULT_POSITION.blue.equals(blueInfo.flagPos)) {
+        } else if (blueInfo.flagPos.equals(FLAG_DEFAULT_POSITION.blue)) {
             blueFlagLocation = "home";
         } else {
             blueFlagLocation = "abandoned";
@@ -92,7 +92,7 @@ export class StatsRenderer {
         if (redInfo.flagState === CTF_FLAG_STATE.DYNAMIC) {
             const carrierName = this.context.state.getPlayerName(redInfo.flagTakenById);
             redFlagLocation = `taken by ${carrierName}`;
-        } else if (FLAG_DEFAULT_POSITION.red.equals(redInfo.flagPos)) {
+        } else if (redInfo.flagPos.equals(FLAG_DEFAULT_POSITION.red)) {
             redFlagLocation = "home";
         } else {
             redFlagLocation = "abandoned";

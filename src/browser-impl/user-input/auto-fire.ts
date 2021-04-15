@@ -3,9 +3,8 @@ import { KEY_CODES } from "../../ab-protocol/src/lib";
 
 export class AutoFire {
     constructor(private context: IContext) {
-
-        const drop = document.getElementById("auto-fire");
-        drop.onclick = () => this.toggleAutoFire();
+        const autofireButton = document.getElementById("auto-fire");
+        autofireButton.onclick = () => this.toggleAutoFire();
     }
 
     public toggleAutoFire() {

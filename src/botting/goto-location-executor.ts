@@ -22,20 +22,22 @@ interface IGotoResult {
 
 export class GotoLocationExecutor {
 
-    public static DISTANCE_CLOSE = DISTANCE_CLOSE;
-
-    constructor(private context: IContext, private me: Player, private posToGoTo: IPos) {
+    constructor(private context: IContext, private me: Player, private posToGoTo: IPos, private closeness = DISTANCE_CLOSE, private backupIfTooClose: boolean = true) {
     }
 
     private finish(isClose: boolean, distance: number): IGotoResult {
         this.context.botstate.path = null;
         this.context.botstate.enqueueKey(KEY_CODES.UP, false);
-        this.context.botstate.enqueueKey(KEY_CODES.DOWN, true);
+        if (this.backupIfTooClose) {
+            this.context.botstate.enqueueKey(KEY_CODES.DOWN, true);
+        }
         return { isClose, distance };
     }
 
     public execute(tickDuration: number, allowBoostRange: number = DISTANCE_FAR): IGotoResult {
         const { distance } = Delta.getDelta(this.me.pos, this.posToGoTo);
+
+        this.context.botstate.distanceToTarget = Math.round(distance);
 
         if (distance < DISTANCE_TOO_CLOSE) {
             return this.finish(true, distance);
@@ -81,7 +83,7 @@ export class GotoLocationExecutor {
         const faceLocation = new FaceLocationExecutor(this.context, this.me, nextStep);
         faceLocation.execute();
 
-        const isClose = distance < DISTANCE_CLOSE; // && path.length < PATH_LENGTH_CLOSE;
+        const isClose = distance < this.closeness;
         if (isClose) {
             return this.finish(true, distance);
         } else {
