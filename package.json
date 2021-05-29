@@ -11,7 +11,7 @@
         "node-pathfinding": "0.2.6",
         "pino": "6.11.2",
         "pino-pretty": "4.7.1",
-        "ws": "7.4.4",
+        "ws": "7.4.6",
         "yargs": "16.2.0"
     },
     "devDependencies": {
