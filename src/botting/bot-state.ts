@@ -5,8 +5,8 @@ import { IPos } from "../models/ipos";
 import { IFindPathConfig } from "./ifindpath-config";
 import { IKeyInstruction } from "./key-instruction";
 
-const PATHFINDING_TIMEOUT = 2000; // ms
-const PATHFINDING_STALE = 200; // ms
+const PATHFINDING_TIMEOUT = 500; // ms
+const PATHFINDING_STALE = 500; // ms
 
 export class BotState {
     playerToKill: number;
@@ -16,6 +16,7 @@ export class BotState {
     distanceToTarget: number;
     autoPilotToFlag: boolean;
     autoFire: boolean;
+    autoFireToggledManually: boolean;
     autoBoost: boolean;
 
     pathFindingWorker: Worker;
@@ -24,6 +25,7 @@ export class BotState {
 
     private keyQueue: IKeyInstruction[] = [];
     private isWorkerInitializing = false;
+    private readonly stopwatchAfterCalculatingPath = new StopWatch();
 
     constructor(private context: IContext) {
         this.initPathFindingWorker();
@@ -53,26 +55,31 @@ export class BotState {
                 }
 
                 this.calculatingPathStopwatch = null;
+                this.stopwatchAfterCalculatingPath.start();
             };
         }
 
     }
 
-    get isCalculatingPath(): boolean {
-        return !!this.calculatingPathStopwatch;
+    get needsNewPath(): boolean {
+        const isCalculating = !!this.calculatingPathStopwatch;
+        return !isCalculating && this.stopwatchAfterCalculatingPath.elapsedMs > PATHFINDING_STALE;
     }
+
 
     calcPath(config: IFindPathConfig) {
         this.pathFindingWorker.postMessage(JSON.stringify(config));
         this.calculatingPathStopwatch = new StopWatch();
     }
 
-    stop() {
+    stop(force = false) {
         this.path = null;
         this.playerToKill = null;
         this.autoPilotToFlag = false;
-        this.autoFire = false;
         this.autoBoost = false;
+        if (!this.autoFireToggledManually || force) {
+            this.autoFire = false;
+        }
     }
 
     isOn(): boolean {

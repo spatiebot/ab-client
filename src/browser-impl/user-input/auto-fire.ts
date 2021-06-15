@@ -9,5 +9,6 @@ export class AutoFire {
 
     public toggleAutoFire() {
         this.context.botstate.autoFire = !this.context.botstate.autoFire;
+        this.context.botstate.autoFireToggledManually = this.context.botstate.autoFire;
     }
 }

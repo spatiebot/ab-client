@@ -45,7 +45,7 @@ export class GotoLocationExecutor {
 
         this.context.botstate.initPathFindingWorker();
 
-        if (!this.context.botstate.isCalculatingPath) {
+        if (this.context.botstate.needsNewPath) {
             // avoid players and missiles
             const avoid: IPos[] = [];
             for (const p of this.context.state.getPlayers()) {

@@ -29,7 +29,7 @@ export class SwitchSides {
 
         if (c.botstate.isOn()) {
             this.showMessage("Switching, stopping automatic activity...");
-            c.botstate.stop();
+            c.botstate.stop(true);
             c.tm.setTimeout(() => this.switch(), 2000);
             return;
         }
