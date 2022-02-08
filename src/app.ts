@@ -7,11 +7,12 @@ class App {
     public async run() {
         const context = new NodeContext();
 
-        if (argv.url) {
-            context.settings.websocketUrl = argv.url as string;
+        const args = argv as any;
+        if (args.url) {
+            context.settings.websocketUrl = args.url as string;
         }
-        if (argv.name) {
-            context.settings.playerName = argv.name as string;
+        if (args.name) {
+            context.settings.playerName = args.name as string;
         }
 
         await context.start();

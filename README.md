@@ -19,7 +19,7 @@ run the web client on port 8080:
 `docker run -p 8080:80 -d ab-client`  
 
 or if you want to add a local server URL to the web client for local testing:  
-`docker build -t ab-client-with-local-server --build-arg LOCAL_SERVER_URL=ws://192.168.50.150:3501 .`  
+`docker build -t ab-client-with-local-server --build-arg LOCAL_SERVER_URL=ws://127.0.0.1:3501 .`  
 `docker run -p 8080:80 -d ab-client-with-local-server`  
 
 # building locally
@@ -43,12 +43,12 @@ To play the game, you need to start an HTTP server in the dist directory, for ex
 `npx http-server`
 
 To run a local browser client that can connect to a local server:  
-`npm run build-browser -- --local_server_url=ws://192.168.50.150:3501`
+`npm run build-browser -- --local_server_url=ws://127.0.0.1:3501`
 
 To create and run a headless bot:
 
 `npm run build`  
-`npm run bot -- --url=ws://192.168.50.150:3501 --name=Spatiebot`
+`npm run bot -- --url=ws://127.0.0.1:3501 --name=Spatiebot`
 
 # styling
 
