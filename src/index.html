@@ -3,8 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <title>ΛIMISH</title>
-    <link id="ui-styling" rel="stylesheet" type="text/css" href="styles/default/style.css?v=<%= timestamp %>">
+    <link id="ui-styling" rel="stylesheet" type="text/css" href="styles/default/style.less">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 
 <body style="overflow: hidden;">
@@ -242,9 +243,13 @@
         </div>
 
         <script>
-            var timestamp = '<%= timestamp %>';
+            var timestamp;
+            var x = document.getElementById("ui-styling").getAttribute("href");
+            var m = /\.([^.]+)\.css$/.exec(x);
+            timestamp = m[1];
         </script>
-        <script src="browser-pack.js?v=<%= timestamp %>"></script>
+
+        <script src="browser-app.ts" type="module"></script>
     </div>
 </body>
 

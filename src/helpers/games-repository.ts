@@ -5,7 +5,7 @@ import { ServerRegionInfoDto } from "../models/server-region-info";
 
 const GAMES_URL = "https://data.airmash.online/games?main=1&_=";
 const FALLBACK_URL = "https://raw.githubusercontent.com/airmash-refugees/airmash-games/master/games.txt?_=";
-const LOCAL_SERVER_URL = "<%= local_server_url %>"; // will be replaced in the build
+const LOCAL_SERVER_URL = process.env.LOCAL_SERVER_URL; 
 
 export class ServerGamesRepository {
 
@@ -14,7 +14,7 @@ export class ServerGamesRepository {
         // if running locally, add the local server url to connect to
         if (!LOCAL_SERVER_URL) {
             return;
-        }
+        } 
 
         const localUrl = new URL(LOCAL_SERVER_URL);
 
