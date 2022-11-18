@@ -1,4 +1,4 @@
-{
+window.constants = {
     "BACKGROUND_GRID_COLOR": "white",
     "CTF_BLUE_TEAM_COLOR": "navy",
     "CTF_RED_TEAM_COLOR": "darkred",
@@ -36,4 +36,4 @@
     "UPCRATES_UPGRADE_CRATE_COLOR": "rgba(196, 188, 114, 0.8)",
     "UPCRATES_BORDER_COLOR": "gray",
     "WALLS_NOBITMAP_COLOR": "#004000"
-}
+};

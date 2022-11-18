@@ -11,16 +11,15 @@ For some technical inside information, see [How it works](HowItWorks.md).
 
 clone repository and submodule  
 `git clone --recurse-submodules git://github.com/spatiebot/ab-client.git`
- 
+
+If you want the container to also be able to connect to a local server, edit the `.env` file to include a local url, before running docker build:    
+`LOCAL_SERVER_URL=ws://localhost:3501`
+
 build a container with the web client:  
 `docker build -t ab-client .`  
 
 run the web client on port 8080:  
 `docker run -p 8080:80 -d ab-client`  
-
-or if you want to add a local server URL to the web client for local testing:  
-`docker build -t ab-client-with-local-server --build-arg LOCAL_SERVER_URL=ws://127.0.0.1:3501 .`  
-`docker run -p 8080:80 -d ab-client-with-local-server`  
 
 # building locally
 
@@ -32,23 +31,14 @@ clone repository and submodule
 install deps  
 `npm i`
 
-to create a browser client:  
-`npm run build-browser`   
-or
-`npm run build-browser-prod`  
+to create a browser client in dist/:  
+`npm run build`   
 
-will result in dist/index.html with the browser client. The "prod" variant will be minified.  
-To play the game, you need to start an HTTP server in the dist directory, for example  
-`cd dist`  
-`npx http-server`
+to build a dev client and serve on port 1234:  
+`npm run serve`  
 
-To run a local browser client that can connect to a local server:  
-`npm run build-browser -- --local_server_url=ws://127.0.0.1:3501`
-
-To create and run a headless bot:
-
-`npm run build`  
-`npm run bot -- --url=ws://127.0.0.1:3501 --name=Spatiebot`
+To run a local browser client that can connect to a local server, edit the `.env` file to include a local url:  
+`LOCAL_SERVER_URL=ws://localhost:3501`
 
 # styling
 
@@ -56,7 +46,9 @@ A lot of the assets and styling are configurable.
 
 - `/src/_less/styles/<stylename>/style.less` contains all CSS for the UI. 
 - `/static/styles/<stylename>/*.png` are all images that are used for this style.
-- `/static/styles/<stylename>/constants.json` defines the colors that are used while drawing the game on the canvas. A new style can ignore the NO_BITMAPS colors: those are only used for the special bare-bones no-bitmap style.
+- `/static/styles/<stylename>/constants.js` defines the colors that are used while drawing the game on the canvas. A new style can ignore the NO_BITMAPS colors: those are only used for the special bare-bones no-bitmap style.
+
+All files in the style should be referenced from index.html, because parcel won't deploy them otherwise.
 
 # attribution
 
