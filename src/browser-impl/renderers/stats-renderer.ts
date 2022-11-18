@@ -64,39 +64,40 @@ export class StatsRenderer {
         this.upgrSpeedElement.innerText = this.toString(upgrades.speed);
 
         // CTF stats
-        if (this.context.gameType === GAME_TYPES.CTF && this.ctfInfo.style.display !== "block") {
-            this.ctfInfo.style.display = "block";
+        if (this.context.gameType === GAME_TYPES.CTF) {
+            if (this.ctfInfo.style.display !== "block") {
+                this.ctfInfo.style.display = "block";
+            }
+            const blueInfo = this.context.state.getCtfTeam(CTF_TEAMS.BLUE);
+            const redInfo = this.context.state.getCtfTeam(CTF_TEAMS.RED);
+
+            const blueScore = blueInfo.score ? blueInfo.score : 0;
+            const redScore = redInfo.score ? redInfo.score : 0;
+
+            this.blueScore.innerText = this.toString(blueScore);
+            this.redScore.innerText = this.toString(redScore);
+
+            let blueFlagLocation = "?";
+            if (blueInfo.flagState === CTF_FLAG_STATE.DYNAMIC) {
+                const carrierName = this.context.state.getPlayerName(blueInfo.flagTakenById);
+                blueFlagLocation = `taken by ${carrierName}`;
+            } else if (blueInfo.flagPos.equals(FLAG_DEFAULT_POSITION.blue)) {
+                blueFlagLocation = "home";
+            } else {
+                blueFlagLocation = "abandoned";
+            }
+            this.blueFlagLocation.innerText = blueFlagLocation;
+
+            let redFlagLocation = "?";
+            if (redInfo.flagState === CTF_FLAG_STATE.DYNAMIC) {
+                const carrierName = this.context.state.getPlayerName(redInfo.flagTakenById);
+                redFlagLocation = `taken by ${carrierName}`;
+            } else if (redInfo.flagPos.equals(FLAG_DEFAULT_POSITION.red)) {
+                redFlagLocation = "home";
+            } else {
+                redFlagLocation = "abandoned";
+            }
+            this.redFlagLocation.innerText = redFlagLocation;
         }
-
-        const blueInfo = this.context.state.getCtfTeam(CTF_TEAMS.BLUE);
-        const redInfo = this.context.state.getCtfTeam(CTF_TEAMS.RED);
-
-        const blueScore = blueInfo.score ? blueInfo.score : 0;
-        const redScore = redInfo.score ? redInfo.score : 0;
-
-        this.blueScore.innerText = this.toString(blueScore);
-        this.redScore.innerText = this.toString(redScore);
-
-        let blueFlagLocation = "?";
-        if (blueInfo.flagState === CTF_FLAG_STATE.DYNAMIC) {
-            const carrierName = this.context.state.getPlayerName(blueInfo.flagTakenById);
-            blueFlagLocation = `taken by ${carrierName}`;
-        } else if (blueInfo.flagPos.equals(FLAG_DEFAULT_POSITION.blue)) {
-            blueFlagLocation = "home";
-        } else {
-            blueFlagLocation = "abandoned";
-        }
-        this.blueFlagLocation.innerText = blueFlagLocation;
-
-        let redFlagLocation = "?";
-        if (redInfo.flagState === CTF_FLAG_STATE.DYNAMIC) {
-            const carrierName = this.context.state.getPlayerName(redInfo.flagTakenById);
-            redFlagLocation = `taken by ${carrierName}`;
-        } else if (redInfo.flagPos.equals(FLAG_DEFAULT_POSITION.red)) {
-            redFlagLocation = "home";
-        } else {
-            redFlagLocation = "abandoned";
-        }
-        this.redFlagLocation.innerText = redFlagLocation;
     }
 }

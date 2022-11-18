@@ -1,5 +1,7 @@
 import axios from "axios";
 
+declare var timestamp: string;
+
 export class StylesRepository {
 
     private lastUrl = "styles/default/";
@@ -7,7 +9,7 @@ export class StylesRepository {
     public async loadStyle(url: string): Promise<any> {
 
         // get constants
-        const response = await axios.get(url + "constants.json");
+        const response = await axios.get(url + "constants.json?" + timestamp);
         (window as any).constants = response.data;
 
         // replace all image files with this style
