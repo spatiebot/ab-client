@@ -1,7 +1,7 @@
 import { AuthData } from "../app-context/auth-data";
 import { BrowserContext } from "./browser-context";
 
-const LOGIN_URL = "https://login.airmash.online";
+const LOGIN_URL = "https://login.airmash.rocks";
 const AUTH_DATA_KEY = "auth-data";
 
 export class ThirdPartyLogin {
@@ -91,7 +91,7 @@ export class ThirdPartyLogin {
     }
 
     /*
-     * The popup window opened on login.airmash.online ends up posting a message
+     * The popup window opened on login.airmash.rocks ends up posting a message
      * back to the main window like so:
      *
      *   <html>
@@ -103,7 +103,7 @@ export class ThirdPartyLogin {
      *               tokens:      "…",  // tokens used by client to authenticate with settings service and game servers
      *               provider:     …,   // number indicating which identity provider  }- these are for client
      *               loginname:   "…",  // account name or email                      }  display only
-     *              }, "https://…"); // expected to match origin of window.opener e.g. https://airmash.online
+     *              }, "https://…"); // expected to match origin of window.opener e.g. https://airmash.rocks
      *           window.close();
      *         }
      *       </script>
@@ -113,7 +113,7 @@ export class ThirdPartyLogin {
      *
      * On the original airma.sh, the login window could call window.opener.loginSuccess()
      * directly as they had the same origin. But now we will want to use the same login
-     * flow from multiple domains (airmash.online, starma.sh, test.airmash.online, ...),
+     * flow from multiple domains (airmash.rocks, starma.sh, ...),
      * therefore use Window.postMessage() and Window.addEventListener() for cross-origin
      * communication
      *

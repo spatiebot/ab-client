@@ -3,7 +3,7 @@ import { GameEndpoint } from "../models/game-endpoint";
 import { ServerRegion } from "../models/server-region";
 import { ServerRegionInfoDto } from "../models/server-region-info";
 
-const GAMES_URL = "https://data.airmash.online/games?main=1&_=";
+const GAMES_URL = "https://data.airmash.rocks/games?main=1&_=";
 const FALLBACK_URL = "https://raw.githubusercontent.com/airmash-refugees/airmash-games/master/games.txt?_=";
 const LOCAL_SERVER_URL = process.env.LOCAL_SERVER_URL; 
 
